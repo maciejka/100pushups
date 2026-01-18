@@ -9,8 +9,8 @@
  * - Level 1: 0-5 pushups
  * - Level 2: 6-10 pushups
  * - Level 3: 11-20 pushups
- * - Level 4: 21-30 pushups
- * - Level 5: 31+ pushups
+ * - Level 4: 21-29 pushups
+ * - Level 5: 30+ pushups
  */
 
 export interface WorkoutDay {
@@ -40,7 +40,7 @@ export function getLevelFromTest(pushups: number): number {
 	if (pushups <= 5) return 1;
 	if (pushups <= 10) return 2;
 	if (pushups <= 20) return 3;
-	if (pushups <= 30) return 4;
+	if (pushups <= 29) return 4;
 	return 5;
 }
 
@@ -51,8 +51,8 @@ export const LEVEL_THRESHOLDS = [
 	{ level: 1, min: 0, max: 5 },
 	{ level: 2, min: 6, max: 10 },
 	{ level: 3, min: 11, max: 20 },
-	{ level: 4, min: 21, max: 30 },
-	{ level: 5, min: 31, max: Infinity },
+	{ level: 4, min: 21, max: 29 },
+	{ level: 5, min: 30, max: Infinity },
 ] as const;
 
 /**
