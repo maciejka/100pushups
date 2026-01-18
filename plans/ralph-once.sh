@@ -67,7 +67,7 @@ echo "Running single Ralph iteration (HITL mode)..."
 echo "Watch the output and intervene if needed"
 echo ""
 
-claude -p "$PROMPT"
+claude -p --dangerously-skip-permissions "$PROMPT"
 
 echo ""
 echo "=========================================="
