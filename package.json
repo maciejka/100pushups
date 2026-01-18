@@ -18,5 +18,8 @@
 	},
 	"peerDependencies": {
 		"typescript": "^5"
+	},
+	"dependencies": {
+		"preact": "^10.28.2"
 	}
 }

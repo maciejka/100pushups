@@ -1,7 +1,7 @@
 // Production build script
 
-import { cp, mkdir, readdir } from "fs/promises";
-import { join } from "path";
+import { cp, mkdir, readdir } from "node:fs/promises";
+import { join } from "node:path";
 
 const DIST_DIR = "./dist";
 
@@ -9,9 +9,9 @@ async function build() {
 	// Clean and create dist directory
 	await mkdir(DIST_DIR, { recursive: true });
 
-	// Bundle TypeScript
+	// Bundle TypeScript/JSX
 	const result = await Bun.build({
-		entrypoints: ["./src/main.ts"],
+		entrypoints: ["./src/main.tsx"],
 		outdir: DIST_DIR,
 		target: "browser",
 		minify: true,
@@ -34,7 +34,7 @@ async function build() {
 	// Update index.html to reference built JS
 	const indexPath = join(DIST_DIR, "index.html");
 	let html = await Bun.file(indexPath).text();
-	html = html.replace("/src/main.ts", "/main.js");
+	html = html.replace("/src/main.tsx", "/main.js");
 	await Bun.write(indexPath, html);
 
 	console.log("Build complete! Output in ./dist");
