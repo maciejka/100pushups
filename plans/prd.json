@@ -1,0 +1,403 @@
+{
+  "project": "100 Pushups",
+  "version": "1.0.0",
+  "description": "PWA implementing the classic 100 Pushups training program - a 6-week progressive plan to build up to 100 consecutive pushups. Polish language only.",
+  "requirements": [
+    {
+      "id": "LANG-001",
+      "category": "Language",
+      "description": "All UI text displayed in Polish language",
+      "steps_to_verify": [
+        "Open the app in a browser",
+        "Verify all buttons, labels, headings, and messages are in Polish",
+        "Navigate through all screens (home, test, workout, progress)",
+        "Confirm no English text appears in the UI"
+      ],
+      "passes": false
+    },
+    {
+      "id": "STORAGE-001",
+      "category": "Data Storage",
+      "description": "App uses IndexedDB for persistent local storage",
+      "steps_to_verify": [
+        "Complete the initial fitness test",
+        "Open browser DevTools > Application > IndexedDB",
+        "Verify a database exists with user data",
+        "Close and reopen the browser",
+        "Confirm data persists after browser restart"
+      ],
+      "passes": false
+    },
+    {
+      "id": "STORAGE-002",
+      "category": "Data Storage",
+      "description": "App works offline after initial load",
+      "steps_to_verify": [
+        "Load the app with network connection",
+        "Enable airplane mode or disable network in DevTools",
+        "Refresh the page",
+        "Verify app loads and functions without network",
+        "Complete a workout while offline",
+        "Verify data is saved locally"
+      ],
+      "passes": false
+    },
+    {
+      "id": "TEST-001",
+      "category": "Initial Fitness Test",
+      "description": "User can take initial fitness test to determine starting level",
+      "steps_to_verify": [
+        "Launch app for the first time (clear storage if needed)",
+        "Verify app prompts for initial fitness test",
+        "See instructions explaining to do maximum pushups in one set",
+        "Enter number of pushups completed",
+        "Submit the test result"
+      ],
+      "passes": false
+    },
+    {
+      "id": "TEST-002",
+      "category": "Initial Fitness Test",
+      "description": "Test results correctly assign one of 5 levels",
+      "steps_to_verify": [
+        "Complete test with 5 pushups - verify Level 1 assigned",
+        "Complete test with 8 pushups - verify Level 2 assigned",
+        "Complete test with 15 pushups - verify Level 3 assigned",
+        "Complete test with 23 pushups - verify Level 4 assigned",
+        "Complete test with 30 pushups - verify Level 5 assigned"
+      ],
+      "passes": false
+    },
+    {
+      "id": "TEST-003",
+      "category": "Initial Fitness Test",
+      "description": "User can retake the initial fitness test from settings",
+      "steps_to_verify": [
+        "Complete initial test and start program",
+        "Navigate to settings or profile screen",
+        "Find and tap 'Powtórz test' (Retake test) option",
+        "Complete the test again with different result",
+        "Verify new level is assigned and program resets"
+      ],
+      "passes": false
+    },
+    {
+      "id": "PROGRAM-001",
+      "category": "Program Structure",
+      "description": "Program consists of 6 weeks with 3 workouts per week",
+      "steps_to_verify": [
+        "Complete initial test",
+        "View program overview or calendar",
+        "Verify 6 weeks are displayed",
+        "Verify each week shows 3 workout days",
+        "Confirm total of 18 workouts in the program"
+      ],
+      "passes": false
+    },
+    {
+      "id": "PROGRAM-002",
+      "category": "Program Structure",
+      "description": "Each workout has 5 sets with level-appropriate rep targets",
+      "steps_to_verify": [
+        "Start a workout session",
+        "Verify exactly 5 sets are displayed",
+        "Verify each set shows target rep count",
+        "Confirm rep targets match the assigned level",
+        "Verify final set is marked as 'max' (exhaustion test)"
+      ],
+      "passes": false
+    },
+    {
+      "id": "PROGRAM-003",
+      "category": "Program Structure",
+      "description": "Rep targets increase progressively each week",
+      "steps_to_verify": [
+        "View workout plan for Week 1 Day 1",
+        "Note the total target reps",
+        "View workout plan for Week 3 Day 1",
+        "Verify total target reps are higher than Week 1",
+        "View workout plan for Week 6 Day 1",
+        "Verify total target reps are highest"
+      ],
+      "passes": false
+    },
+    {
+      "id": "WORKOUT-001",
+      "category": "Workout Logging",
+      "description": "User can start today's scheduled workout",
+      "steps_to_verify": [
+        "Open app on a workout day",
+        "See current workout displayed on home screen",
+        "Tap 'Rozpocznij trening' (Start workout) button",
+        "Verify workout screen opens with first set"
+      ],
+      "passes": false
+    },
+    {
+      "id": "WORKOUT-002",
+      "category": "Workout Logging",
+      "description": "User can log actual reps completed for each set",
+      "steps_to_verify": [
+        "Start a workout",
+        "Complete first set",
+        "Enter actual number of reps performed",
+        "Tap to confirm/submit the set",
+        "Verify entered value is saved and displayed",
+        "Repeat for all 5 sets"
+      ],
+      "passes": false
+    },
+    {
+      "id": "WORKOUT-003",
+      "category": "Workout Logging",
+      "description": "Workout is marked complete after finishing all sets",
+      "steps_to_verify": [
+        "Start and complete all 5 sets of a workout",
+        "Verify completion screen appears",
+        "Return to home screen",
+        "Verify workout shows as completed (checkmark or similar)",
+        "View calendar/progress and confirm workout day is marked done"
+      ],
+      "passes": false
+    },
+    {
+      "id": "WORKOUT-004",
+      "category": "Workout Logging",
+      "description": "Final set of each workout is an exhaustion test (do maximum reps)",
+      "steps_to_verify": [
+        "Start a workout and progress to set 5",
+        "Verify set 5 shows 'max' or 'do maksimum' instead of fixed target",
+        "Verify UI encourages doing as many reps as possible",
+        "Enter a high number (e.g., 50) and confirm it's accepted",
+        "Verify the actual reps are logged, not capped"
+      ],
+      "passes": false
+    },
+    {
+      "id": "TIMER-001",
+      "category": "Rest Timer",
+      "description": "Rest timer appears between sets with countdown",
+      "steps_to_verify": [
+        "Start a workout",
+        "Complete first set and submit reps",
+        "Verify rest timer screen appears automatically",
+        "Verify countdown timer is displayed (e.g., 60 seconds)",
+        "Watch timer count down in real-time"
+      ],
+      "passes": false
+    },
+    {
+      "id": "TIMER-002",
+      "category": "Rest Timer",
+      "description": "Rest duration varies based on workout difficulty (60/90/120 seconds)",
+      "steps_to_verify": [
+        "Start an early-week workout",
+        "Verify rest timer shows 60 seconds",
+        "Start a mid-program workout with higher reps",
+        "Verify rest timer shows 90 seconds",
+        "Start a late-program difficult workout",
+        "Verify rest timer shows 120 seconds"
+      ],
+      "passes": false
+    },
+    {
+      "id": "TIMER-003",
+      "category": "Rest Timer",
+      "description": "Audio notification plays when rest period ends",
+      "steps_to_verify": [
+        "Ensure device volume is on",
+        "Start a workout and complete a set",
+        "Wait for rest timer to reach zero",
+        "Verify an audio sound plays when timer ends",
+        "Verify sound is distinct and noticeable"
+      ],
+      "passes": false
+    },
+    {
+      "id": "TIMER-004",
+      "category": "Rest Timer",
+      "description": "User can skip rest timer early",
+      "steps_to_verify": [
+        "Complete a set and enter rest period",
+        "Verify 'Pomiń' (Skip) button is visible",
+        "Tap skip button before timer ends",
+        "Verify next set appears immediately",
+        "Confirm no audio plays when skipped"
+      ],
+      "passes": false
+    },
+    {
+      "id": "TIMER-005",
+      "category": "Rest Timer",
+      "description": "User can pause rest timer",
+      "steps_to_verify": [
+        "Complete a set and enter rest period",
+        "Verify pause button is visible",
+        "Tap pause when timer shows 30 seconds remaining",
+        "Verify countdown stops",
+        "Wait 10 seconds and verify timer still shows ~30 seconds",
+        "Tap resume and verify countdown continues"
+      ],
+      "passes": false
+    },
+    {
+      "id": "PROGRESS-001",
+      "category": "Progress Visualization",
+      "description": "Calendar view shows completed and upcoming workouts",
+      "steps_to_verify": [
+        "Complete at least 2 workouts",
+        "Navigate to progress/calendar screen",
+        "Verify completed workout days are marked (e.g., green checkmark)",
+        "Verify upcoming workout days are visible but unmarked",
+        "Verify current day is highlighted"
+      ],
+      "passes": false
+    },
+    {
+      "id": "PROGRESS-002",
+      "category": "Progress Visualization",
+      "description": "Chart displays total reps over time",
+      "steps_to_verify": [
+        "Complete at least 3 workouts on different days",
+        "Navigate to progress screen",
+        "Verify a line or bar chart is displayed",
+        "Verify X-axis shows dates or workout numbers",
+        "Verify Y-axis shows rep counts",
+        "Confirm data points match logged workout totals"
+      ],
+      "passes": false
+    },
+    {
+      "id": "PROGRESS-003",
+      "category": "Progress Visualization",
+      "description": "Current week and day are clearly indicated",
+      "steps_to_verify": [
+        "View home screen",
+        "Verify current week number is displayed (e.g., 'Tydzień 2')",
+        "Verify current day within week is shown (e.g., 'Dzień 1 z 3')",
+        "Verify next workout date is visible if not today"
+      ],
+      "passes": false
+    },
+    {
+      "id": "PROGRESS-004",
+      "category": "Progress Visualization",
+      "description": "Overall program completion percentage is shown",
+      "steps_to_verify": [
+        "Complete 3 workouts (3 of 18 total)",
+        "View progress screen",
+        "Verify completion percentage shows approximately 17%",
+        "Complete 3 more workouts",
+        "Verify percentage updates to approximately 33%"
+      ],
+      "passes": false
+    },
+    {
+      "id": "REPEAT-001",
+      "category": "Repeat Week",
+      "description": "Option to repeat week appears after failing to complete workout",
+      "steps_to_verify": [
+        "Start a workout",
+        "Intentionally log fewer reps than target in 3+ sets",
+        "Complete the workout",
+        "Verify prompt appears suggesting to repeat the week",
+        "Verify options to 'Powtórz tydzień' or 'Kontynuuj' are shown"
+      ],
+      "passes": false
+    },
+    {
+      "id": "REPEAT-002",
+      "category": "Repeat Week",
+      "description": "User can manually choose to repeat a week from progress screen",
+      "steps_to_verify": [
+        "Complete at least one workout in current week",
+        "Navigate to progress screen",
+        "Find current week section",
+        "Tap 'Powtórz tydzień' (Repeat week) option",
+        "Confirm the action",
+        "Verify week resets to Day 1"
+      ],
+      "passes": false
+    },
+    {
+      "id": "REPEAT-003",
+      "category": "Repeat Week",
+      "description": "Repeat attempts are tracked and displayed",
+      "steps_to_verify": [
+        "Repeat a week once",
+        "View progress or week header",
+        "Verify it shows 'Tydzień 2 - Próba 2' (Week 2 - Attempt 2)",
+        "Repeat the same week again",
+        "Verify it updates to 'Próba 3'"
+      ],
+      "passes": false
+    },
+    {
+      "id": "REPEAT-004",
+      "category": "Repeat Week",
+      "description": "Previous attempt stats are visible when repeating a week",
+      "steps_to_verify": [
+        "Complete week 2 with logged reps",
+        "Repeat week 2",
+        "Start first workout of repeated week",
+        "Verify previous attempt's reps are shown for comparison",
+        "Complete set and verify you can see 'Poprzednio: X' (Previously: X)"
+      ],
+      "passes": false
+    },
+    {
+      "id": "NAV-001",
+      "category": "Navigation",
+      "description": "App has clear navigation between main screens",
+      "steps_to_verify": [
+        "Open the app",
+        "Verify navigation bar or menu is visible",
+        "Navigate to home/dashboard screen",
+        "Navigate to progress/calendar screen",
+        "Navigate to settings screen",
+        "Verify current screen is indicated in navigation"
+      ],
+      "passes": false
+    },
+    {
+      "id": "NAV-002",
+      "category": "Navigation",
+      "description": "Home screen shows next workout preview",
+      "steps_to_verify": [
+        "Open app (not during active workout)",
+        "View home screen",
+        "Verify next scheduled workout is displayed",
+        "Verify workout details shown: week, day, number of sets",
+        "Verify target total reps are visible"
+      ],
+      "passes": false
+    },
+    {
+      "id": "PWA-001",
+      "category": "PWA",
+      "description": "App can be installed on mobile device home screen",
+      "steps_to_verify": [
+        "Open app in mobile browser (Chrome/Safari)",
+        "Verify install prompt appears or use browser menu",
+        "Select 'Add to Home Screen' or 'Install'",
+        "Confirm installation",
+        "Open app from home screen icon",
+        "Verify app opens in standalone mode (no browser UI)"
+      ],
+      "passes": false
+    },
+    {
+      "id": "PWA-002",
+      "category": "PWA",
+      "description": "App displays correct name and icon when installed",
+      "steps_to_verify": [
+        "Install PWA on device",
+        "Check home screen",
+        "Verify app name shows '100 Pushups' or '100 Pompek'",
+        "Verify app icon is the correct design",
+        "Open app and verify splash screen matches theme"
+      ],
+      "passes": false
+    }
+  ]
+}
