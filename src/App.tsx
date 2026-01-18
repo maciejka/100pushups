@@ -1,8 +1,14 @@
+import { BottomNav } from "./components/BottomNav.tsx";
+import { HomeScreen } from "./components/HomeScreen.tsx";
 import { InitialTest } from "./components/InitialTest.tsx";
+import { ProgressScreen } from "./components/ProgressScreen.tsx";
+import { SettingsScreen } from "./components/SettingsScreen.tsx";
+import { useRouter } from "./hooks/useRouter.ts";
 import { useStorage } from "./hooks/useStorage.ts";
 
 export function App() {
 	const { data, loading, error, update } = useStorage();
+	const { route, navigate } = useRouter();
 
 	if (loading) {
 		return (
@@ -39,13 +45,22 @@ export function App() {
 		);
 	}
 
+	const renderScreen = () => {
+		if (!data) return null;
+		switch (route) {
+			case "home":
+				return <HomeScreen data={data} />;
+			case "progress":
+				return <ProgressScreen data={data} />;
+			case "settings":
+				return <SettingsScreen data={data} />;
+		}
+	};
+
 	return (
 		<main>
-			<h1>100 Pompek</h1>
-			<p>Poziom: {data?.level}</p>
-			<p>
-				Tydzień {data?.currentWeek}, Dzień {data?.currentDay}
-			</p>
+			{renderScreen()}
+			<BottomNav route={route} onNavigate={navigate} />
 		</main>
 	);
 }

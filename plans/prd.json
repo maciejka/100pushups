@@ -357,7 +357,7 @@
 				"Navigate to settings screen",
 				"Verify current screen is indicated in navigation"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "NAV-002",
