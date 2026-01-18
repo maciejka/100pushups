@@ -5,7 +5,9 @@
       "Bash(~/.bun/bin/bun run:*)",
       "Bash(git checkout:*)",
       "Bash(export PATH=\"$HOME/.bun/bin:$PATH\")",
-      "Bash(bun run build)"
+      "Bash(bun run build)",
+      "Bash(git -C /home/maciejka/projects/ai-sandbox/100pushups status --short)",
+      "Bash(git -C /home/maciejka/projects/ai-sandbox/100pushups log --oneline -5)"
     ]
   },
   "hooks": {

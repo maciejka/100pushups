@@ -1,16 +1,22 @@
 {
-  "name": "100pushups",
-  "type": "module",
-  "private": true,
-  "scripts": {
-    "dev": "bun run --hot serve",
-    "build": "bun run build.ts",
-    "serve": "bun run serve.ts"
-  },
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  }
+	"name": "100pushups",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"dev": "bun run --hot serve",
+		"build": "bun run build.ts",
+		"serve": "bun run serve.ts",
+		"test": "bun test",
+		"typecheck": "tsc --noEmit",
+		"lint": "biome lint .",
+		"format": "biome format --write .",
+		"check": "biome check --write ."
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.3.11",
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	}
 }
