@@ -1,0 +1,16 @@
+{
+  "name": "100pushups",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun run --hot serve",
+    "build": "bun run build.ts",
+    "serve": "bun run serve.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
