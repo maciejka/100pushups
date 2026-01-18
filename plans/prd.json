@@ -26,7 +26,7 @@
 				"Close and reopen the browser",
 				"Confirm data persists after browser restart"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "STORAGE-002",
