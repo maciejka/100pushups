@@ -53,7 +53,7 @@
 				"Enter number of pushups completed",
 				"Submit the test result"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-002",
