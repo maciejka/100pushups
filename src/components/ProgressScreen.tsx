@@ -2,9 +2,10 @@ import type { UserData } from "../stores/db.ts";
 
 interface ProgressScreenProps {
 	data: UserData;
+	onRepeatWeek: () => void;
 }
 
-export function ProgressScreen({ data }: ProgressScreenProps) {
+export function ProgressScreen({ data, onRepeatWeek }: ProgressScreenProps) {
 	const completedWorkouts = data.workouts.length;
 	const totalWorkouts = 18;
 	const completionPercent = Math.round(
@@ -43,6 +44,15 @@ export function ProgressScreen({ data }: ProgressScreenProps) {
 									);
 								})}
 							</div>
+							{isCurrent && data.currentDay > 1 && (
+								<button
+									type="button"
+									class="btn-secondary btn-small"
+									onClick={onRepeatWeek}
+								>
+									Powtórz tydzień
+								</button>
+							)}
 						</div>
 					);
 				})}

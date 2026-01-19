@@ -101,13 +101,25 @@ export function App() {
 		});
 	};
 
+	const handleRepeatWeek = async () => {
+		if (!data) return;
+		const currentAttempt = data.weekAttempts[data.currentWeek] ?? 1;
+		await update({
+			currentDay: 1,
+			weekAttempts: {
+				...data.weekAttempts,
+				[data.currentWeek]: currentAttempt + 1,
+			},
+		});
+	};
+
 	const renderScreen = () => {
 		if (!data) return null;
 		switch (route) {
 			case "home":
 				return <HomeScreen data={data} onStartWorkout={handleStartWorkout} />;
 			case "progress":
-				return <ProgressScreen data={data} />;
+				return <ProgressScreen data={data} onRepeatWeek={handleRepeatWeek} />;
 			case "settings":
 				return <SettingsScreen data={data} onRetakeTest={handleRetakeTest} />;
 			case "workout":
