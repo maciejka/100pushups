@@ -290,7 +290,7 @@
 				"Complete 3 more workouts",
 				"Verify percentage updates to approximately 33%"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "REPEAT-001",
