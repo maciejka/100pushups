@@ -13,7 +13,7 @@
 				"Navigate through all screens (home, test, workout, progress)",
 				"Confirm no English text appears in the UI"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "STORAGE-001",
@@ -370,7 +370,7 @@
 				"Verify workout details shown: week, day, number of sets",
 				"Verify target total reps are visible"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "PWA-001",
