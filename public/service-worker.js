@@ -1,5 +1,5 @@
-const CACHE_NAME = "pushups-v1";
-const ASSETS = ["/", "/index.html", "/manifest.json", "/icon.svg"];
+const CACHE_NAME = "pushups-v2";
+const ASSETS = ["/", "/index.html", "/manifest.json", "/icon.svg", "/main.js"];
 
 self.addEventListener("install", (event) => {
 	event.waitUntil(

@@ -40,7 +40,7 @@
 				"Complete a workout while offline",
 				"Verify data is saved locally"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-001",
