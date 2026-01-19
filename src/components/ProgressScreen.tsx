@@ -22,9 +22,13 @@ export function ProgressScreen({ data }: ProgressScreenProps) {
 				{[1, 2, 3, 4, 5, 6].map((week) => {
 					const weekWorkouts = data.workouts.filter((w) => w.week === week);
 					const isCurrent = week === data.currentWeek;
+					const attempt = data.weekAttempts[week] ?? 1;
 					return (
 						<div key={week} class={`week ${isCurrent ? "current" : ""}`}>
-							<h2>Tydzień {week}</h2>
+							<h2>
+								Tydzień {week}
+								{attempt > 1 && ` - Próba ${attempt}`}
+							</h2>
 							<div class="days">
 								{[1, 2, 3].map((day) => {
 									const completed = weekWorkouts.some((w) => w.day === day);

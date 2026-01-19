@@ -330,7 +330,7 @@
 				"Repeat the same week again",
 				"Verify it updates to 'Próba 3'"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "REPEAT-004",

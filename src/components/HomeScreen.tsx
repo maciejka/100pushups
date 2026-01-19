@@ -27,6 +27,9 @@ export function HomeScreen({ data, onStartWorkout }: HomeScreenProps) {
 	// Check if program is complete (after week 6, day 3)
 	const programComplete = data.currentWeek > 6;
 
+	// Get current week attempt number
+	const currentAttempt = data.weekAttempts[data.currentWeek] ?? 1;
+
 	return (
 		<div class="screen home-screen">
 			<h1>100 Pompek</h1>
@@ -39,7 +42,9 @@ export function HomeScreen({ data, onStartWorkout }: HomeScreenProps) {
 			) : (
 				<>
 					<p class="week-info">
-						Tydzień {data.currentWeek}, Dzień {data.currentDay} z 3
+						Tydzień {data.currentWeek}
+						{currentAttempt > 1 && ` - Próba ${currentAttempt}`}, Dzień{" "}
+						{data.currentDay} z 3
 					</p>
 					{completedToday ? (
 						<div class="workout-done-today">
