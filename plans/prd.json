@@ -184,7 +184,7 @@
 				"Verify user can modify the prefilled value",
 				"For max set (set 5), verify input is empty or shows previous max"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TIMER-001",

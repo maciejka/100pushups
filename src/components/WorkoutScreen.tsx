@@ -42,6 +42,19 @@ export function WorkoutScreen({
 	const [finalRecord, setFinalRecord] = useState<WorkoutRecord | null>(null);
 	const skippedRef = useRef(false);
 
+	// Prefill input with target reps when set changes (or on initial load)
+	useEffect(() => {
+		if (!workout) return;
+		const target = workout.sets[currentSet] ?? 0;
+		const isMaximum = isMaxSet(target);
+		if (isMaximum) {
+			// For max set, leave empty or show previous max if available
+			setInputValue("");
+		} else {
+			setInputValue(String(target));
+		}
+	}, [currentSet, workout]);
+
 	// Rest timer countdown effect
 	useEffect(() => {
 		if (!isResting || restTimeLeft <= 0 || isPaused) return;
