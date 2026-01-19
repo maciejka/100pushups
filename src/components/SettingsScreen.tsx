@@ -2,9 +2,10 @@ import type { UserData } from "../stores/db.ts";
 
 interface SettingsScreenProps {
 	data: UserData;
+	onRetakeTest: () => void;
 }
 
-export function SettingsScreen({ data }: SettingsScreenProps) {
+export function SettingsScreen({ data, onRetakeTest }: SettingsScreenProps) {
 	return (
 		<div class="screen settings-screen">
 			<h1>Ustawienia</h1>
@@ -15,6 +16,11 @@ export function SettingsScreen({ data }: SettingsScreenProps) {
 			<div class="setting-item">
 				<span>Wynik testu:</span>
 				<span>{data.testResult} pompek</span>
+			</div>
+			<div class="setting-actions">
+				<button type="button" class="btn-secondary" onClick={onRetakeTest}>
+					Powtórz test
+				</button>
 			</div>
 		</div>
 	);

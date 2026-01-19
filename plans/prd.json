@@ -79,7 +79,7 @@
 				"Complete the test again with different result",
 				"Verify new level is assigned and program resets"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "PROGRAM-001",

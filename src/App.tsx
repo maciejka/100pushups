@@ -72,6 +72,17 @@ export function App() {
 		navigate("home");
 	};
 
+	const handleRetakeTest = async () => {
+		await update({
+			level: null,
+			testResult: null,
+			currentWeek: 1,
+			currentDay: 1,
+			workouts: [],
+			weekAttempts: {},
+		});
+	};
+
 	const renderScreen = () => {
 		if (!data) return null;
 		switch (route) {
@@ -80,7 +91,7 @@ export function App() {
 			case "progress":
 				return <ProgressScreen data={data} />;
 			case "settings":
-				return <SettingsScreen data={data} />;
+				return <SettingsScreen data={data} onRetakeTest={handleRetakeTest} />;
 			case "workout":
 				return (
 					<WorkoutScreen
