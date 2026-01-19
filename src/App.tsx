@@ -51,20 +51,38 @@ export function App() {
 		navigate("workout");
 	};
 
-	const handleWorkoutComplete = async (record: WorkoutRecord) => {
+	const handleWorkoutComplete = async (
+		record: WorkoutRecord,
+		repeatWeek: boolean,
+	) => {
 		if (!data) return;
 		const newWorkouts = [...data.workouts, record];
-		let nextWeek = data.currentWeek;
-		let nextDay = data.currentDay + 1;
-		if (nextDay > 3) {
-			nextDay = 1;
-			nextWeek = data.currentWeek + 1;
+
+		if (repeatWeek) {
+			// Repeat the current week from day 1
+			const currentAttempt = data.weekAttempts[data.currentWeek] ?? 1;
+			await update({
+				workouts: newWorkouts,
+				currentDay: 1,
+				weekAttempts: {
+					...data.weekAttempts,
+					[data.currentWeek]: currentAttempt + 1,
+				},
+			});
+		} else {
+			// Move to next day/week
+			let nextWeek = data.currentWeek;
+			let nextDay = data.currentDay + 1;
+			if (nextDay > 3) {
+				nextDay = 1;
+				nextWeek = data.currentWeek + 1;
+			}
+			await update({
+				workouts: newWorkouts,
+				currentWeek: nextWeek,
+				currentDay: nextDay,
+			});
 		}
-		await update({
-			workouts: newWorkouts,
-			currentWeek: nextWeek,
-			currentDay: nextDay,
-		});
 		navigate("home");
 	};
 

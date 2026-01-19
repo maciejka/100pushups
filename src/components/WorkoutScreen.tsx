@@ -20,7 +20,7 @@ function playBeep(): void {
 
 interface WorkoutScreenProps {
 	data: UserData;
-	onComplete: (record: WorkoutRecord) => void;
+	onComplete: (record: WorkoutRecord, repeatWeek: boolean) => void;
 	onCancel: () => void;
 }
 
@@ -124,15 +124,22 @@ export function WorkoutScreen({
 		setIsPaused((prev) => !prev);
 	};
 
-	const handleFinish = () => {
+	const handleFinish = (repeatWeek: boolean) => {
 		if (finalRecord) {
-			onComplete(finalRecord);
+			onComplete(finalRecord, repeatWeek);
 		}
 	};
 
 	// Completion screen
-	if (isComplete && finalRecord) {
+	if (isComplete && finalRecord && workout) {
 		const totalReps = finalRecord.sets.reduce((sum, reps) => sum + reps, 0);
+		// Count failed sets (where actual reps < target, excluding max set which is -1)
+		const failedSets = finalRecord.sets.filter((reps, i) => {
+			const target = workout.sets[i] ?? 0;
+			return target !== -1 && reps < target;
+		}).length;
+		const shouldSuggestRepeat = failedSets >= 3;
+
 		return (
 			<div class="screen workout-screen complete-screen">
 				<h1>Trening ukończony!</h1>
@@ -154,10 +161,39 @@ export function WorkoutScreen({
 						</ul>
 					</div>
 				</div>
+				{shouldSuggestRepeat && (
+					<div class="repeat-suggestion">
+						<p>Nie udało Ci się osiągnąć celu w {failedSets} seriach.</p>
+						<p>Zalecamy powtórzenie tego tygodnia.</p>
+					</div>
+				)}
 				<div class="workout-actions">
-					<button type="button" class="btn-primary" onClick={handleFinish}>
-						Zakończ
-					</button>
+					{shouldSuggestRepeat ? (
+						<>
+							<button
+								type="button"
+								class="btn-primary"
+								onClick={() => handleFinish(true)}
+							>
+								Powtórz tydzień
+							</button>
+							<button
+								type="button"
+								class="btn-secondary"
+								onClick={() => handleFinish(false)}
+							>
+								Kontynuuj
+							</button>
+						</>
+					) : (
+						<button
+							type="button"
+							class="btn-primary"
+							onClick={() => handleFinish(false)}
+						>
+							Zakończ
+						</button>
+					)}
 				</div>
 			</div>
 		);

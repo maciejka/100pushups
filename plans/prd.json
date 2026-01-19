@@ -303,7 +303,7 @@
 				"Verify prompt appears suggesting to repeat the week",
 				"Verify options to 'Powtórz tydzień' or 'Kontynuuj' are shown"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "REPEAT-002",
