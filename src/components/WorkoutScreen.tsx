@@ -77,6 +77,19 @@ export function WorkoutScreen({
 	const targetReps = workout.sets[currentSet] ?? 0;
 	const isMax = isMaxSet(targetReps);
 
+	// Find previous attempt for this week/day (if repeating)
+	const currentAttempt = data.weekAttempts[data.currentWeek] ?? 1;
+	const previousAttemptWorkout =
+		currentAttempt > 1
+			? data.workouts.find(
+					(w) =>
+						w.week === data.currentWeek &&
+						w.day === data.currentDay &&
+						w.attempt === currentAttempt - 1,
+				)
+			: null;
+	const previousReps = previousAttemptWorkout?.sets[currentSet];
+
 	const handleSubmitSet = () => {
 		const reps = Number.parseInt(inputValue, 10);
 		if (Number.isNaN(reps) || reps < 0) {
@@ -266,6 +279,9 @@ export function WorkoutScreen({
 						<span class="target-label">Cel:</span>
 						<span class="target-value">{targetReps}</span>
 					</>
+				)}
+				{previousReps !== undefined && (
+					<p class="previous-reps">Poprzednio: {previousReps}</p>
 				)}
 			</div>
 			<div class="rep-input">
