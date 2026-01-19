@@ -265,7 +265,7 @@
 				"Verify Y-axis shows rep counts",
 				"Confirm data points match logged workout totals"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "PROGRESS-003",
