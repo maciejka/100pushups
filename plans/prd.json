@@ -198,7 +198,7 @@
 				"Start a late-program difficult workout",
 				"Verify rest timer shows 120 seconds"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TIMER-003",
