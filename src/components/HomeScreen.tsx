@@ -3,9 +3,10 @@ import type { UserData } from "../stores/db.ts";
 
 interface HomeScreenProps {
 	data: UserData;
+	onStartWorkout: () => void;
 }
 
-export function HomeScreen({ data }: HomeScreenProps) {
+export function HomeScreen({ data, onStartWorkout }: HomeScreenProps) {
 	const level = data.level as 1 | 2 | 3 | 4 | 5;
 	const workout = getWorkout(level, data.currentWeek, data.currentDay);
 	const targetReps = workout ? getTargetReps(workout) : 0;
@@ -23,6 +24,9 @@ export function HomeScreen({ data }: HomeScreenProps) {
 					<p>
 						{workout.sets.length} serii, cel: {targetReps}+ powtórzeń
 					</p>
+					<button type="button" class="btn-primary" onClick={onStartWorkout}>
+						Rozpocznij trening
+					</button>
 				</div>
 			)}
 		</div>

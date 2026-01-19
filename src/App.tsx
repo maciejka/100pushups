@@ -3,8 +3,10 @@ import { HomeScreen } from "./components/HomeScreen.tsx";
 import { InitialTest } from "./components/InitialTest.tsx";
 import { ProgressScreen } from "./components/ProgressScreen.tsx";
 import { SettingsScreen } from "./components/SettingsScreen.tsx";
+import { WorkoutScreen } from "./components/WorkoutScreen.tsx";
 import { useRouter } from "./hooks/useRouter.ts";
 import { useStorage } from "./hooks/useStorage.ts";
+import type { WorkoutRecord } from "./stores/db.ts";
 
 export function App() {
 	const { data, loading, error, update } = useStorage();
@@ -45,22 +47,57 @@ export function App() {
 		);
 	}
 
+	const handleStartWorkout = () => {
+		navigate("workout");
+	};
+
+	const handleWorkoutComplete = async (record: WorkoutRecord) => {
+		if (!data) return;
+		const newWorkouts = [...data.workouts, record];
+		let nextWeek = data.currentWeek;
+		let nextDay = data.currentDay + 1;
+		if (nextDay > 3) {
+			nextDay = 1;
+			nextWeek = data.currentWeek + 1;
+		}
+		await update({
+			workouts: newWorkouts,
+			currentWeek: nextWeek,
+			currentDay: nextDay,
+		});
+		navigate("home");
+	};
+
+	const handleWorkoutCancel = () => {
+		navigate("home");
+	};
+
 	const renderScreen = () => {
 		if (!data) return null;
 		switch (route) {
 			case "home":
-				return <HomeScreen data={data} />;
+				return <HomeScreen data={data} onStartWorkout={handleStartWorkout} />;
 			case "progress":
 				return <ProgressScreen data={data} />;
 			case "settings":
 				return <SettingsScreen data={data} />;
+			case "workout":
+				return (
+					<WorkoutScreen
+						data={data}
+						onComplete={handleWorkoutComplete}
+						onCancel={handleWorkoutCancel}
+					/>
+				);
 		}
 	};
+
+	const showNav = route !== "workout";
 
 	return (
 		<main>
 			{renderScreen()}
-			<BottomNav route={route} onNavigate={navigate} />
+			{showNav && <BottomNav route={route} onNavigate={navigate} />}
 		</main>
 	);
 }

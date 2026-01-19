@@ -131,7 +131,7 @@
 				"Tap 'Rozpocznij trening' (Start workout) button",
 				"Verify workout screen opens with first set"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "WORKOUT-002",
@@ -145,7 +145,7 @@
 				"Verify entered value is saved and displayed",
 				"Repeat for all 5 sets"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "WORKOUT-003",
@@ -171,7 +171,7 @@
 				"Enter a high number (e.g., 50) and confirm it's accepted",
 				"Verify the actual reps are logged, not capped"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TIMER-001",
