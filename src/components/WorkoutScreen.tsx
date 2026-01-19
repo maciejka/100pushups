@@ -1,6 +1,22 @@
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import { getWorkout, isMaxSet } from "../data/program.ts";
 import type { UserData, WorkoutRecord } from "../stores/db.ts";
+
+function playBeep(): void {
+	const audioContext = new AudioContext();
+	const oscillator = audioContext.createOscillator();
+	const gainNode = audioContext.createGain();
+
+	oscillator.connect(gainNode);
+	gainNode.connect(audioContext.destination);
+
+	oscillator.frequency.value = 800;
+	oscillator.type = "sine";
+	gainNode.gain.value = 0.3;
+
+	oscillator.start();
+	oscillator.stop(audioContext.currentTime + 0.3);
+}
 
 interface WorkoutScreenProps {
 	data: UserData;
@@ -23,6 +39,7 @@ export function WorkoutScreen({
 	const [isPaused, setIsPaused] = useState(false);
 	const [isComplete, setIsComplete] = useState(false);
 	const [finalRecord, setFinalRecord] = useState<WorkoutRecord | null>(null);
+	const skippedRef = useRef(false);
 
 	// Rest timer countdown effect
 	useEffect(() => {
@@ -31,6 +48,10 @@ export function WorkoutScreen({
 		const timer = setInterval(() => {
 			setRestTimeLeft((prev) => {
 				if (prev <= 1) {
+					if (!skippedRef.current) {
+						playBeep();
+					}
+					skippedRef.current = false;
 					setIsResting(false);
 					return 0;
 				}
@@ -93,6 +114,7 @@ export function WorkoutScreen({
 	};
 
 	const handleSkipRest = () => {
+		skippedRef.current = true;
 		setIsResting(false);
 		setRestTimeLeft(0);
 		setIsPaused(false);

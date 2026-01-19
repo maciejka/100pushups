@@ -211,7 +211,7 @@
 				"Verify an audio sound plays when timer ends",
 				"Verify sound is distinct and noticeable"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TIMER-004",
