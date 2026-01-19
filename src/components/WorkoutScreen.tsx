@@ -21,6 +21,8 @@ export function WorkoutScreen({
 	const [isResting, setIsResting] = useState(false);
 	const [restTimeLeft, setRestTimeLeft] = useState(0);
 	const [isPaused, setIsPaused] = useState(false);
+	const [isComplete, setIsComplete] = useState(false);
+	const [finalRecord, setFinalRecord] = useState<WorkoutRecord | null>(null);
 
 	// Rest timer countdown effect
 	useEffect(() => {
@@ -73,7 +75,8 @@ export function WorkoutScreen({
 				date: new Date().toISOString(),
 				sets: newCompletedReps,
 			};
-			onComplete(record);
+			setFinalRecord(record);
+			setIsComplete(true);
 		} else {
 			// Start rest timer before moving to next set
 			setRestTimeLeft(workout.rest);
@@ -98,6 +101,45 @@ export function WorkoutScreen({
 	const handleTogglePause = () => {
 		setIsPaused((prev) => !prev);
 	};
+
+	const handleFinish = () => {
+		if (finalRecord) {
+			onComplete(finalRecord);
+		}
+	};
+
+	// Completion screen
+	if (isComplete && finalRecord) {
+		const totalReps = finalRecord.sets.reduce((sum, reps) => sum + reps, 0);
+		return (
+			<div class="screen workout-screen complete-screen">
+				<h1>Trening ukończony!</h1>
+				<p class="workout-info">
+					Tydzień {finalRecord.week}, Dzień {finalRecord.day}
+				</p>
+				<div class="completion-summary">
+					<p class="total-reps">
+						Łącznie: <strong>{totalReps}</strong> powtórzeń
+					</p>
+					<div class="completed-sets">
+						<p>Twoje serie:</p>
+						<ul>
+							{finalRecord.sets.map((reps, i) => (
+								<li key={i}>
+									Seria {i + 1}: {reps} powtórzeń
+								</li>
+							))}
+						</ul>
+					</div>
+				</div>
+				<div class="workout-actions">
+					<button type="button" class="btn-primary" onClick={handleFinish}>
+						Zakończ
+					</button>
+				</div>
+			</div>
+		);
+	}
 
 	// Rest timer screen
 	if (isResting) {

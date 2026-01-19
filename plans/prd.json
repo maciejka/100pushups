@@ -158,7 +158,7 @@
 				"Verify workout shows as completed (checkmark or similar)",
 				"View calendar/progress and confirm workout day is marked done"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "WORKOUT-004",
