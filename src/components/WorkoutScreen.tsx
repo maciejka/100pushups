@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { getWorkout, isMaxSet } from "../data/program.ts";
 import type { UserData, WorkoutRecord } from "../stores/db.ts";
+import { Confetti } from "./Confetti.tsx";
 
 function playBeep(): void {
 	const audioContext = new AudioContext();
@@ -155,7 +156,8 @@ export function WorkoutScreen({
 
 		return (
 			<div class="screen workout-screen complete-screen">
-				<h1>Trening ukończony!</h1>
+				{!shouldSuggestRepeat && <Confetti />}
+				<h1>Świetna robota, Stefan! 🔥</h1>
 				<p class="workout-info">
 					Tydzień {finalRecord.week}, Dzień {finalRecord.day}
 				</p>

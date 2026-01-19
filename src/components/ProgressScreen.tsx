@@ -29,73 +29,24 @@ export function ProgressScreen({ data, onRepeatWeek }: ProgressScreenProps) {
 			</p>
 
 			{workoutTotals.length > 0 && (
-				<div
-					class="reps-chart"
-					style={{ marginBottom: "1.5rem", padding: "1rem" }}
-				>
-					<h2 style={{ marginBottom: "0.5rem" }}>Powtórzenia w treningach</h2>
-					<div
-						class="chart-container"
-						style={{
-							display: "flex",
-							alignItems: "flex-end",
-							gap: "0.25rem",
-							height: "120px",
-							borderBottom: "1px solid #ccc",
-							paddingBottom: "0.25rem",
-						}}
-					>
+				<div class="reps-chart">
+					<h2>Powtórzenia w treningach</h2>
+					<div class="chart-container">
 						{workoutTotals.map((w, i) => (
-							<div
-								key={i}
-								class="chart-bar-container"
-								style={{
-									display: "flex",
-									flexDirection: "column",
-									alignItems: "center",
-									flex: 1,
-									minWidth: "30px",
-								}}
-							>
-								<div
-									class="chart-bar-label"
-									style={{ fontSize: "0.7rem", marginBottom: "2px" }}
-								>
-									{w.reps}
-								</div>
+							<div key={i} class="chart-bar-container">
+								<div class="chart-bar-label">{w.reps}</div>
 								<div
 									class="chart-bar"
 									style={{
-										width: "100%",
 										height: `${(w.reps / maxReps) * 100}%`,
-										backgroundColor: "#4f46e5",
-										borderRadius: "2px 2px 0 0",
-										minHeight: "4px",
 									}}
 								/>
 							</div>
 						))}
 					</div>
-					<div
-						class="chart-x-labels"
-						style={{
-							display: "flex",
-							gap: "0.25rem",
-							marginTop: "0.25rem",
-						}}
-					>
+					<div class="chart-x-labels">
 						{workoutTotals.map((w, i) => (
-							<div
-								key={i}
-								style={{
-									flex: 1,
-									textAlign: "center",
-									fontSize: "0.6rem",
-									minWidth: "30px",
-								}}
-							>
-								{w.label}
-							</div>
+							<div key={i}>{w.label}</div>
 						))}
 					</div>
 				</div>

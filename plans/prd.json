@@ -424,7 +424,7 @@
 				"Verify typography is bold and modern (not childish or corporate)",
 				"Verify app displays personalized greeting with Stefan's name"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "DESIGN-002",
@@ -437,7 +437,7 @@
 				"Verify progress indicators feel rewarding (progress bars, streaks)",
 				"Verify achievement moments have visual impact (e.g., confetti, glow effects)"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "DESIGN-003",
@@ -449,7 +449,7 @@
 				"Verify buttons and controls feel tactile and responsive",
 				"Verify overall vibe matches popular fitness apps (Nike, Freeletics style)"
 			],
-			"passes": false
+			"passes": true
 		}
 	]
 }
