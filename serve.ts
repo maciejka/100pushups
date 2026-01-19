@@ -20,8 +20,8 @@ const server = Bun.serve({
 		// Try root directory (for index.html)
 		file = Bun.file(`.${path}`);
 		if (await file.exists()) {
-			// Handle TypeScript files - bundle on the fly
-			if (path.endsWith(".ts")) {
+			// Handle TypeScript/TSX files - bundle on the fly
+			if (path.endsWith(".ts") || path.endsWith(".tsx")) {
 				const result = await Bun.build({
 					entrypoints: [`.${path}`],
 					target: "browser",

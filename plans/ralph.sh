@@ -86,13 +86,50 @@ for ((i=1; i<=$ITERATIONS; i++)); do
   echo "Iteration $i of $ITERATIONS"
   echo "=========================================="
 
+  OUTFILE=$(mktemp)
+
   if [ "$USE_SANDBOX" = true ]; then
-    result=$(docker sandbox run claude -p "$PROMPT")
+    docker sandbox run claude -p --verbose --output-format stream-json "$PROMPT" 2>&1 | \
+      tee "$OUTFILE" | \
+      jq -r --unbuffered '
+        if .type == "assistant" and .message.content then
+          .message.content[] |
+          if .type == "tool_use" then
+            "\n\u001b[36m>>> \(.name)\u001b[0m \u001b[33m\(.input | tostring | .[0:100])\u001b[0m"
+          elif .type == "text" then
+            .text
+          else
+            empty
+          end
+        elif .type == "result" then
+          "\n\u001b[35m=== DONE (cost: $\(.total_cost_usd | tostring | .[0:6])) ===\u001b[0m"
+        else
+          empty
+        end
+      '
   else
-    result=$(claude -p "$PROMPT")
+    claude -p --verbose --output-format stream-json "$PROMPT" 2>&1 | \
+      tee "$OUTFILE" | \
+      jq -r --unbuffered '
+        if .type == "assistant" and .message.content then
+          .message.content[] |
+          if .type == "tool_use" then
+            "\n\u001b[36m>>> \(.name)\u001b[0m \u001b[33m\(.input | tostring | .[0:100])\u001b[0m"
+          elif .type == "text" then
+            .text
+          else
+            empty
+          end
+        elif .type == "result" then
+          "\n\u001b[35m=== DONE (cost: $\(.total_cost_usd | tostring | .[0:6])) ===\u001b[0m"
+        else
+          empty
+        end
+      '
   fi
 
-  echo "$result"
+  result=$(cat "$OUTFILE")
+  rm -f "$OUTFILE"
 
   if [[ "$result" == *"<promise>COMPLETE</promise>"* ]]; then
     echo ""
