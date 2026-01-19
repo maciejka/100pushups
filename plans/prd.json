@@ -384,7 +384,7 @@
 				"Open app from home screen icon",
 				"Verify app opens in standalone mode (no browser UI)"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "PWA-002",
@@ -397,7 +397,7 @@
 				"Verify app icon is the correct design",
 				"Open app and verify splash screen matches theme"
 			],
-			"passes": false
+			"passes": true
 		}
 	]
 }
