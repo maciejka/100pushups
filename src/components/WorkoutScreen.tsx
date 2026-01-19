@@ -20,10 +20,11 @@ export function WorkoutScreen({
 	const [inputValue, setInputValue] = useState("");
 	const [isResting, setIsResting] = useState(false);
 	const [restTimeLeft, setRestTimeLeft] = useState(0);
+	const [isPaused, setIsPaused] = useState(false);
 
 	// Rest timer countdown effect
 	useEffect(() => {
-		if (!isResting || restTimeLeft <= 0) return;
+		if (!isResting || restTimeLeft <= 0 || isPaused) return;
 
 		const timer = setInterval(() => {
 			setRestTimeLeft((prev) => {
@@ -36,7 +37,7 @@ export function WorkoutScreen({
 		}, 1000);
 
 		return () => clearInterval(timer);
-	}, [isResting, restTimeLeft]);
+	}, [isResting, restTimeLeft, isPaused]);
 
 	if (!workout) {
 		return (
@@ -91,6 +92,11 @@ export function WorkoutScreen({
 	const handleSkipRest = () => {
 		setIsResting(false);
 		setRestTimeLeft(0);
+		setIsPaused(false);
+	};
+
+	const handleTogglePause = () => {
+		setIsPaused((prev) => !prev);
 	};
 
 	// Rest timer screen
@@ -109,6 +115,13 @@ export function WorkoutScreen({
 				</div>
 				<p class="rest-hint">Przygotuj się do następnej serii</p>
 				<div class="rest-actions">
+					<button
+						type="button"
+						class="btn-secondary"
+						onClick={handleTogglePause}
+					>
+						{isPaused ? "Wznów" : "Pauza"}
+					</button>
 					<button type="button" class="btn-primary" onClick={handleSkipRest}>
 						Pomiń
 					</button>

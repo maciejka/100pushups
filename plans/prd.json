@@ -238,7 +238,7 @@
 				"Wait 10 seconds and verify timer still shows ~30 seconds",
 				"Tap resume and verify countdown continues"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "PROGRESS-001",
