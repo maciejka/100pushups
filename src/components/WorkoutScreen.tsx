@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { getWorkout, isMaxSet } from "../data/program.ts";
 import type { UserData, WorkoutRecord } from "../stores/db.ts";
 
@@ -18,6 +18,25 @@ export function WorkoutScreen({
 	const [currentSet, setCurrentSet] = useState(0);
 	const [completedReps, setCompletedReps] = useState<number[]>([]);
 	const [inputValue, setInputValue] = useState("");
+	const [isResting, setIsResting] = useState(false);
+	const [restTimeLeft, setRestTimeLeft] = useState(0);
+
+	// Rest timer countdown effect
+	useEffect(() => {
+		if (!isResting || restTimeLeft <= 0) return;
+
+		const timer = setInterval(() => {
+			setRestTimeLeft((prev) => {
+				if (prev <= 1) {
+					setIsResting(false);
+					return 0;
+				}
+				return prev - 1;
+			});
+		}, 1000);
+
+		return () => clearInterval(timer);
+	}, [isResting, restTimeLeft]);
 
 	if (!workout) {
 		return (
@@ -55,9 +74,53 @@ export function WorkoutScreen({
 			};
 			onComplete(record);
 		} else {
+			// Start rest timer before moving to next set
+			setRestTimeLeft(workout.rest);
+			setIsResting(true);
 			setCurrentSet(currentSet + 1);
 		}
 	};
+
+	// Format seconds as mm:ss
+	const formatTime = (seconds: number): string => {
+		const mins = Math.floor(seconds / 60);
+		const secs = seconds % 60;
+		return `${mins}:${secs.toString().padStart(2, "0")}`;
+	};
+
+	// Rest timer screen
+	if (isResting) {
+		return (
+			<div class="screen workout-screen rest-screen">
+				<h1>Odpoczynek</h1>
+				<p class="workout-info">
+					Tydzień {data.currentWeek}, Dzień {data.currentDay}
+				</p>
+				<div class="set-progress">
+					Następna: Seria {currentSet + 1} z {totalSets}
+				</div>
+				<div class="rest-timer">
+					<span class="timer-value">{formatTime(restTimeLeft)}</span>
+				</div>
+				<p class="rest-hint">Przygotuj się do następnej serii</p>
+				{completedReps.length > 0 && (
+					<div class="completed-sets">
+						<p>Ukończone serie:</p>
+						<ul>
+							{completedReps.map((reps, i) => (
+								<li key={i}>
+									Seria {i + 1}: {reps} powtórzeń
+								</li>
+							))}
+						</ul>
+					</div>
+				)}
+				<button type="button" class="btn-cancel" onClick={onCancel}>
+					Anuluj trening
+				</button>
+			</div>
+		);
+	}
 
 	return (
 		<div class="screen workout-screen">

@@ -184,7 +184,7 @@
 				"Verify countdown timer is displayed (e.g., 60 seconds)",
 				"Watch timer count down in real-time"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TIMER-002",
