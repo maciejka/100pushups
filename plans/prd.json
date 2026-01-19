@@ -277,7 +277,7 @@
 				"Verify current day within week is shown (e.g., 'Dzień 1 z 3')",
 				"Verify next workout date is visible if not today"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "PROGRESS-004",
