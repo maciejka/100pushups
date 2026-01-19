@@ -174,6 +174,19 @@
 			"passes": true
 		},
 		{
+			"id": "WORKOUT-005",
+			"category": "Workout Logging",
+			"description": "Rep input is prefilled with target number for the set",
+			"steps_to_verify": [
+				"Start a workout",
+				"Complete first set",
+				"Verify input field shows target rep count as default value",
+				"Verify user can modify the prefilled value",
+				"For max set (set 5), verify input is empty or shows previous max"
+			],
+			"passes": false
+		},
+		{
 			"id": "TIMER-001",
 			"category": "Rest Timer",
 			"description": "Rest timer appears between sets with countdown",
@@ -398,6 +411,45 @@
 				"Open app and verify splash screen matches theme"
 			],
 			"passes": true
+		},
+		{
+			"id": "DESIGN-001",
+			"category": "Design",
+			"description": "Modern, bold visual style appealing to Stefan (15-year-old boy)",
+			"steps_to_verify": [
+				"Open the app and review overall aesthetic",
+				"Verify dark theme or high-contrast color scheme is used",
+				"Verify bold, energetic colors (e.g., electric blue, neon green, orange accents)",
+				"Verify clean, minimal layout without clutter",
+				"Verify typography is bold and modern (not childish or corporate)",
+				"Verify app displays personalized greeting with Stefan's name"
+			],
+			"passes": false
+		},
+		{
+			"id": "DESIGN-002",
+			"category": "Design",
+			"description": "Personalized motivational UI for Stefan",
+			"steps_to_verify": [
+				"Verify home screen greets Stefan by name (e.g., 'Cześć Stefan!')",
+				"Verify motivational messages use Stefan's name",
+				"Complete a workout and verify satisfying completion animation",
+				"Verify progress indicators feel rewarding (progress bars, streaks)",
+				"Verify achievement moments have visual impact (e.g., confetti, glow effects)"
+			],
+			"passes": false
+		},
+		{
+			"id": "DESIGN-003",
+			"category": "Design",
+			"description": "Fitness/athletic visual theme",
+			"steps_to_verify": [
+				"Review app icons and imagery",
+				"Verify design evokes strength and fitness (not generic or bland)",
+				"Verify buttons and controls feel tactile and responsive",
+				"Verify overall vibe matches popular fitness apps (Nike, Freeletics style)"
+			],
+			"passes": false
 		}
 	]
 }
