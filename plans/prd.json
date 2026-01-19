@@ -224,7 +224,7 @@
 				"Verify next set appears immediately",
 				"Confirm no audio plays when skipped"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TIMER-005",

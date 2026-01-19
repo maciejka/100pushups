@@ -88,6 +88,11 @@ export function WorkoutScreen({
 		return `${mins}:${secs.toString().padStart(2, "0")}`;
 	};
 
+	const handleSkipRest = () => {
+		setIsResting(false);
+		setRestTimeLeft(0);
+	};
+
 	// Rest timer screen
 	if (isResting) {
 		return (
@@ -103,6 +108,11 @@ export function WorkoutScreen({
 					<span class="timer-value">{formatTime(restTimeLeft)}</span>
 				</div>
 				<p class="rest-hint">Przygotuj się do następnej serii</p>
+				<div class="rest-actions">
+					<button type="button" class="btn-primary" onClick={handleSkipRest}>
+						Pomiń
+					</button>
+				</div>
 				{completedReps.length > 0 && (
 					<div class="completed-sets">
 						<p>Ukończone serie:</p>
