@@ -24,16 +24,18 @@ PROMPT='@AGENTS.md @plans/prd.json @progress.txt
 
 You are working through a PRD autonomously. Follow these instructions carefully:
 
-## 1. Choose Next Task (Prioritize Risky Work First)
-When choosing the next task, prioritize in this order:
+## 1. Choose ONE Task (Prioritize Risky Work First)
+Pick EXACTLY ONE task to work on. Do NOT work on multiple tasks.
+When choosing, prioritize in this order:
 1. Architectural decisions and core abstractions
 2. Integration points between modules
 3. Unknown unknowns and spike work
 4. Standard features and implementation
 5. Polish, cleanup, and quick wins
 
-Pick the task YOU decide has highest priority - not necessarily the first in the list.
+Pick the single task YOU decide has highest priority - not necessarily the first in the list.
 Skip any task where "passes": true.
+STOP after completing ONE task - do not continue to another task.
 
 ## 2. Implement With Small Steps
 Keep changes small and focused:
@@ -68,9 +70,11 @@ Keep entries concise. Sacrifice grammar for brevity.
 Make a git commit with a clear message describing the feature.
 
 ## Rules
-- ONLY WORK ON A SINGLE FEATURE per iteration
+- ONLY WORK ON A SINGLE TASK per iteration - after completing one task, STOP
+- Do NOT start a second task after finishing the first
 - Follow patterns established in AGENTS.md and existing code
 - Fight entropy - leave the codebase better than you found it
+- If there is an issue with write access stop ralph immediately
 
 ## Completion
 If ALL requirements in prd.json have "passes": true, output exactly:
