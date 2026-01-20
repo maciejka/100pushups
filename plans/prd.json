@@ -565,7 +565,7 @@
 				"Verify onComplete is called with WorkoutRecord",
 				"Verify record contains correct week, day, sets data"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-TIMER-001",

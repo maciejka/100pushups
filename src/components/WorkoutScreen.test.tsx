@@ -199,3 +199,158 @@ describe("TEST-WORKOUT-002: Test rep logging in WorkoutScreen", () => {
 		expect(screen.getByText(/Seria 1 z 5/)).toBeTruthy();
 	});
 });
+
+describe("TEST-WORKOUT-003: Test workout completion callback", () => {
+	it("calls onComplete with WorkoutRecord after completing all 5 sets", () => {
+		const data = createMockUserData({ currentWeek: 2, currentDay: 3 });
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+
+		// Complete sets 1-4 (with rest timer skips)
+		const repsForSets = [10, 12, 8, 8, 15];
+		for (let i = 0; i < 4; i++) {
+			fireEvent.input(input, { target: { value: String(repsForSets[i]) } });
+			fireEvent.click(screen.getByText("Następna seria"));
+			fireEvent.click(screen.getByText("Pomiń"));
+		}
+
+		// Complete final set (set 5 - max set)
+		fireEvent.input(input, { target: { value: String(repsForSets[4]) } });
+		fireEvent.click(screen.getByText("Zakończ trening"));
+
+		// Should be on completion screen now
+		expect(screen.getByText(/Świetna robota/)).toBeTruthy();
+
+		// Click the finish button
+		fireEvent.click(screen.getByText("Zakończ"));
+
+		// Verify onComplete was called
+		expect(onComplete).toHaveBeenCalledTimes(1);
+	});
+
+	it("passes WorkoutRecord with correct week, day, and sets data", () => {
+		const data = createMockUserData({ currentWeek: 3, currentDay: 2 });
+		const captured: {
+			record?: {
+				week: number;
+				day: number;
+				sets: number[];
+				attempt: number;
+				date: string;
+			};
+		} = {};
+		const onComplete = mock(
+			(record: {
+				week: number;
+				day: number;
+				sets: number[];
+				attempt: number;
+				date: string;
+			}) => {
+				captured.record = record;
+			},
+		);
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+
+		// Complete all 5 sets with specific rep counts
+		// Week 3 Day 2 Level 1 targets: [10, 12, 8, 8, -1] - use values >= targets
+		const repsForSets = [10, 12, 8, 8, 15];
+		for (let i = 0; i < 4; i++) {
+			fireEvent.input(input, { target: { value: String(repsForSets[i]) } });
+			fireEvent.click(screen.getByText("Następna seria"));
+			fireEvent.click(screen.getByText("Pomiń"));
+		}
+		fireEvent.input(input, { target: { value: String(repsForSets[4]) } });
+		fireEvent.click(screen.getByText("Zakończ trening"));
+
+		// Click finish button
+		fireEvent.click(screen.getByText("Zakończ"));
+
+		// Verify the record structure
+		expect(captured.record).toBeDefined();
+		expect(captured.record?.week).toBe(3);
+		expect(captured.record?.day).toBe(2);
+		expect(captured.record?.sets).toEqual([10, 12, 8, 8, 15]);
+		expect(captured.record?.attempt).toBe(1);
+		expect(typeof captured.record?.date).toBe("string");
+	});
+
+	it("passes repeatWeek=false when user clicks Zakończ", () => {
+		const data = createMockUserData();
+		const captured: { repeatWeek?: boolean } = {};
+		const onComplete = mock((_record: unknown, repeatWeek: boolean) => {
+			captured.repeatWeek = repeatWeek;
+		});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+
+		// Complete all 5 sets with passing reps
+		const repsForSets = [10, 12, 10, 10, 20];
+		for (let i = 0; i < 4; i++) {
+			fireEvent.input(input, { target: { value: String(repsForSets[i]) } });
+			fireEvent.click(screen.getByText("Następna seria"));
+			fireEvent.click(screen.getByText("Pomiń"));
+		}
+		fireEvent.input(input, { target: { value: String(repsForSets[4]) } });
+		fireEvent.click(screen.getByText("Zakończ trening"));
+
+		fireEvent.click(screen.getByText("Zakończ"));
+
+		// Verify repeatWeek parameter is false
+		expect(captured.repeatWeek).toBe(false);
+	});
+
+	it("passes repeatWeek=true when user clicks Powtórz tydzień", () => {
+		const data = createMockUserData();
+		const captured: { repeatWeek?: boolean } = {};
+		const onComplete = mock((_record: unknown, repeatWeek: boolean) => {
+			captured.repeatWeek = repeatWeek;
+		});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+
+		// Complete all 5 sets with 3+ failing sets (below target)
+		// Level 1, Week 1, Day 1 targets are [2, 3, 2, 2, -1]
+		const repsForSets = [1, 1, 1, 1, 5]; // 3+ sets failed
+		for (let i = 0; i < 4; i++) {
+			fireEvent.input(input, { target: { value: String(repsForSets[i]) } });
+			fireEvent.click(screen.getByText("Następna seria"));
+			fireEvent.click(screen.getByText("Pomiń"));
+		}
+		fireEvent.input(input, { target: { value: String(repsForSets[4]) } });
+		fireEvent.click(screen.getByText("Zakończ trening"));
+
+		// Should show repeat suggestion
+		expect(screen.getByText("Powtórz tydzień")).toBeTruthy();
+		fireEvent.click(screen.getByText("Powtórz tydzień"));
+
+		// Verify repeatWeek parameter is true
+		expect(captured.repeatWeek).toBe(true);
+	});
+});
