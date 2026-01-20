@@ -60,8 +60,7 @@ export function ProgressScreen({ data, onRepeatWeek }: ProgressScreenProps) {
 					return (
 						<div key={week} class={`week ${isCurrent ? "current" : ""}`}>
 							<h2>
-								Tydzień {week}
-								{attempt > 1 && ` - Próba ${attempt}`}
+								T: {week}/6{attempt > 1 && `, P: ${attempt}`}
 							</h2>
 							<div class="days">
 								{[1, 2, 3].map((day) => {

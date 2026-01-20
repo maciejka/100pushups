@@ -329,7 +329,7 @@
 				"Verify attempt shown as 'P: X' (e.g., 'P: 2' for attempt 2)",
 				"Confirm old verbose format 'Tydzień X - Próba Y, Dzień Z z 3' is replaced"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "PROGRESS-006",

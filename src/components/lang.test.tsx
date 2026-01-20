@@ -173,7 +173,7 @@ describe("TEST-LANG-001: All UI text is in Polish", () => {
 	});
 
 	describe("ProgressScreen component", () => {
-		it("displays Polish headers and labels", () => {
+		it("displays Polish headers and labels with compact format", () => {
 			const onRepeatWeek = mock(() => {});
 			const { container } = render(
 				<ProgressScreen data={mockUserData} onRepeatWeek={onRepeatWeek} />,
@@ -183,9 +183,25 @@ describe("TEST-LANG-001: All UI text is in Polish", () => {
 			expect(screen.getByText("Postępy")).toBeTruthy();
 			expect(screen.getByText(/Ukończono:/)).toBeTruthy();
 			expect(screen.getByText(/treningów/)).toBeTruthy();
-			expect(screen.getByText(/Tydzień 1/)).toBeTruthy();
+			// Compact format for weeks: T: X/6
+			expect(screen.getByText(/T: 1\/6/)).toBeTruthy();
+			expect(screen.getByText(/T: 2\/6/)).toBeTruthy();
 
 			assertNoEnglishText(container);
+		});
+
+		it("shows attempt in compact format when attempt > 1", () => {
+			const dataWithAttempt: UserData = {
+				...mockUserData,
+				weekAttempts: { 1: 1, 2: 2 },
+			};
+			const onRepeatWeek = mock(() => {});
+			render(
+				<ProgressScreen data={dataWithAttempt} onRepeatWeek={onRepeatWeek} />,
+			);
+
+			// Compact format: T: X/6, P: Y
+			expect(screen.getByText(/T: 2\/6, P: 2/)).toBeTruthy();
 		});
 
 		it("shows Polish repeat week button", () => {
