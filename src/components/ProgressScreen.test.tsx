@@ -19,6 +19,76 @@ function createMockUserData(overrides: Partial<UserData> = {}): UserData {
 	};
 }
 
+describe("REPEAT-005: Visual feedback for week repeat", () => {
+	it("shows repeat button on current week when day > 1", () => {
+		const data = createMockUserData({
+			currentWeek: 2,
+			currentDay: 2,
+		});
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		const repeatButton = screen.getByRole("button", {
+			name: /Powtórz tydzień/,
+		});
+		expect(repeatButton).toBeTruthy();
+	});
+
+	it("calls onRepeatWeek when repeat button is clicked", () => {
+		const data = createMockUserData({
+			currentWeek: 3,
+			currentDay: 2,
+		});
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		const repeatButton = screen.getByRole("button", {
+			name: /Powtórz tydzień/,
+		});
+		fireEvent.click(repeatButton);
+
+		expect(onRepeatWeek).toHaveBeenCalledTimes(1);
+	});
+
+	it("does not show repeat button when day is 1", () => {
+		const data = createMockUserData({
+			currentWeek: 2,
+			currentDay: 1,
+		});
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		const repeatButton = screen.queryByRole("button", {
+			name: /Powtórz tydzień/,
+		});
+		expect(repeatButton).toBeNull();
+	});
+});
+
 describe("PROGRESS-006: Current week links to home screen", () => {
 	it("displays current week header as clickable link", () => {
 		const data = createMockUserData({

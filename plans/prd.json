@@ -408,7 +408,7 @@
 				"Verify home screen reflects reset to Day 1 of current week",
 				"Verify progress screen updates to show new attempt number"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "NAV-001",

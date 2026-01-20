@@ -1,8 +1,10 @@
+import { useState } from "preact/hooks";
 import { BottomNav } from "./components/BottomNav.tsx";
 import { HomeScreen } from "./components/HomeScreen.tsx";
 import { InitialTest } from "./components/InitialTest.tsx";
 import { ProgressScreen } from "./components/ProgressScreen.tsx";
 import { SettingsScreen } from "./components/SettingsScreen.tsx";
+import { Toast } from "./components/Toast.tsx";
 import { WorkoutScreen } from "./components/WorkoutScreen.tsx";
 import { useRouter } from "./hooks/useRouter.ts";
 import { useStorage } from "./hooks/useStorage.ts";
@@ -11,6 +13,7 @@ import type { WorkoutRecord } from "./stores/db.ts";
 export function App() {
 	const { data, loading, error, update } = useStorage();
 	const { route, navigate } = useRouter();
+	const [toastMessage, setToastMessage] = useState<string | null>(null);
 
 	if (loading) {
 		return (
@@ -104,13 +107,15 @@ export function App() {
 	const handleRepeatWeek = async () => {
 		if (!data) return;
 		const currentAttempt = data.weekAttempts[data.currentWeek] ?? 1;
+		const newAttempt = currentAttempt + 1;
 		await update({
 			currentDay: 1,
 			weekAttempts: {
 				...data.weekAttempts,
-				[data.currentWeek]: currentAttempt + 1,
+				[data.currentWeek]: newAttempt,
 			},
 		});
+		setToastMessage(`Tydzień ${data.currentWeek} - Próba ${newAttempt}`);
 	};
 
 	const renderScreen = () => {
@@ -145,6 +150,9 @@ export function App() {
 		<main>
 			{renderScreen()}
 			{showNav && <BottomNav route={route} onNavigate={navigate} />}
+			{toastMessage && (
+				<Toast message={toastMessage} onClose={() => setToastMessage(null)} />
+			)}
 		</main>
 	);
 }

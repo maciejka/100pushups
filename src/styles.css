@@ -1155,3 +1155,44 @@ label {
 		filter: drop-shadow(0 4px 40px var(--accent-primary-glow));
 	}
 }
+
+/* Toast Notification */
+@keyframes toast-in {
+	from {
+		opacity: 0;
+		transform: translateX(-50%) translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(-50%) translateY(0);
+	}
+}
+
+@keyframes toast-out {
+	from {
+		opacity: 1;
+		transform: translateX(-50%) translateY(0);
+	}
+	to {
+		opacity: 0;
+		transform: translateX(-50%) translateY(20px);
+	}
+}
+
+.toast {
+	position: fixed;
+	bottom: 100px;
+	left: 50%;
+	transform: translateX(-50%);
+	background: var(--gradient-success);
+	color: white;
+	padding: var(--space-3) var(--space-5);
+	border-radius: var(--radius-full);
+	font-weight: 600;
+	font-size: 0.875rem;
+	box-shadow:
+		var(--shadow-lg),
+		0 0 30px var(--accent-success-glow);
+	z-index: 1000;
+	animation: toast-in var(--transition-base) ease-out;
+}
