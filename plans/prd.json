@@ -721,7 +721,7 @@
 				"Test clicking each button calls onNavigate",
 				"Verify active state styling"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-HOME-001",
