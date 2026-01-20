@@ -30,7 +30,16 @@ Keep changes small and focused:
 
 Quality over speed. Small steps compound into big progress.
 
-## 3. Run ALL Feedback Loops Before Committing
+## 3. Ensure Tests Exist
+Every feature MUST have automated tests. Before marking a task complete:
+- Check if tests already exist for the feature
+- If not, write tests that verify the feature works correctly
+- Tests should cover the main functionality and edge cases
+- Run tests to confirm they pass
+
+Do NOT mark a feature complete without corresponding tests.
+
+## 4. Run ALL Feedback Loops Before Committing
 Before committing, run ALL feedback loops:
 1. TypeScript: bun run typecheck (must pass with no errors)
 2. Tests: bun run test (must pass)
@@ -38,10 +47,10 @@ Before committing, run ALL feedback loops:
 
 Do NOT commit if any feedback loop fails. Fix issues first.
 
-## 4. Update PRD
+## 5. Update PRD
 Set "passes": true for the completed requirement in plans/prd.json.
 
-## 5. Update Progress File
+## 6. Update Progress File
 After completing each task, append to progress.txt:
 - Task completed and PRD item reference (e.g., "TIMER-001")
 - Key decisions made and reasoning
@@ -50,7 +59,7 @@ After completing each task, append to progress.txt:
 
 Keep entries concise. Sacrifice grammar for brevity.
 
-## 6. Commit
+## 7. Commit
 Make a git commit with a clear message describing the feature.
 
 ## Rules
