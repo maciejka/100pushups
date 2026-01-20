@@ -483,7 +483,7 @@
 				"Simulate entering pushup count and submitting",
 				"Verify onComplete callback is called with correct level"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-TEST-002",
