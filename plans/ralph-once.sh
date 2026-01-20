@@ -72,7 +72,13 @@ If ALL requirements in prd.json have "passes": true, output exactly:
 <promise>COMPLETE</promise>
 '
 
+# Count incomplete tasks
+INCOMPLETE=$(grep -c '"passes": false' plans/prd.json || true)
+TOTAL=$(grep -c '"passes":' plans/prd.json || true)
+COMPLETE=$((TOTAL - INCOMPLETE))
+
 echo "Running single Ralph iteration (HITL mode)..."
+echo "Tasks: $COMPLETE/$TOTAL done, $INCOMPLETE remaining"
 echo "Watch the output and intervene if needed"
 echo ""
 

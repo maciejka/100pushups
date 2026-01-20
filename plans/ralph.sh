@@ -95,8 +95,13 @@ echo "Use Ctrl+C to stop early"
 echo ""
 
 for ((i=1; i<=$ITERATIONS; i++)); do
+  # Count incomplete tasks
+  INCOMPLETE=$(grep -c '"passes": false' plans/prd.json || true)
+  TOTAL=$(grep -c '"passes":' plans/prd.json || true)
+  COMPLETE=$((TOTAL - INCOMPLETE))
+
   echo "=========================================="
-  echo "Iteration $i of $ITERATIONS"
+  echo "Iteration $i of $ITERATIONS | Tasks: $COMPLETE/$TOTAL done, $INCOMPLETE remaining"
   echo "=========================================="
 
   OUTFILE=$(mktemp)
