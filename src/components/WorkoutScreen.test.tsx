@@ -200,6 +200,85 @@ describe("TEST-WORKOUT-002: Test rep logging in WorkoutScreen", () => {
 	});
 });
 
+describe("TEST-TIMER-001: Test rest timer appears between sets", () => {
+	it("shows rest timer screen after completing a set", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		// Complete first set
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+		fireEvent.input(input, { target: { value: "10" } });
+		fireEvent.click(screen.getByText("Następna seria"));
+
+		// Rest timer screen should appear
+		expect(screen.getByText("Odpoczynek")).toBeTruthy();
+	});
+
+	it("displays countdown timer value", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		// Complete first set
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+		fireEvent.input(input, { target: { value: "10" } });
+		fireEvent.click(screen.getByText("Następna seria"));
+
+		// Day 1 has 60 second rest timer, displayed as "1:00"
+		expect(screen.getByText("1:00")).toBeTruthy();
+	});
+
+	it("displays next set number during rest", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		// Complete first set
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+		fireEvent.input(input, { target: { value: "10" } });
+		fireEvent.click(screen.getByText("Następna seria"));
+
+		// Should show "Następna: Seria 2 z 5"
+		expect(screen.getByText(/Następna: Seria 2 z 5/)).toBeTruthy();
+	});
+
+	it("shows completed sets during rest", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		// Complete first set
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+		fireEvent.input(input, { target: { value: "8" } });
+		fireEvent.click(screen.getByText("Następna seria"));
+
+		// Completed sets should be visible during rest
+		expect(screen.getByText("Ukończone serie:")).toBeTruthy();
+		expect(screen.getByText(/Seria 1: 8 powtórzeń/)).toBeTruthy();
+	});
+});
+
 describe("TEST-WORKOUT-003: Test workout completion callback", () => {
 	it("calls onComplete with WorkoutRecord after completing all 5 sets", () => {
 		const data = createMockUserData({ currentWeek: 2, currentDay: 3 });

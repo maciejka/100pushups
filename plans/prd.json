@@ -641,7 +641,7 @@
 				"Verify rest timer screen appears",
 				"Verify countdown value is displayed"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-TIMER-002",
