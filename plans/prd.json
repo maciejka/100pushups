@@ -687,7 +687,7 @@
 				"Verify completion shows ~17% (3/18)",
 				"Test with 9 workouts shows ~50%"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-REPEAT-001",

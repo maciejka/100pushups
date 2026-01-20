@@ -205,6 +205,66 @@ describe("REPEAT-005: Visual feedback for week repeat", () => {
 	});
 });
 
+describe("TEST-PROGRESS-002: Completion percentage calculation", () => {
+	it("shows ~17% with 3 completed workouts (3/18)", () => {
+		const data = createMockUserData({
+			currentWeek: 2,
+			currentDay: 1,
+			workouts: [
+				createMockWorkout(1, 1),
+				createMockWorkout(1, 2),
+				createMockWorkout(1, 3),
+			],
+		});
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		// 3/18 = 16.67% rounds to 17%
+		const completion = screen.getByText(/3 z 18 treningów/);
+		expect(completion).toBeTruthy();
+		expect(completion.textContent).toContain("17%");
+	});
+
+	it("shows 50% with 9 completed workouts (9/18)", () => {
+		const workouts = [];
+		// Create 9 workouts: 3 weeks × 3 days
+		for (let week = 1; week <= 3; week++) {
+			for (let day = 1; day <= 3; day++) {
+				workouts.push(createMockWorkout(week, day));
+			}
+		}
+
+		const data = createMockUserData({
+			currentWeek: 4,
+			currentDay: 1,
+			workouts,
+		});
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		// 9/18 = 50%
+		const completion = screen.getByText(/9 z 18 treningów/);
+		expect(completion).toBeTruthy();
+		expect(completion.textContent).toContain("50%");
+	});
+});
+
 describe("PROGRESS-006: Current week links to home screen", () => {
 	it("displays current week header as clickable link", () => {
 		const data = createMockUserData({
