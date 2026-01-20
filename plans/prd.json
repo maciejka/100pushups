@@ -733,7 +733,7 @@
 				"Verify current week and day are displayed",
 				"Verify next workout details are shown"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-DESIGN-001",

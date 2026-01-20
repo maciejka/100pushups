@@ -91,6 +91,61 @@ describe("DESIGN-004: Compact home screen header", () => {
 	});
 });
 
+describe("TEST-HOME-001: HomeScreen displays workout preview", () => {
+	it("shows Stefan's name in greeting", () => {
+		const data = createMockUserData({ level: 1 });
+		const onStartWorkout = mock(() => {});
+
+		render(<HomeScreen data={data} onStartWorkout={onStartWorkout} />);
+
+		expect(screen.getByText("Stefan")).toBeTruthy();
+	});
+
+	it("displays current week and day", () => {
+		const data = createMockUserData({
+			level: 2,
+			currentWeek: 3,
+			currentDay: 2,
+		});
+		const onStartWorkout = mock(() => {});
+
+		render(<HomeScreen data={data} onStartWorkout={onStartWorkout} />);
+
+		// Should show week and day in compact format
+		expect(screen.getByText(/T: 3\/6/)).toBeTruthy();
+		expect(screen.getByText(/D: 2\/3/)).toBeTruthy();
+	});
+
+	it("shows next workout details: number of sets and target reps", () => {
+		const data = createMockUserData({
+			level: 1,
+			currentWeek: 1,
+			currentDay: 1,
+		});
+		const onStartWorkout = mock(() => {});
+
+		render(<HomeScreen data={data} onStartWorkout={onStartWorkout} />);
+
+		// Should show "Następny trening:" label
+		expect(screen.getByText("Następny trening:")).toBeTruthy();
+
+		// Should show "5 serii" (5 sets per workout)
+		expect(screen.getByText(/5 serii/)).toBeTruthy();
+
+		// Should show target reps (cel: X+ powtórzeń)
+		expect(screen.getByText(/cel: \d+\+ powtórzeń/)).toBeTruthy();
+	});
+
+	it("shows start workout button with correct label", () => {
+		const data = createMockUserData({ level: 1 });
+		const onStartWorkout = mock(() => {});
+
+		render(<HomeScreen data={data} onStartWorkout={onStartWorkout} />);
+
+		expect(screen.getByText("Rozpocznij trening")).toBeTruthy();
+	});
+});
+
 describe("WORKOUT-006: Skip waiting period and start next workout", () => {
 	it("shows 'Następny trening' button when today's workout is completed", () => {
 		const today = new Date().toISOString();
