@@ -914,6 +914,27 @@ label {
 	margin-bottom: var(--space-3);
 }
 
+.progress-screen .week-link {
+	background: transparent;
+	border: none;
+	padding: 0;
+	font: inherit;
+	color: var(--accent-primary);
+	cursor: pointer;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	transition: all var(--transition-fast);
+}
+
+.progress-screen .week-link:hover {
+	color: var(--text-primary);
+	text-decoration-color: var(--accent-primary);
+}
+
+.progress-screen .week-link:active {
+	transform: none;
+}
+
 .progress-screen .days {
 	display: flex;
 	gap: var(--space-3);

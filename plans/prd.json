@@ -342,7 +342,7 @@
 				"Tap the current week",
 				"Verify navigation to home screen"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "REPEAT-001",

@@ -175,8 +175,13 @@ describe("TEST-LANG-001: All UI text is in Polish", () => {
 	describe("ProgressScreen component", () => {
 		it("displays Polish headers and labels with compact format", () => {
 			const onRepeatWeek = mock(() => {});
+			const onNavigateHome = mock(() => {});
 			const { container } = render(
-				<ProgressScreen data={mockUserData} onRepeatWeek={onRepeatWeek} />,
+				<ProgressScreen
+					data={mockUserData}
+					onRepeatWeek={onRepeatWeek}
+					onNavigateHome={onNavigateHome}
+				/>,
 			);
 
 			// Check key Polish text
@@ -196,8 +201,13 @@ describe("TEST-LANG-001: All UI text is in Polish", () => {
 				weekAttempts: { 1: 1, 2: 2 },
 			};
 			const onRepeatWeek = mock(() => {});
+			const onNavigateHome = mock(() => {});
 			render(
-				<ProgressScreen data={dataWithAttempt} onRepeatWeek={onRepeatWeek} />,
+				<ProgressScreen
+					data={dataWithAttempt}
+					onRepeatWeek={onRepeatWeek}
+					onNavigateHome={onNavigateHome}
+				/>,
 			);
 
 			// Compact format: T: X/6, P: Y
@@ -210,8 +220,13 @@ describe("TEST-LANG-001: All UI text is in Polish", () => {
 				currentDay: 2, // Shows repeat button when currentDay > 1
 			};
 			const onRepeatWeek = mock(() => {});
+			const onNavigateHome = mock(() => {});
 			const { container } = render(
-				<ProgressScreen data={dataWithProgress} onRepeatWeek={onRepeatWeek} />,
+				<ProgressScreen
+					data={dataWithProgress}
+					onRepeatWeek={onRepeatWeek}
+					onNavigateHome={onNavigateHome}
+				/>,
 			);
 
 			expect(screen.getByText("Powtórz tydzień")).toBeTruthy();

@@ -3,9 +3,14 @@ import type { UserData } from "../stores/db.ts";
 interface ProgressScreenProps {
 	data: UserData;
 	onRepeatWeek: () => void;
+	onNavigateHome: () => void;
 }
 
-export function ProgressScreen({ data, onRepeatWeek }: ProgressScreenProps) {
+export function ProgressScreen({
+	data,
+	onRepeatWeek,
+	onNavigateHome,
+}: ProgressScreenProps) {
 	const completedWorkouts = data.workouts.length;
 	const totalWorkouts = 18;
 	const completionPercent = Math.round(
@@ -60,7 +65,19 @@ export function ProgressScreen({ data, onRepeatWeek }: ProgressScreenProps) {
 					return (
 						<div key={week} class={`week ${isCurrent ? "current" : ""}`}>
 							<h2>
-								T: {week}/6{attempt > 1 && `, P: ${attempt}`}
+								{isCurrent ? (
+									<button
+										type="button"
+										class="week-link"
+										onClick={onNavigateHome}
+									>
+										T: {week}/6{attempt > 1 && `, P: ${attempt}`}
+									</button>
+								) : (
+									<>
+										T: {week}/6{attempt > 1 && `, P: ${attempt}`}
+									</>
+								)}
 							</h2>
 							<div class="days">
 								{[1, 2, 3].map((day) => {

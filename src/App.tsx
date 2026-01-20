@@ -119,7 +119,13 @@ export function App() {
 			case "home":
 				return <HomeScreen data={data} onStartWorkout={handleStartWorkout} />;
 			case "progress":
-				return <ProgressScreen data={data} onRepeatWeek={handleRepeatWeek} />;
+				return (
+					<ProgressScreen
+						data={data}
+						onRepeatWeek={handleRepeatWeek}
+						onNavigateHome={() => navigate("home")}
+					/>
+				);
 			case "settings":
 				return <SettingsScreen data={data} onRetakeTest={handleRetakeTest} />;
 			case "workout":
