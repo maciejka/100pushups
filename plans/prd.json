@@ -450,6 +450,235 @@
 				"Verify overall vibe matches popular fitness apps (Nike, Freeletics style)"
 			],
 			"passes": true
+		},
+		{
+			"id": "TEST-LANG-001",
+			"category": "Automated Tests",
+			"description": "Test that all UI text is in Polish",
+			"steps_to_verify": [
+				"Create test that renders each screen component",
+				"Verify no English text appears in rendered output",
+				"Check button labels, headings, and messages are Polish"
+			],
+			"passes": false
+		},
+		{
+			"id": "TEST-STORAGE-001",
+			"category": "Automated Tests",
+			"description": "Test IndexedDB data persistence",
+			"steps_to_verify": [
+				"Create test for saveData and getData functions",
+				"Verify data round-trips correctly",
+				"Test default data is returned when no data exists"
+			],
+			"passes": false
+		},
+		{
+			"id": "TEST-TEST-001",
+			"category": "Automated Tests",
+			"description": "Test initial fitness test flow",
+			"steps_to_verify": [
+				"Render InitialTest component",
+				"Verify instructions are displayed",
+				"Simulate entering pushup count and submitting",
+				"Verify onComplete callback is called with correct level"
+			],
+			"passes": false
+		},
+		{
+			"id": "TEST-TEST-002",
+			"category": "Automated Tests",
+			"description": "Test level assignment from pushup count",
+			"steps_to_verify": [
+				"Test getLevelFromTest(5) returns 1",
+				"Test getLevelFromTest(8) returns 2",
+				"Test getLevelFromTest(15) returns 3",
+				"Test getLevelFromTest(23) returns 4",
+				"Test getLevelFromTest(30) returns 5"
+			],
+			"passes": false
+		},
+		{
+			"id": "TEST-PROGRAM-001",
+			"category": "Automated Tests",
+			"description": "Test program structure (6 weeks, 3 days)",
+			"steps_to_verify": [
+				"Verify PROGRAM has 5 levels",
+				"Verify each level has 6 weeks",
+				"Verify each week has 3 days",
+				"Verify each day has 5 sets"
+			],
+			"passes": false
+		},
+		{
+			"id": "TEST-PROGRAM-002",
+			"category": "Automated Tests",
+			"description": "Test that final set is always max (-1)",
+			"steps_to_verify": [
+				"For each level, week, and day",
+				"Verify last set value is -1",
+				"Test isMaxSet() function returns true for -1"
+			],
+			"passes": false
+		},
+		{
+			"id": "TEST-PROGRAM-003",
+			"category": "Automated Tests",
+			"description": "Test progressive rep increase across weeks",
+			"steps_to_verify": [
+				"For each level, compare week 1 to week 6",
+				"Verify total target reps increase over time",
+				"Use getTargetReps() to calculate totals"
+			],
+			"passes": false
+		},
+		{
+			"id": "TEST-WORKOUT-001",
+			"category": "Automated Tests",
+			"description": "Test WorkoutScreen renders correctly",
+			"steps_to_verify": [
+				"Render WorkoutScreen with mock data",
+				"Verify set progress is displayed",
+				"Verify target reps are shown",
+				"Verify input field is present"
+			],
+			"passes": false
+		},
+		{
+			"id": "TEST-WORKOUT-002",
+			"category": "Automated Tests",
+			"description": "Test rep logging in WorkoutScreen",
+			"steps_to_verify": [
+				"Render WorkoutScreen",
+				"Enter reps in input field",
+				"Submit the set",
+				"Verify completed sets list updates"
+			],
+			"passes": false
+		},
+		{
+			"id": "TEST-WORKOUT-003",
+			"category": "Automated Tests",
+			"description": "Test workout completion callback",
+			"steps_to_verify": [
+				"Complete all 5 sets in WorkoutScreen",
+				"Verify onComplete is called with WorkoutRecord",
+				"Verify record contains correct week, day, sets data"
+			],
+			"passes": false
+		},
+		{
+			"id": "TEST-TIMER-001",
+			"category": "Automated Tests",
+			"description": "Test rest timer appears between sets",
+			"steps_to_verify": [
+				"Complete a set in WorkoutScreen",
+				"Verify rest timer screen appears",
+				"Verify countdown value is displayed"
+			],
+			"passes": false
+		},
+		{
+			"id": "TEST-TIMER-002",
+			"category": "Automated Tests",
+			"description": "Test rest duration varies by day",
+			"steps_to_verify": [
+				"Verify Day 1 workouts have rest: 60",
+				"Verify Day 2 workouts have rest: 90",
+				"Verify Day 3 workouts have rest: 120"
+			],
+			"passes": false
+		},
+		{
+			"id": "TEST-TIMER-003",
+			"category": "Automated Tests",
+			"description": "Test skip and pause timer functionality",
+			"steps_to_verify": [
+				"Render rest timer state",
+				"Test skip button ends rest immediately",
+				"Test pause button stops countdown",
+				"Test resume continues countdown"
+			],
+			"passes": false
+		},
+		{
+			"id": "TEST-PROGRESS-001",
+			"category": "Automated Tests",
+			"description": "Test ProgressScreen displays weeks and days",
+			"steps_to_verify": [
+				"Render ProgressScreen with mock workout data",
+				"Verify 6 weeks are displayed",
+				"Verify completed days show checkmark",
+				"Verify current day is highlighted"
+			],
+			"passes": false
+		},
+		{
+			"id": "TEST-PROGRESS-002",
+			"category": "Automated Tests",
+			"description": "Test completion percentage calculation",
+			"steps_to_verify": [
+				"Render ProgressScreen with 3 completed workouts",
+				"Verify completion shows ~17% (3/18)",
+				"Test with 9 workouts shows ~50%"
+			],
+			"passes": false
+		},
+		{
+			"id": "TEST-REPEAT-001",
+			"category": "Automated Tests",
+			"description": "Test repeat week suggestion logic",
+			"steps_to_verify": [
+				"Complete workout with 3+ failed sets",
+				"Verify repeat suggestion is displayed",
+				"Verify 'Powtórz tydzień' button appears"
+			],
+			"passes": false
+		},
+		{
+			"id": "TEST-REPEAT-002",
+			"category": "Automated Tests",
+			"description": "Test week attempt tracking",
+			"steps_to_verify": [
+				"Verify weekAttempts increments on repeat",
+				"Verify attempt number displays correctly",
+				"Test previous attempt reps are shown"
+			],
+			"passes": false
+		},
+		{
+			"id": "TEST-NAV-001",
+			"category": "Automated Tests",
+			"description": "Test BottomNav navigation",
+			"steps_to_verify": [
+				"Render BottomNav component",
+				"Verify 3 navigation buttons exist",
+				"Test clicking each button calls onNavigate",
+				"Verify active state styling"
+			],
+			"passes": false
+		},
+		{
+			"id": "TEST-HOME-001",
+			"category": "Automated Tests",
+			"description": "Test HomeScreen displays workout preview",
+			"steps_to_verify": [
+				"Render HomeScreen with user data",
+				"Verify greeting shows Stefan's name",
+				"Verify current week and day are displayed",
+				"Verify next workout details are shown"
+			],
+			"passes": false
+		},
+		{
+			"id": "TEST-DESIGN-001",
+			"category": "Automated Tests",
+			"description": "Test CSS is properly linked",
+			"steps_to_verify": [
+				"Verify index.html contains stylesheet link",
+				"Verify theme-color meta tag matches design"
+			],
+			"passes": true
 		}
 	]
 }
