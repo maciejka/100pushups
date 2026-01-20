@@ -496,7 +496,7 @@
 				"Test getLevelFromTest(23) returns 4",
 				"Test getLevelFromTest(30) returns 5"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-PROGRAM-001",
@@ -508,7 +508,7 @@
 				"Verify each week has 3 days",
 				"Verify each day has 5 sets"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-PROGRAM-002",
@@ -519,7 +519,7 @@
 				"Verify last set value is -1",
 				"Test isMaxSet() function returns true for -1"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-PROGRAM-003",
@@ -530,7 +530,7 @@
 				"Verify total target reps increase over time",
 				"Use getTargetReps() to calculate totals"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-WORKOUT-001",
@@ -587,7 +587,7 @@
 				"Verify Day 2 workouts have rest: 90",
 				"Verify Day 3 workouts have rest: 120"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-TIMER-003",
