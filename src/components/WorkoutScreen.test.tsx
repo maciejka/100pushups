@@ -103,3 +103,99 @@ describe("TEST-WORKOUT-001: WorkoutScreen renders correctly", () => {
 		).toBeTruthy();
 	});
 });
+
+describe("TEST-WORKOUT-002: Test rep logging in WorkoutScreen", () => {
+	it("allows entering reps in input field", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+		expect(input).toBeTruthy();
+
+		fireEvent.input(input, { target: { value: "15" } });
+		expect(input.value).toBe("15");
+	});
+
+	it("updates completed sets list after submitting a set", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		// Initially no completed sets
+		expect(screen.queryByText("Ukończone serie:")).toBeNull();
+
+		// Enter reps and submit
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+		fireEvent.input(input, { target: { value: "8" } });
+		const submitButton = screen.getByText("Następna seria");
+		fireEvent.click(submitButton);
+
+		// Skip rest timer to see updated UI
+		const skipButton = screen.getByText("Pomiń");
+		fireEvent.click(skipButton);
+
+		// Completed sets list should now show
+		expect(screen.getByText("Ukończone serie:")).toBeTruthy();
+		expect(screen.getByText(/Seria 1: 8 powtórzeń/)).toBeTruthy();
+	});
+
+	it("accumulates multiple completed sets in the list", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+
+		// Complete first set
+		fireEvent.input(input, { target: { value: "10" } });
+		fireEvent.click(screen.getByText("Następna seria"));
+		fireEvent.click(screen.getByText("Pomiń"));
+
+		// Complete second set
+		fireEvent.input(input, { target: { value: "12" } });
+		fireEvent.click(screen.getByText("Następna seria"));
+		fireEvent.click(screen.getByText("Pomiń"));
+
+		// Both sets should be visible
+		expect(screen.getByText(/Seria 1: 10 powtórzeń/)).toBeTruthy();
+		expect(screen.getByText(/Seria 2: 12 powtórzeń/)).toBeTruthy();
+	});
+
+	it("does not submit when input is empty", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		// Clear the prefilled input
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+		fireEvent.input(input, { target: { value: "" } });
+
+		// Submit button should be disabled
+		const submitButton = screen.getByText("Następna seria");
+		expect(submitButton.hasAttribute("disabled")).toBe(true);
+
+		// Should still be on set 1
+		expect(screen.getByText(/Seria 1 z 5/)).toBeTruthy();
+	});
+});

@@ -554,7 +554,7 @@
 				"Submit the set",
 				"Verify completed sets list updates"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-WORKOUT-003",
