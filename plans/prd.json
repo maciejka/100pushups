@@ -187,6 +187,19 @@
 			"passes": true
 		},
 		{
+			"id": "WORKOUT-006",
+			"category": "Workout Logging",
+			"description": "User can skip waiting period and start next workout immediately",
+			"steps_to_verify": [
+				"Complete a workout for the day",
+				"Return to home screen showing 'workout done today' message",
+				"Verify a 'Skip wait' or 'Następny trening' button is available",
+				"Tap the button to start next scheduled workout",
+				"Verify the next day's workout begins without waiting"
+			],
+			"passes": false
+		},
+		{
 			"id": "TIMER-001",
 			"category": "Rest Timer",
 			"description": "Rest timer appears between sets with countdown",
@@ -306,6 +319,19 @@
 			"passes": true
 		},
 		{
+			"id": "PROGRESS-005",
+			"category": "Progress Visualization",
+			"description": "Progress displayed in compact format: T: 1/6, D: 1/3, P: 2",
+			"steps_to_verify": [
+				"View progress screen",
+				"Verify week shown as 'T: X/6' (e.g., 'T: 1/6' for week 1)",
+				"Verify day shown as 'D: X/3' (e.g., 'D: 1/3' for day 1)",
+				"Verify attempt shown as 'P: X' (e.g., 'P: 2' for attempt 2)",
+				"Confirm old verbose format 'Tydzień X - Próba Y, Dzień Z z 3' is replaced"
+			],
+			"passes": false
+		},
+		{
 			"id": "REPEAT-001",
 			"category": "Repeat Week",
 			"description": "Option to repeat week appears after failing to complete workout",
@@ -357,6 +383,19 @@
 				"Complete set and verify you can see 'Poprzednio: X' (Previously: X)"
 			],
 			"passes": true
+		},
+		{
+			"id": "REPEAT-005",
+			"category": "Repeat Week",
+			"description": "Visual feedback confirms week repeat action",
+			"steps_to_verify": [
+				"Navigate to progress screen",
+				"Tap 'Powtórz tydzień' button",
+				"Verify immediate visual feedback (toast, animation, or screen update)",
+				"Verify home screen reflects reset to Day 1 of current week",
+				"Verify progress screen updates to show new attempt number"
+			],
+			"passes": false
 		},
 		{
 			"id": "NAV-001",
@@ -450,6 +489,19 @@
 				"Verify overall vibe matches popular fitness apps (Nike, Freeletics style)"
 			],
 			"passes": true
+		},
+		{
+			"id": "DESIGN-004",
+			"category": "Design",
+			"description": "Home screen header is compact to maximize phone screen space",
+			"steps_to_verify": [
+				"Open app on mobile device or mobile viewport",
+				"Verify header area takes minimal vertical space",
+				"Verify greeting, title, and progress info are condensed",
+				"Verify more screen space is available for workout preview and actions",
+				"Compare before/after to confirm reduced header height"
+			],
+			"passes": false
 		},
 		{
 			"id": "TEST-LANG-001",
