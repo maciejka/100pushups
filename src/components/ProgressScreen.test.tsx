@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, mock } from "bun:test";
 import { cleanup, fireEvent, render, screen } from "@testing-library/preact";
-import type { UserData } from "../stores/db.ts";
+import type { UserData, WorkoutRecord } from "../stores/db.ts";
 import { ProgressScreen } from "./ProgressScreen.tsx";
 
 afterEach(() => {
@@ -18,6 +18,122 @@ function createMockUserData(overrides: Partial<UserData> = {}): UserData {
 		...overrides,
 	};
 }
+
+function createMockWorkout(
+	week: number,
+	day: number,
+	sets: number[] = [10, 10, 10, 10, 15],
+): WorkoutRecord {
+	return {
+		week,
+		day,
+		attempt: 1,
+		date: new Date().toISOString(),
+		sets,
+	};
+}
+
+describe("TEST-PROGRESS-001: ProgressScreen displays weeks and days", () => {
+	it("displays all 6 weeks", () => {
+		const data = createMockUserData();
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		const { container } = render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		const weeks = container.querySelectorAll(".week");
+		expect(weeks.length).toBe(6);
+	});
+
+	it("shows checkmark for completed days", () => {
+		const data = createMockUserData({
+			currentWeek: 2,
+			currentDay: 1,
+			workouts: [
+				createMockWorkout(1, 1),
+				createMockWorkout(1, 2),
+				createMockWorkout(1, 3),
+			],
+		});
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		const { container } = render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		// Week 1 should have 3 completed days with checkmarks
+		const completedDays = container.querySelectorAll(".day.completed");
+		expect(completedDays.length).toBe(3);
+
+		// Each completed day should show checkmark
+		for (const day of completedDays) {
+			expect(day.textContent).toBe("✓");
+		}
+	});
+
+	it("highlights current day", () => {
+		const data = createMockUserData({
+			currentWeek: 2,
+			currentDay: 2,
+			workouts: [
+				createMockWorkout(1, 1),
+				createMockWorkout(1, 2),
+				createMockWorkout(1, 3),
+				createMockWorkout(2, 1),
+			],
+		});
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		const { container } = render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		// Current day should have both current-day class
+		const currentDayEl = container.querySelector(".day.current-day");
+		expect(currentDayEl).toBeTruthy();
+		expect(currentDayEl?.textContent).toBe("2");
+	});
+
+	it("marks current week with 'current' class", () => {
+		const data = createMockUserData({
+			currentWeek: 3,
+			currentDay: 1,
+		});
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		const { container } = render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		const currentWeek = container.querySelector(".week.current");
+		expect(currentWeek).toBeTruthy();
+
+		// Should only have one current week
+		const currentWeeks = container.querySelectorAll(".week.current");
+		expect(currentWeeks.length).toBe(1);
+	});
+});
 
 describe("REPEAT-005: Visual feedback for week repeat", () => {
 	it("shows repeat button on current week when day > 1", () => {
