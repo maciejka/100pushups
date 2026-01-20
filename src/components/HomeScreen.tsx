@@ -72,6 +72,15 @@ export function HomeScreen({ data, onStartWorkout }: HomeScreenProps) {
 							<p class="next-workout-hint">
 								Świetna robota, Stefan! Odpoczywaj do następnego treningu.
 							</p>
+							{workout && (
+								<button
+									type="button"
+									class="btn-secondary"
+									onClick={onStartWorkout}
+								>
+									Następny trening
+								</button>
+							)}
 						</div>
 					) : (
 						workout && (

@@ -469,6 +469,10 @@ label {
 	font-size: 0.875rem;
 }
 
+.home-screen .workout-done-today .btn-secondary {
+	margin-top: var(--space-5);
+}
+
 .home-screen .program-complete {
 	background: var(--glass-bg);
 	backdrop-filter: blur(20px);

@@ -197,7 +197,7 @@
 				"Tap the button to start next scheduled workout",
 				"Verify the next day's workout begins without waiting"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TIMER-001",
