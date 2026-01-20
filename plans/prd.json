@@ -664,7 +664,7 @@
 				"Test pause button stops countdown",
 				"Test resume continues countdown"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-PROGRESS-001",

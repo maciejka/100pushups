@@ -279,6 +279,116 @@ describe("TEST-TIMER-001: Test rest timer appears between sets", () => {
 	});
 });
 
+describe("TEST-TIMER-003: Test skip and pause timer functionality", () => {
+	it("skip button ends rest immediately", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		// Complete first set to enter rest
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+		fireEvent.input(input, { target: { value: "10" } });
+		fireEvent.click(screen.getByText("Następna seria"));
+
+		// Verify we're in rest mode
+		expect(screen.getByText("Odpoczynek")).toBeTruthy();
+		expect(screen.getByText("Pomiń")).toBeTruthy();
+
+		// Click skip
+		fireEvent.click(screen.getByText("Pomiń"));
+
+		// Should no longer be in rest mode - back to workout input
+		expect(screen.queryByText("Odpoczynek")).toBeNull();
+		expect(screen.getByText(/Seria 2 z 5/)).toBeTruthy();
+	});
+
+	it("pause button stops countdown", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		// Complete first set to enter rest
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+		fireEvent.input(input, { target: { value: "10" } });
+		fireEvent.click(screen.getByText("Następna seria"));
+
+		// Verify we're in rest mode with pause button
+		expect(screen.getByText("Odpoczynek")).toBeTruthy();
+		expect(screen.getByText("Pauza")).toBeTruthy();
+
+		// Click pause
+		fireEvent.click(screen.getByText("Pauza"));
+
+		// Button should now show "Wznów" (Resume)
+		expect(screen.getByText("Wznów")).toBeTruthy();
+		expect(screen.queryByText("Pauza")).toBeNull();
+	});
+
+	it("resume button continues countdown", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		// Complete first set to enter rest
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+		fireEvent.input(input, { target: { value: "10" } });
+		fireEvent.click(screen.getByText("Następna seria"));
+
+		// Pause the timer
+		fireEvent.click(screen.getByText("Pauza"));
+		expect(screen.getByText("Wznów")).toBeTruthy();
+
+		// Resume the timer
+		fireEvent.click(screen.getByText("Wznów"));
+
+		// Button should show "Pauza" again
+		expect(screen.getByText("Pauza")).toBeTruthy();
+		expect(screen.queryByText("Wznów")).toBeNull();
+	});
+
+	it("skip button resets pause state", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+
+		// Complete first set, pause, then skip
+		fireEvent.input(input, { target: { value: "10" } });
+		fireEvent.click(screen.getByText("Następna seria"));
+		fireEvent.click(screen.getByText("Pauza"));
+		fireEvent.click(screen.getByText("Pomiń"));
+
+		// Complete second set and enter rest again
+		fireEvent.input(input, { target: { value: "10" } });
+		fireEvent.click(screen.getByText("Następna seria"));
+
+		// Should show "Pauza" not "Wznów" - pause state should be reset
+		expect(screen.getByText("Pauza")).toBeTruthy();
+		expect(screen.queryByText("Wznów")).toBeNull();
+	});
+});
+
 describe("TEST-WORKOUT-003: Test workout completion callback", () => {
 	it("calls onComplete with WorkoutRecord after completing all 5 sets", () => {
 		const data = createMockUserData({ currentWeek: 2, currentDay: 3 });
