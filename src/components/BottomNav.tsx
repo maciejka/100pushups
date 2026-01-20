@@ -12,6 +12,7 @@ function HomeIcon() {
 			viewBox="0 0 24 24"
 			fill="none"
 			stroke="currentColor"
+			aria-hidden="true"
 		>
 			<path
 				stroke-linecap="round"
@@ -29,6 +30,7 @@ function ChartIcon() {
 			viewBox="0 0 24 24"
 			fill="none"
 			stroke="currentColor"
+			aria-hidden="true"
 		>
 			<path
 				stroke-linecap="round"
@@ -46,6 +48,7 @@ function SettingsIcon() {
 			viewBox="0 0 24 24"
 			fill="none"
 			stroke="currentColor"
+			aria-hidden="true"
 		>
 			<path
 				stroke-linecap="round"

@@ -1,12 +1,16 @@
-import { describe, expect, it, mock } from "bun:test";
-import { render, screen } from "@testing-library/preact";
+import { afterEach, describe, expect, it, mock } from "bun:test";
+import { cleanup, render, screen } from "@testing-library/preact";
+
+afterEach(() => {
+	cleanup();
+});
+import type { UserData } from "../stores/db.ts";
 import { BottomNav } from "./BottomNav.tsx";
 import { HomeScreen } from "./HomeScreen.tsx";
 import { InitialTest } from "./InitialTest.tsx";
 import { ProgressScreen } from "./ProgressScreen.tsx";
 import { SettingsScreen } from "./SettingsScreen.tsx";
 import { WorkoutScreen } from "./WorkoutScreen.tsx";
-import type { UserData } from "../stores/db.ts";
 
 // Common English words that should NOT appear in Polish UI
 const FORBIDDEN_ENGLISH_WORDS = [
