@@ -471,7 +471,7 @@
 				"Verify data round-trips correctly",
 				"Test default data is returned when no data exists"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-TEST-001",
