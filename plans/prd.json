@@ -332,6 +332,19 @@
 			"passes": false
 		},
 		{
+			"id": "PROGRESS-006",
+			"category": "Progress Visualization",
+			"description": "Current week in progress tab links to home screen",
+			"steps_to_verify": [
+				"Navigate to progress screen",
+				"Find the current week indicator",
+				"Verify it is tappable/clickable",
+				"Tap the current week",
+				"Verify navigation to home screen"
+			],
+			"passes": false
+		},
+		{
 			"id": "REPEAT-001",
 			"category": "Repeat Week",
 			"description": "Option to repeat week appears after failing to complete workout",
