@@ -49,62 +49,63 @@ export function HomeScreen({ data, onStartWorkout }: HomeScreenProps) {
 
 	return (
 		<div class="screen home-screen">
-			<p class="greeting">
-				Cześć, <span class="greeting-name">Stefan</span>! 💪
-			</p>
-			<h1>100 Pompek</h1>
-			<p class="level-info">Poziom {data.level}</p>
+			<div class="compact-header">
+				<div class="header-left">
+					<span class="greeting-name">Stefan</span>
+					<span class="header-divider">·</span>
+					<span class="level-badge">P{data.level}</span>
+				</div>
+				<div class="header-right">
+					{!programComplete && (
+						<span class="progress-compact">
+							T: {data.currentWeek}/6, D: {data.currentDay}/3
+							{currentAttempt > 1 && `, P: ${currentAttempt}`}
+						</span>
+					)}
+				</div>
+			</div>
 			{programComplete ? (
 				<div class="program-complete">
 					<p class="week-info">Program ukończony!</p>
 					<p>Gratulacje! Ukończyłeś 6-tygodniowy program.</p>
 				</div>
-			) : (
-				<>
-					<p class="week-info">
-						Tydzień {data.currentWeek}
-						{currentAttempt > 1 && ` - Próba ${currentAttempt}`}, Dzień{" "}
-						{data.currentDay} z 3
+			) : completedToday ? (
+				<div class="workout-done-today success-glow">
+					<p>Dzisiejszy trening ukończony! 🎉</p>
+					<p class="next-workout-hint">
+						Świetna robota, Stefan! Odpoczywaj do następnego treningu.
 					</p>
-					{completedToday ? (
-						<div class="workout-done-today success-glow">
-							<p>Dzisiejszy trening ukończony! 🎉</p>
-							<p class="next-workout-hint">
-								Świetna robota, Stefan! Odpoczywaj do następnego treningu.
-							</p>
-							{workout && (
-								<button
-									type="button"
-									class="btn-secondary"
-									onClick={onStartWorkout}
-								>
-									Następny trening
-								</button>
-							)}
-						</div>
-					) : (
-						workout && (
-							<>
-								<div class="motivational-message">
-									<p class="message-text">{getMotivationalMessage()}</p>
-								</div>
-								<div class="workout-preview">
-									<p>Następny trening:</p>
-									<p>
-										{workout.sets.length} serii, cel: {targetReps}+ powtórzeń
-									</p>
-									<button
-										type="button"
-										class="btn-primary"
-										onClick={onStartWorkout}
-									>
-										Rozpocznij trening
-									</button>
-								</div>
-							</>
-						)
+					{workout && (
+						<button
+							type="button"
+							class="btn-secondary"
+							onClick={onStartWorkout}
+						>
+							Następny trening
+						</button>
 					)}
-				</>
+				</div>
+			) : (
+				workout && (
+					<>
+						<div class="motivational-message">
+							<p class="message-text">{getMotivationalMessage()}</p>
+						</div>
+						<div class="workout-preview">
+							<p>Następny trening:</p>
+							<p>
+								{workout.sets.length} serii, cel: {targetReps}+ powtórzeń
+							</p>
+							<button
+								type="button"
+								class="btn-primary"
+								onClick={onStartWorkout}
+							>
+								Rozpocznij trening
+							</button>
+						</div>
+					</>
+				)
 			)}
 		</div>
 	);

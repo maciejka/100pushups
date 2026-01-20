@@ -501,7 +501,7 @@
 				"Verify more screen space is available for workout preview and actions",
 				"Compare before/after to confirm reduced header height"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-LANG-001",

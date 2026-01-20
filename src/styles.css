@@ -371,43 +371,60 @@ label {
 	filter: drop-shadow(0 0 8px var(--accent-primary-glow));
 }
 
-/* Home Screen */
-.home-screen .greeting {
-	font-size: 1.25rem;
-	font-weight: 600;
-	color: var(--text-secondary);
-	margin-bottom: var(--space-1);
-	letter-spacing: -0.01em;
+/* Home Screen - Compact Header */
+.home-screen .compact-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: var(--space-4);
+	padding: var(--space-3) var(--space-4);
+	background: var(--glass-bg);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid var(--glass-border);
+	border-radius: var(--radius-md);
+}
+
+.home-screen .header-left {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
 }
 
 .home-screen .greeting-name {
-	font-weight: 800;
+	font-weight: 700;
+	font-size: 1rem;
 	background: var(--gradient-primary);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
 }
 
-.home-screen .level-info {
-	display: inline-flex;
-	align-items: center;
-	gap: var(--space-2);
-	background: var(--gradient-primary-subtle);
-	backdrop-filter: blur(8px);
-	padding: var(--space-2) var(--space-4);
-	border-radius: var(--radius-full);
-	font-size: 0.875rem;
-	font-weight: 600;
+.home-screen .header-divider {
+	color: var(--text-faint);
+	font-weight: 400;
+}
+
+.home-screen .level-badge {
+	font-size: 0.75rem;
+	font-weight: 700;
 	color: var(--accent-primary);
-	margin-bottom: var(--space-6);
+	background: rgba(0, 212, 255, 0.1);
+	padding: var(--space-1) var(--space-2);
+	border-radius: var(--radius-sm);
 	border: 1px solid rgba(0, 212, 255, 0.2);
 }
 
-.home-screen .week-info {
+.home-screen .header-right {
+	display: flex;
+	align-items: center;
+}
+
+.home-screen .progress-compact {
+	font-size: 0.75rem;
+	font-weight: 600;
 	color: var(--text-secondary);
-	font-size: 1rem;
-	font-weight: 500;
-	margin-bottom: var(--space-6);
+	font-variant-numeric: tabular-nums;
 }
 
 .home-screen .workout-preview {

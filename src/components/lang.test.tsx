@@ -99,12 +99,11 @@ describe("TEST-LANG-001: All UI text is in Polish", () => {
 				<HomeScreen data={mockUserData} onStartWorkout={onStartWorkout} />,
 			);
 
-			// Check key Polish text is present
-			expect(screen.getByText("100 Pompek")).toBeTruthy();
-			expect(screen.getByText(/Cześć/)).toBeTruthy();
-			expect(screen.getByText(/Poziom/)).toBeTruthy();
-			expect(screen.getByText(/Tydzień/)).toBeTruthy();
-			expect(screen.getByText(/Dzień/)).toBeTruthy();
+			// Check key Polish text is present - compact header format
+			expect(screen.getByText("Stefan")).toBeTruthy(); // Greeting name
+			expect(screen.getByText(/P\d/)).toBeTruthy(); // Level badge (P1, P2, etc.)
+			expect(screen.getByText(/T: \d\/6/)).toBeTruthy(); // Week progress
+			expect(screen.getByText(/D: \d\/3/)).toBeTruthy(); // Day progress
 			expect(screen.getByText("Rozpocznij trening")).toBeTruthy();
 
 			// Verify no forbidden English words

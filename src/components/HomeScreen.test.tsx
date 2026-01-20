@@ -19,6 +19,78 @@ function createMockUserData(overrides: Partial<UserData> = {}): UserData {
 	};
 }
 
+describe("DESIGN-004: Compact home screen header", () => {
+	it("displays compact header with Stefan name, level badge, and progress", () => {
+		const data = createMockUserData({
+			level: 3,
+			currentWeek: 2,
+			currentDay: 2,
+		});
+		const onStartWorkout = mock(() => {});
+
+		render(<HomeScreen data={data} onStartWorkout={onStartWorkout} />);
+
+		// Should show Stefan's name
+		expect(screen.getByText("Stefan")).toBeTruthy();
+
+		// Should show level badge in compact format P{level}
+		expect(screen.getByText("P3")).toBeTruthy();
+
+		// Should show progress in compact format T: X/6, D: X/3
+		expect(screen.getByText(/T: 2\/6/)).toBeTruthy();
+		expect(screen.getByText(/D: 2\/3/)).toBeTruthy();
+	});
+
+	it("displays attempt number in compact format when attempt > 1", () => {
+		const data = createMockUserData({
+			level: 2,
+			currentWeek: 3,
+			currentDay: 1,
+			weekAttempts: { 3: 2 },
+		});
+		const onStartWorkout = mock(() => {});
+
+		render(<HomeScreen data={data} onStartWorkout={onStartWorkout} />);
+
+		// Should show week, day, and attempt in compact format
+		expect(screen.getByText(/T: 3\/6/)).toBeTruthy();
+		expect(screen.getByText(/D: 1\/3/)).toBeTruthy();
+		expect(screen.getByText(/P: 2/)).toBeTruthy();
+	});
+
+	it("does not display attempt number when attempt is 1", () => {
+		const data = createMockUserData({
+			level: 1,
+			currentWeek: 1,
+			currentDay: 1,
+		});
+		const onStartWorkout = mock(() => {});
+
+		const { container } = render(
+			<HomeScreen data={data} onStartWorkout={onStartWorkout} />,
+		);
+
+		// Should NOT show P: 1
+		const headerText =
+			container.querySelector(".progress-compact")?.textContent;
+		expect(headerText).not.toContain("P:");
+	});
+
+	it("does not display progress compact when program complete", () => {
+		const data = createMockUserData({
+			currentWeek: 7, // Program complete
+		});
+		const onStartWorkout = mock(() => {});
+
+		const { container } = render(
+			<HomeScreen data={data} onStartWorkout={onStartWorkout} />,
+		);
+
+		// Should NOT show progress-compact span
+		expect(container.querySelector(".progress-compact")).toBeNull();
+	});
+});
+
 describe("WORKOUT-006: Skip waiting period and start next workout", () => {
 	it("shows 'Następny trening' button when today's workout is completed", () => {
 		const today = new Date().toISOString();
