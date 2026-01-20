@@ -4,6 +4,7 @@ import { cleanup, render, screen } from "@testing-library/preact";
 afterEach(() => {
 	cleanup();
 });
+
 import type { UserData } from "../stores/db.ts";
 import { BottomNav } from "./BottomNav.tsx";
 import { HomeScreen } from "./HomeScreen.tsx";
@@ -44,7 +45,7 @@ const FORBIDDEN_ENGLISH_WORDS = [
 
 // Helper to check that rendered text doesn't contain English words
 // Note: Allows lowercase occurrences as they might be part of Polish words
-function assertNoEnglishText(container: HTMLElement): void {
+function assertNoEnglishText(container: Element): void {
 	const textContent = container.textContent ?? "";
 	for (const word of FORBIDDEN_ENGLISH_WORDS) {
 		// Only check for capitalized words (standalone English words)

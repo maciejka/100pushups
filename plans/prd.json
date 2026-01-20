@@ -460,7 +460,7 @@
 				"Verify no English text appears in rendered output",
 				"Check button labels, headings, and messages are Polish"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-STORAGE-001",
