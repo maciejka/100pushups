@@ -542,7 +542,7 @@
 				"Verify target reps are shown",
 				"Verify input field is present"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-WORKOUT-002",
