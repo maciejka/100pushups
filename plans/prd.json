@@ -780,6 +780,18 @@
 				"Verify chart X-axis labels are readable (not cramped)"
 			],
 			"passes": true
+		},
+		{
+			"id": "DESIGN-008",
+			"category": "Design",
+			"description": "Session totals displayed inside week boxes instead of chart",
+			"steps_to_verify": [
+				"Open progress screen",
+				"Verify session totals (e.g., 29, 35, 41) appear inside each day indicator in week boxes",
+				"Verify totals are removed from the chart area above",
+				"Verify week boxes show both completion status and rep totals for each day"
+			],
+			"passes": false
 		}
 	]
 }
