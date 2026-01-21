@@ -118,9 +118,9 @@ describe("TEST-WORKOUT-002: Test rep logging in WorkoutScreen", () => {
 		const skipButton = screen.getByText("Pomiń");
 		fireEvent.click(skipButton);
 
-		// Completed sets list should now show
+		// Completed sets list should now show with compact format
 		expect(screen.getByText("Ukończone serie:")).toBeTruthy();
-		expect(screen.getByText(/Seria 1: 8 powtórzeń/)).toBeTruthy();
+		expect(screen.getByText(/^1: 8$/)).toBeTruthy();
 	});
 
 	it("accumulates multiple completed sets in the list", () => {
@@ -145,9 +145,9 @@ describe("TEST-WORKOUT-002: Test rep logging in WorkoutScreen", () => {
 		fireEvent.click(screen.getByText("Następna seria"));
 		fireEvent.click(screen.getByText("Pomiń"));
 
-		// Both sets should be visible
-		expect(screen.getByText(/Seria 1: 10 powtórzeń/)).toBeTruthy();
-		expect(screen.getByText(/Seria 2: 12 powtórzeń/)).toBeTruthy();
+		// Both sets should be visible with compact format
+		expect(screen.getByText(/^1: 10$/)).toBeTruthy();
+		expect(screen.getByText(/^2: 12$/)).toBeTruthy();
 	});
 
 	it("does not submit when input is empty", () => {
@@ -246,9 +246,9 @@ describe("TEST-TIMER-001: Test rest timer appears between sets", () => {
 		fireEvent.input(input, { target: { value: "8" } });
 		fireEvent.click(screen.getByText("Następna seria"));
 
-		// Completed sets should be visible during rest
+		// Completed sets should be visible during rest with compact format
 		expect(screen.getByText("Ukończone serie:")).toBeTruthy();
-		expect(screen.getByText(/Seria 1: 8 powtórzeń/)).toBeTruthy();
+		expect(screen.getByText(/^1: 8$/)).toBeTruthy();
 	});
 });
 

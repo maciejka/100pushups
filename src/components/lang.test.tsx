@@ -267,7 +267,9 @@ describe("TEST-LANG-001: All UI text is in Polish", () => {
 
 			// Check key Polish text - uses compact T: D: S: format
 			expect(screen.getByText("Trening")).toBeTruthy();
-			expect(screen.getByText(/T: \d+\/6, D: \d+\/3, S: \d+\/\d+/)).toBeTruthy();
+			expect(
+				screen.getByText(/T: \d+\/6, D: \d+\/3, S: \d+\/\d+/),
+			).toBeTruthy();
 			expect(screen.getByText("Anuluj trening")).toBeTruthy();
 			expect(screen.getByText("Następna seria")).toBeTruthy();
 

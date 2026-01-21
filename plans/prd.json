@@ -754,7 +754,7 @@
 				"Verify completed series shows '1: 28' format",
 				"Verify 'Seria' prefix is removed from series list"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "DESIGN-006",

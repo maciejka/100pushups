@@ -34,7 +34,7 @@ function SetsList({
 			<ul>
 				{reps.map((r, i) => (
 					<li key={i}>
-						Seria {i + 1}: {r} powtórzeń
+						{i + 1}: {r}
 					</li>
 				))}
 			</ul>
@@ -240,7 +240,8 @@ export function WorkoutScreen({
 			<div class="screen workout-screen rest-screen">
 				<h1>Odpoczynek</h1>
 				<p class="workout-info">
-					T: {data.currentWeek}/6, D: {data.currentDay}/3, S: {currentSet + 1}/{totalSets}
+					T: {data.currentWeek}/6, D: {data.currentDay}/3, S: {currentSet + 1}/
+					{totalSets}
 				</p>
 				<div class="rest-timer">
 					<span class="timer-value">{formatTime(restTimeLeft)}</span>
@@ -270,7 +271,8 @@ export function WorkoutScreen({
 		<div class="screen workout-screen">
 			<h1>Trening</h1>
 			<p class="workout-info">
-				T: {data.currentWeek}/6, D: {data.currentDay}/3, S: {currentSet + 1}/{totalSets}
+				T: {data.currentWeek}/6, D: {data.currentDay}/3, S: {currentSet + 1}/
+				{totalSets}
 			</p>
 			<div class="rep-input-compact">
 				<input
