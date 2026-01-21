@@ -389,6 +389,149 @@ describe("TEST-TIMER-003: Test skip and pause timer functionality", () => {
 	});
 });
 
+describe("TEST-REPEAT-001: Test repeat week suggestion logic", () => {
+	it("shows repeat suggestion when 3+ sets fail to meet target", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+
+		// Level 1, Week 1, Day 1 targets: [2, 3, 2, 2, -1]
+		// Fail 4 sets by doing 0 reps each
+		const repsForSets = [0, 0, 0, 0, 5];
+		for (let i = 0; i < 4; i++) {
+			fireEvent.input(input, { target: { value: String(repsForSets[i]) } });
+			fireEvent.click(screen.getByText("Następna seria"));
+			fireEvent.click(screen.getByText("Pomiń"));
+		}
+		fireEvent.input(input, { target: { value: String(repsForSets[4]) } });
+		fireEvent.click(screen.getByText("Zakończ trening"));
+
+		// Should show repeat suggestion text
+		expect(
+			screen.getByText(/Nie udało Ci się osiągnąć celu w \d+ seriach/),
+		).toBeTruthy();
+		expect(screen.getByText(/Zalecamy powtórzenie tego tygodnia/)).toBeTruthy();
+	});
+
+	it("shows 'Powtórz tydzień' button when repeat suggested", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+
+		// Fail 3 sets - exactly at the threshold
+		// Level 1, Week 1, Day 1 targets: [2, 3, 2, 2, -1]
+		const repsForSets = [1, 1, 1, 10, 5]; // First 3 fail, 4th passes
+		for (let i = 0; i < 4; i++) {
+			fireEvent.input(input, { target: { value: String(repsForSets[i]) } });
+			fireEvent.click(screen.getByText("Następna seria"));
+			fireEvent.click(screen.getByText("Pomiń"));
+		}
+		fireEvent.input(input, { target: { value: String(repsForSets[4]) } });
+		fireEvent.click(screen.getByText("Zakończ trening"));
+
+		// Should show 'Powtórz tydzień' button
+		expect(screen.getByText("Powtórz tydzień")).toBeTruthy();
+	});
+
+	it("shows 'Kontynuuj' button alongside repeat button", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+
+		// Fail 3+ sets
+		const repsForSets = [0, 0, 0, 0, 5];
+		for (let i = 0; i < 4; i++) {
+			fireEvent.input(input, { target: { value: String(repsForSets[i]) } });
+			fireEvent.click(screen.getByText("Następna seria"));
+			fireEvent.click(screen.getByText("Pomiń"));
+		}
+		fireEvent.input(input, { target: { value: String(repsForSets[4]) } });
+		fireEvent.click(screen.getByText("Zakończ trening"));
+
+		// Should show both buttons
+		expect(screen.getByText("Powtórz tydzień")).toBeTruthy();
+		expect(screen.getByText("Kontynuuj")).toBeTruthy();
+	});
+
+	it("does NOT show repeat suggestion when less than 3 sets fail", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+
+		// Only 2 sets fail (below threshold)
+		// Level 1, Week 1, Day 1 targets: [2, 3, 2, 2, -1]
+		const repsForSets = [1, 1, 10, 10, 20]; // Only first 2 fail
+		for (let i = 0; i < 4; i++) {
+			fireEvent.input(input, { target: { value: String(repsForSets[i]) } });
+			fireEvent.click(screen.getByText("Następna seria"));
+			fireEvent.click(screen.getByText("Pomiń"));
+		}
+		fireEvent.input(input, { target: { value: String(repsForSets[4]) } });
+		fireEvent.click(screen.getByText("Zakończ trening"));
+
+		// Should NOT show repeat suggestion - should show "Zakończ" button instead
+		expect(screen.queryByText("Powtórz tydzień")).toBeNull();
+		expect(screen.queryByText("Kontynuuj")).toBeNull();
+		expect(screen.getByText("Zakończ")).toBeTruthy();
+	});
+
+	it("does NOT count max set as failed even if low reps", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+
+		// Only 2 regular sets fail, max set with low reps should NOT count
+		// Level 1, Week 1, Day 1 targets: [2, 3, 2, 2, -1]
+		const repsForSets = [1, 1, 10, 10, 1]; // 2 fail, max set has low reps
+		for (let i = 0; i < 4; i++) {
+			fireEvent.input(input, { target: { value: String(repsForSets[i]) } });
+			fireEvent.click(screen.getByText("Następna seria"));
+			fireEvent.click(screen.getByText("Pomiń"));
+		}
+		fireEvent.input(input, { target: { value: String(repsForSets[4]) } });
+		fireEvent.click(screen.getByText("Zakończ trening"));
+
+		// Should NOT show repeat suggestion - max set doesn't count as failed
+		expect(screen.queryByText("Powtórz tydzień")).toBeNull();
+		expect(screen.getByText("Zakończ")).toBeTruthy();
+	});
+});
+
 describe("TEST-WORKOUT-003: Test workout completion callback", () => {
 	it("calls onComplete with WorkoutRecord after completing all 5 sets", () => {
 		const data = createMockUserData({ currentWeek: 2, currentDay: 3 });

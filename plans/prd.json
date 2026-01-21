@@ -698,7 +698,7 @@
 				"Verify repeat suggestion is displayed",
 				"Verify 'Powtórz tydzień' button appears"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-REPEAT-002",
