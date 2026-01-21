@@ -26,16 +26,16 @@ export function ProgressScreen({
 	const maxReps = Math.max(...workoutTotals.map((w) => w.reps), 1);
 
 	return (
-		<div class="screen progress-screen">
-			<h1>Postępy</h1>
-			<p class="completion">
-				Ukończono: {completedWorkouts} z {totalWorkouts} treningów (
-				{completionPercent}%)
-			</p>
+		<div class="screen progress-screen progress-screen-compact">
+			<div class="progress-header">
+				<h1>Postępy</h1>
+				<span class="completion">
+					{completedWorkouts}/{totalWorkouts} ({completionPercent}%)
+				</span>
+			</div>
 
 			{workoutTotals.length > 0 && (
-				<div class="reps-chart">
-					<h2>Powtórzenia w treningach</h2>
+				<div class="reps-chart reps-chart-compact">
 					<div class="chart-container">
 						{workoutTotals.map((w, i) => (
 							<div key={i} class="chart-bar-container">
@@ -46,47 +46,48 @@ export function ProgressScreen({
 										height: `${(w.reps / maxReps) * 100}%`,
 									}}
 								/>
+								<div class="chart-x-label">{w.label}</div>
 							</div>
-						))}
-					</div>
-					<div class="chart-x-labels">
-						{workoutTotals.map((w, i) => (
-							<div key={i}>{w.label}</div>
 						))}
 					</div>
 				</div>
 			)}
 
-			<div class="weeks">
+			<div class="weeks weeks-grid">
 				{[1, 2, 3, 4, 5, 6].map((week) => {
 					const weekWorkouts = data.workouts.filter((w) => w.week === week);
 					const isCurrent = week === data.currentWeek;
 					const attempt = data.weekAttempts[week] ?? 1;
 					return (
-						<div key={week} class={`week ${isCurrent ? "current" : ""}`}>
-							<h2>
+						<div
+							key={week}
+							class={`week week-compact ${isCurrent ? "current" : ""}`}
+						>
+							<div class="week-header">
 								{isCurrent ? (
 									<button
 										type="button"
 										class="week-link"
 										onClick={onNavigateHome}
 									>
-										T: {week}/6{attempt > 1 && `, P: ${attempt}`}
+										T{week}
+										{attempt > 1 && ` P${attempt}`}
 									</button>
 								) : (
-									<>
-										T: {week}/6{attempt > 1 && `, P: ${attempt}`}
-									</>
+									<span class="week-label">
+										T{week}
+										{attempt > 1 && ` P${attempt}`}
+									</span>
 								)}
-							</h2>
-							<div class="days">
+							</div>
+							<div class="days days-compact">
 								{[1, 2, 3].map((day) => {
 									const completed = weekWorkouts.some((w) => w.day === day);
 									const isCurrentDay = isCurrent && day === data.currentDay;
 									return (
 										<span
 											key={day}
-											class={`day ${completed ? "completed" : ""} ${isCurrentDay ? "current-day" : ""}`}
+											class={`day day-compact ${completed ? "completed" : ""} ${isCurrentDay ? "current-day" : ""}`}
 										>
 											{completed ? "✓" : day}
 										</span>
@@ -96,10 +97,10 @@ export function ProgressScreen({
 							{isCurrent && data.currentDay > 1 && (
 								<button
 									type="button"
-									class="btn-secondary btn-small"
+									class="btn-repeat-compact"
 									onClick={onRepeatWeek}
 								>
-									Powtórz tydzień
+									Powtórz
 								</button>
 							)}
 						</div>

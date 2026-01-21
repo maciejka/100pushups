@@ -186,11 +186,11 @@ describe("TEST-LANG-001: All UI text is in Polish", () => {
 
 			// Check key Polish text
 			expect(screen.getByText("Postępy")).toBeTruthy();
-			expect(screen.getByText(/Ukończono:/)).toBeTruthy();
-			expect(screen.getByText(/treningów/)).toBeTruthy();
-			// Compact format for weeks: T: X/6
-			expect(screen.getByText(/T: 1\/6/)).toBeTruthy();
-			expect(screen.getByText(/T: 2\/6/)).toBeTruthy();
+			// Very compact format: X/18 (Y%)
+			expect(screen.getByText(/\d+\/18/)).toBeTruthy();
+			// Compact week labels: T1, T2, etc.
+			expect(screen.getByText("T1")).toBeTruthy();
+			expect(screen.getByText(/T2/)).toBeTruthy();
 
 			assertNoEnglishText(container);
 		});
@@ -210,8 +210,8 @@ describe("TEST-LANG-001: All UI text is in Polish", () => {
 				/>,
 			);
 
-			// Compact format: T: X/6, P: Y
-			expect(screen.getByText(/T: 2\/6, P: 2/)).toBeTruthy();
+			// Compact format: TX PY
+			expect(screen.getByText(/T2 P2/)).toBeTruthy();
 		});
 
 		it("shows Polish repeat week button", () => {
@@ -229,7 +229,7 @@ describe("TEST-LANG-001: All UI text is in Polish", () => {
 				/>,
 			);
 
-			expect(screen.getByText("Powtórz tydzień")).toBeTruthy();
+			expect(screen.getByText("Powtórz")).toBeTruthy();
 
 			assertNoEnglishText(container);
 		});

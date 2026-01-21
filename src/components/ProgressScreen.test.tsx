@@ -153,7 +153,7 @@ describe("REPEAT-005: Visual feedback for week repeat", () => {
 		);
 
 		const repeatButton = screen.getByRole("button", {
-			name: /Powtórz tydzień/,
+			name: /Powtórz/,
 		});
 		expect(repeatButton).toBeTruthy();
 	});
@@ -175,7 +175,7 @@ describe("REPEAT-005: Visual feedback for week repeat", () => {
 		);
 
 		const repeatButton = screen.getByRole("button", {
-			name: /Powtórz tydzień/,
+			name: /Powtórz/,
 		});
 		fireEvent.click(repeatButton);
 
@@ -199,7 +199,7 @@ describe("REPEAT-005: Visual feedback for week repeat", () => {
 		);
 
 		const repeatButton = screen.queryByRole("button", {
-			name: /Powtórz tydzień/,
+			name: /Powtórz/,
 		});
 		expect(repeatButton).toBeNull();
 	});
@@ -227,8 +227,8 @@ describe("TEST-PROGRESS-002: Completion percentage calculation", () => {
 			/>,
 		);
 
-		// 3/18 = 16.67% rounds to 17%
-		const completion = screen.getByText(/3 z 18 treningów/);
+		// 3/18 = 16.67% rounds to 17% - compact format: 3/18 (17%)
+		const completion = screen.getByText(/3\/18/);
 		expect(completion).toBeTruthy();
 		expect(completion.textContent).toContain("17%");
 	});
@@ -258,10 +258,112 @@ describe("TEST-PROGRESS-002: Completion percentage calculation", () => {
 			/>,
 		);
 
-		// 9/18 = 50%
-		const completion = screen.getByText(/9 z 18 treningów/);
+		// 9/18 = 50% - compact format: 9/18 (50%)
+		const completion = screen.getByText(/9\/18/);
 		expect(completion).toBeTruthy();
 		expect(completion.textContent).toContain("50%");
+	});
+});
+
+describe("DESIGN-007: Progress screen fits phone screen without scrolling", () => {
+	it("uses compact layout classes", () => {
+		const data = createMockUserData();
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		const { container } = render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		// Check compact classes are applied
+		expect(container.querySelector(".progress-screen-compact")).toBeTruthy();
+		expect(container.querySelector(".weeks-grid")).toBeTruthy();
+		expect(container.querySelectorAll(".week-compact").length).toBe(6);
+		expect(container.querySelectorAll(".day-compact").length).toBe(18); // 6 weeks × 3 days
+	});
+
+	it("displays weeks in 2-column grid", () => {
+		const data = createMockUserData();
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		const { container } = render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		const weeksGrid = container.querySelector(".weeks-grid");
+		expect(weeksGrid).toBeTruthy();
+	});
+
+	it("uses compact chart when workouts exist", () => {
+		const data = createMockUserData({
+			workouts: [createMockWorkout(1, 1)],
+		});
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		const { container } = render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		expect(container.querySelector(".reps-chart-compact")).toBeTruthy();
+	});
+
+	it("displays inline X-axis labels in chart", () => {
+		const data = createMockUserData({
+			workouts: [createMockWorkout(1, 1)],
+		});
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		const { container } = render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		// X-axis labels are now inline with bars (chart-x-label class)
+		const xLabels = container.querySelectorAll(".chart-x-label");
+		expect(xLabels.length).toBe(1); // One label per workout
+		const firstLabel = xLabels[0];
+		expect(firstLabel).toBeTruthy();
+		expect(firstLabel?.textContent).toBe("T1D1");
+	});
+
+	it("uses compact header with inline completion info", () => {
+		const data = createMockUserData({
+			workouts: [createMockWorkout(1, 1)],
+		});
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		const { container } = render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		// Header should contain h1 and completion in a flex row
+		const header = container.querySelector(".progress-header");
+		expect(header).toBeTruthy();
+		expect(header?.querySelector("h1")).toBeTruthy();
+		expect(header?.querySelector(".completion")).toBeTruthy();
 	});
 });
 
@@ -282,8 +384,8 @@ describe("PROGRESS-006: Current week links to home screen", () => {
 			/>,
 		);
 
-		// Current week (2) should have a clickable button
-		const weekLink = screen.getByRole("button", { name: /T: 2\/6/ });
+		// Current week (2) should have a clickable button - compact format T2
+		const weekLink = screen.getByRole("button", { name: /T2/ });
 		expect(weekLink).toBeTruthy();
 		expect(weekLink.classList.contains("week-link")).toBe(true);
 	});
@@ -304,8 +406,8 @@ describe("PROGRESS-006: Current week links to home screen", () => {
 			/>,
 		);
 
-		// Click the current week link
-		const weekLink = screen.getByRole("button", { name: /T: 3\/6/ });
+		// Click the current week link - compact format T3
+		const weekLink = screen.getByRole("button", { name: /T3/ });
 		fireEvent.click(weekLink);
 
 		// Verify onNavigateHome was called
@@ -350,8 +452,8 @@ describe("PROGRESS-006: Current week links to home screen", () => {
 			/>,
 		);
 
-		// Current week link should show attempt
-		const weekLink = screen.getByRole("button", { name: /T: 4\/6, P: 3/ });
+		// Current week link should show attempt - compact format T4 P3
+		const weekLink = screen.getByRole("button", { name: /T4 P3/ });
 		expect(weekLink).toBeTruthy();
 	});
 });
