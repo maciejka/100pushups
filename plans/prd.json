@@ -709,7 +709,7 @@
 				"Verify attempt number displays correctly",
 				"Test previous attempt reps are shown"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "TEST-NAV-001",

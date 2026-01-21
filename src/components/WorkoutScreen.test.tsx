@@ -532,6 +532,154 @@ describe("TEST-REPEAT-001: Test repeat week suggestion logic", () => {
 	});
 });
 
+describe("TEST-REPEAT-002: Test week attempt tracking", () => {
+	it("includes current attempt number in WorkoutRecord", () => {
+		const data = createMockUserData({
+			currentWeek: 2,
+			currentDay: 1,
+			weekAttempts: { 2: 3 }, // Attempt 3 of week 2
+		});
+		const captured: { record?: { attempt: number } } = {};
+		const onComplete = mock((record: { attempt: number }) => {
+			captured.record = record;
+		});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+
+		// Complete all 5 sets
+		const repsForSets = [10, 12, 10, 10, 20];
+		for (let i = 0; i < 4; i++) {
+			fireEvent.input(input, { target: { value: String(repsForSets[i]) } });
+			fireEvent.click(screen.getByText("Następna seria"));
+			fireEvent.click(screen.getByText("Pomiń"));
+		}
+		fireEvent.input(input, { target: { value: String(repsForSets[4]) } });
+		fireEvent.click(screen.getByText("Zakończ trening"));
+		fireEvent.click(screen.getByText("Zakończ"));
+
+		// Verify attempt number is correctly captured from weekAttempts
+		expect(captured.record?.attempt).toBe(3);
+	});
+
+	it("shows attempt number as 1 when weekAttempts is empty", () => {
+		const data = createMockUserData({
+			currentWeek: 1,
+			currentDay: 1,
+			weekAttempts: {}, // No attempts tracked yet
+		});
+		const captured: { record?: { attempt: number } } = {};
+		const onComplete = mock((record: { attempt: number }) => {
+			captured.record = record;
+		});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+
+		// Complete all 5 sets
+		const repsForSets = [10, 12, 10, 10, 20];
+		for (let i = 0; i < 4; i++) {
+			fireEvent.input(input, { target: { value: String(repsForSets[i]) } });
+			fireEvent.click(screen.getByText("Następna seria"));
+			fireEvent.click(screen.getByText("Pomiń"));
+		}
+		fireEvent.input(input, { target: { value: String(repsForSets[4]) } });
+		fireEvent.click(screen.getByText("Zakończ trening"));
+		fireEvent.click(screen.getByText("Zakończ"));
+
+		// Verify attempt defaults to 1
+		expect(captured.record?.attempt).toBe(1);
+	});
+
+	it("shows previous attempt reps when repeating a week", () => {
+		const data = createMockUserData({
+			currentWeek: 2,
+			currentDay: 1,
+			weekAttempts: { 2: 2 }, // Second attempt of week 2
+			workouts: [
+				{
+					week: 2,
+					day: 1,
+					attempt: 1, // Previous attempt
+					date: new Date().toISOString(),
+					sets: [8, 9, 7, 8, 15],
+				},
+			],
+		});
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		// Should show previous reps for set 1 (which was 8)
+		expect(screen.getByText("Poprzednio: 8")).toBeTruthy();
+	});
+
+	it("does NOT show previous reps on first attempt", () => {
+		const data = createMockUserData({
+			currentWeek: 1,
+			currentDay: 1,
+			weekAttempts: {}, // First attempt (defaults to 1)
+			workouts: [],
+		});
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		// Should NOT show "Poprzednio:" text
+		expect(screen.queryByText(/Poprzednio:/)).toBeNull();
+	});
+
+	it("shows correct previous reps for each set during workout", () => {
+		const data = createMockUserData({
+			currentWeek: 3,
+			currentDay: 2,
+			weekAttempts: { 3: 2 }, // Second attempt
+			workouts: [
+				{
+					week: 3,
+					day: 2,
+					attempt: 1,
+					date: new Date().toISOString(),
+					sets: [12, 15, 10, 11, 25],
+				},
+			],
+		});
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		// Set 1: should show 12 from previous attempt
+		expect(screen.getByText("Poprzednio: 12")).toBeTruthy();
+
+		// Progress to set 2
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+		fireEvent.input(input, { target: { value: "10" } });
+		fireEvent.click(screen.getByText("Następna seria"));
+		fireEvent.click(screen.getByText("Pomiń"));
+
+		// Set 2: should show 15 from previous attempt
+		expect(screen.getByText("Poprzednio: 15")).toBeTruthy();
+	});
+});
+
 describe("TEST-WORKOUT-003: Test workout completion callback", () => {
 	it("calls onComplete with WorkoutRecord after completing all 5 sets", () => {
 		const data = createMockUserData({ currentWeek: 2, currentDay: 3 });
