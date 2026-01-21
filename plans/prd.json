@@ -766,7 +766,7 @@
 				"Verify layout is horizontal: [input] / 35",
 				"Verify no line break between input and target indicator"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "DESIGN-007",

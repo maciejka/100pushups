@@ -658,6 +658,42 @@ label {
 	font-size: 2.5rem;
 }
 
+/* Compact Rep Input - inline layout */
+.workout-screen .rep-input-compact {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--space-3);
+	padding: var(--space-5);
+	background: var(--glass-bg);
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+	border: 1px solid var(--glass-border);
+	border-radius: var(--radius-lg);
+	box-shadow: var(--shadow-md);
+	flex-wrap: wrap;
+}
+
+.workout-screen .rep-input-compact input {
+	width: 100px;
+	font-size: 2rem;
+	padding: var(--space-3);
+}
+
+.workout-screen .rep-input-compact .target-indicator {
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: var(--text-muted);
+}
+
+.workout-screen .rep-input-compact .previous-reps {
+	font-size: 0.875rem;
+	color: var(--text-muted);
+	width: 100%;
+	text-align: center;
+	margin-top: var(--space-2);
+}
+
 .workout-screen .workout-actions {
 	display: flex;
 	flex-direction: column;

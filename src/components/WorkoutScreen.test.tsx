@@ -48,6 +48,35 @@ describe("TEST-WORKOUT-001: WorkoutScreen renders correctly", () => {
 		expect(input).toBeTruthy();
 	});
 
+	it("DESIGN-006: input and target indicator are inline in same container", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		// Verify the rep-input-compact container exists with flex layout
+		const compactContainer = container.querySelector(
+			".rep-input-compact",
+		) as HTMLElement;
+		expect(compactContainer).toBeTruthy();
+
+		// Verify input and target indicator are direct children of the same container
+		const input = compactContainer?.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+		const targetIndicator = compactContainer?.querySelector(
+			".target-indicator",
+		) as HTMLElement;
+		expect(input).toBeTruthy();
+		expect(targetIndicator).toBeTruthy();
+
+		// Verify they share the same parent (inline layout)
+		expect(input?.parentElement).toBe(compactContainer);
+		expect(targetIndicator?.parentElement).toBe(compactContainer);
+	});
+
 	it("shows '/ max' for final set (set 5)", () => {
 		const data = createMockUserData();
 		const onComplete = mock(() => {});
