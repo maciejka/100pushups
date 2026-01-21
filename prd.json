@@ -15,6 +15,20 @@
       "description": "Combined input and goal in single line: [input] / {target}. Since goal and done are usually the same, eliminates redundant labels",
       "status": "implemented",
       "screens": ["WorkoutScreen"]
+    },
+    {
+      "id": "compact-done-series",
+      "name": "Compact done series display",
+      "description": "Use compact format for completed series list: '1: 28' instead of 'Seria 1: 28'",
+      "status": "todo",
+      "screens": ["WorkoutScreen"]
+    },
+    {
+      "id": "fix-reps-input-layout",
+      "name": "Fix reps input inline layout",
+      "description": "Display input and target indicator on same line: [input] / {target} inline, not on separate lines. Currently '/ 35' appears below input instead of beside it",
+      "status": "todo",
+      "screens": ["WorkoutScreen"]
     }
   ]
 }
