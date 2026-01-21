@@ -1,0 +1,20 @@
+{
+  "name": "100 Pushups",
+  "description": "Progressive pushup training app",
+  "features": [
+    {
+      "id": "compact-session-info",
+      "name": "Compact session info display",
+      "description": "Use compact T: X/6, D: X/3, S: X/Y format to represent week, day, and series on all screens",
+      "status": "implemented",
+      "screens": ["WorkoutScreen", "HomeScreen", "ProgressScreen"]
+    },
+    {
+      "id": "compact-reps-input",
+      "name": "Compact reps/goal display",
+      "description": "Combined input and goal in single line: [input] / {target}. Since goal and done are usually the same, eliminates redundant labels",
+      "status": "implemented",
+      "screens": ["WorkoutScreen"]
+    }
+  ]
+}

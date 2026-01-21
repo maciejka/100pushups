@@ -20,47 +20,7 @@ function createMockUserData(overrides: Partial<UserData> = {}): UserData {
 }
 
 describe("TEST-WORKOUT-001: WorkoutScreen renders correctly", () => {
-	it("displays set progress", () => {
-		const data = createMockUserData();
-		const onComplete = mock(() => {});
-		const onCancel = mock(() => {});
-		render(
-			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
-		);
-
-		// Verify set progress is displayed (Seria 1 z 5)
-		expect(screen.getByText(/Seria 1 z 5/)).toBeTruthy();
-	});
-
-	it("displays target reps for current set", () => {
-		const data = createMockUserData();
-		const onComplete = mock(() => {});
-		const onCancel = mock(() => {});
-		render(
-			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
-		);
-
-		// Verify target label is displayed
-		expect(screen.getByText("Cel:")).toBeTruthy();
-	});
-
-	it("displays input field for reps", () => {
-		const data = createMockUserData();
-		const onComplete = mock(() => {});
-		const onCancel = mock(() => {});
-		render(
-			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
-		);
-
-		// Verify input field is present
-		expect(screen.getByText(/Wykonane powtórzenia/)).toBeTruthy();
-		const input = document.querySelector(
-			'input[type="number"]',
-		) as HTMLInputElement;
-		expect(input).toBeTruthy();
-	});
-
-	it("displays workout info (week and day)", () => {
+	it("displays compact session info with T: D: S: format", () => {
 		const data = createMockUserData({ currentWeek: 2, currentDay: 3 });
 		const onComplete = mock(() => {});
 		const onCancel = mock(() => {});
@@ -68,11 +28,27 @@ describe("TEST-WORKOUT-001: WorkoutScreen renders correctly", () => {
 			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
 		);
 
-		// Verify week and day are displayed
-		expect(screen.getByText(/Tydzień 2, Dzień 3/)).toBeTruthy();
+		// Verify compact format: T: 2/6, D: 3/3, S: 1/5
+		expect(screen.getByText(/T: 2\/6, D: 3\/3, S: 1\/5/)).toBeTruthy();
 	});
 
-	it("shows 'maksimum' for final set (set 5)", () => {
+	it("displays compact reps input with target indicator", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		// Verify compact input with target indicator (/ X format)
+		expect(screen.getByText(/\/ \d+/)).toBeTruthy();
+		const input = document.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+		expect(input).toBeTruthy();
+	});
+
+	it("shows '/ max' for final set (set 5)", () => {
 		const data = createMockUserData();
 		const onComplete = mock(() => {});
 		const onCancel = mock(() => {});
@@ -95,12 +71,9 @@ describe("TEST-WORKOUT-001: WorkoutScreen renders correctly", () => {
 			fireEvent.click(skipButton);
 		}
 
-		// Now on set 5, should show "maksimum"
-		expect(screen.getByText(/Seria 5 z 5/)).toBeTruthy();
-		expect(screen.getByText("maksimum")).toBeTruthy();
-		expect(
-			screen.getByText(/Zrób tyle powtórzeń, ile dasz radę!/),
-		).toBeTruthy();
+		// Now on set 5, should show "/ max" and S: 5/5
+		expect(screen.getByText(/S: 5\/5/)).toBeTruthy();
+		expect(screen.getByText(/\/ max/)).toBeTruthy();
 	});
 });
 
@@ -195,8 +168,8 @@ describe("TEST-WORKOUT-002: Test rep logging in WorkoutScreen", () => {
 		const submitButton = screen.getByText("Następna seria");
 		expect(submitButton.hasAttribute("disabled")).toBe(true);
 
-		// Should still be on set 1
-		expect(screen.getByText(/Seria 1 z 5/)).toBeTruthy();
+		// Should still be on set 1 (S: 1/5)
+		expect(screen.getByText(/S: 1\/5/)).toBeTruthy();
 	});
 });
 
@@ -239,7 +212,7 @@ describe("TEST-TIMER-001: Test rest timer appears between sets", () => {
 		expect(screen.getByText("1:00")).toBeTruthy();
 	});
 
-	it("displays next set number during rest", () => {
+	it("displays compact session info during rest", () => {
 		const data = createMockUserData();
 		const onComplete = mock(() => {});
 		const onCancel = mock(() => {});
@@ -254,8 +227,8 @@ describe("TEST-TIMER-001: Test rest timer appears between sets", () => {
 		fireEvent.input(input, { target: { value: "10" } });
 		fireEvent.click(screen.getByText("Następna seria"));
 
-		// Should show "Następna: Seria 2 z 5"
-		expect(screen.getByText(/Następna: Seria 2 z 5/)).toBeTruthy();
+		// Should show compact format with S: 2/5 (next set)
+		expect(screen.getByText(/S: 2\/5/)).toBeTruthy();
 	});
 
 	it("shows completed sets during rest", () => {
@@ -304,7 +277,7 @@ describe("TEST-TIMER-003: Test skip and pause timer functionality", () => {
 
 		// Should no longer be in rest mode - back to workout input
 		expect(screen.queryByText("Odpoczynek")).toBeNull();
-		expect(screen.getByText(/Seria 2 z 5/)).toBeTruthy();
+		expect(screen.getByText(/S: 2\/5/)).toBeTruthy();
 	});
 
 	it("pause button stops countdown", () => {
@@ -623,7 +596,7 @@ describe("TEST-REPEAT-002: Test week attempt tracking", () => {
 		);
 
 		// Should show previous reps for set 1 (which was 8)
-		expect(screen.getByText("Poprzednio: 8")).toBeTruthy();
+		expect(screen.getByText(/poprz\. 8/)).toBeTruthy();
 	});
 
 	it("does NOT show previous reps on first attempt", () => {
@@ -639,8 +612,8 @@ describe("TEST-REPEAT-002: Test week attempt tracking", () => {
 			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
 		);
 
-		// Should NOT show "Poprzednio:" text
-		expect(screen.queryByText(/Poprzednio:/)).toBeNull();
+		// Should NOT show "poprz." text
+		expect(screen.queryByText(/poprz./)).toBeNull();
 	});
 
 	it("shows correct previous reps for each set during workout", () => {
@@ -665,7 +638,7 @@ describe("TEST-REPEAT-002: Test week attempt tracking", () => {
 		);
 
 		// Set 1: should show 12 from previous attempt
-		expect(screen.getByText("Poprzednio: 12")).toBeTruthy();
+		expect(screen.getByText(/poprz\. 12/)).toBeTruthy();
 
 		// Progress to set 2
 		const input = container.querySelector(
@@ -676,7 +649,7 @@ describe("TEST-REPEAT-002: Test week attempt tracking", () => {
 		fireEvent.click(screen.getByText("Pomiń"));
 
 		// Set 2: should show 15 from previous attempt
-		expect(screen.getByText("Poprzednio: 15")).toBeTruthy();
+		expect(screen.getByText(/poprz\. 15/)).toBeTruthy();
 	});
 });
 

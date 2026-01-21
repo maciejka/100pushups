@@ -188,7 +188,7 @@ export function WorkoutScreen({
 				{!shouldSuggestRepeat && <Confetti />}
 				<h1>Świetna robota, Stefan! 🔥</h1>
 				<p class="workout-info">
-					Tydzień {finalRecord.week}, Dzień {finalRecord.day}
+					T: {finalRecord.week}/6, D: {finalRecord.day}/3
 				</p>
 				<div class="completion-summary">
 					<p class="total-reps">
@@ -240,11 +240,8 @@ export function WorkoutScreen({
 			<div class="screen workout-screen rest-screen">
 				<h1>Odpoczynek</h1>
 				<p class="workout-info">
-					Tydzień {data.currentWeek}, Dzień {data.currentDay}
+					T: {data.currentWeek}/6, D: {data.currentDay}/3, S: {currentSet + 1}/{totalSets}
 				</p>
-				<div class="set-progress">
-					Następna: Seria {currentSet + 1} z {totalSets}
-				</div>
 				<div class="rest-timer">
 					<span class="timer-value">{formatTime(restTimeLeft)}</span>
 				</div>
@@ -273,39 +270,20 @@ export function WorkoutScreen({
 		<div class="screen workout-screen">
 			<h1>Trening</h1>
 			<p class="workout-info">
-				Tydzień {data.currentWeek}, Dzień {data.currentDay}
+				T: {data.currentWeek}/6, D: {data.currentDay}/3, S: {currentSet + 1}/{totalSets}
 			</p>
-			<div class="set-progress">
-				Seria {currentSet + 1} z {totalSets}
-			</div>
-			<div class="set-target">
-				{isMax ? (
-					<>
-						<span class="target-label">Cel:</span>
-						<span class="target-value max">maksimum</span>
-						<p class="max-hint">Zrób tyle powtórzeń, ile dasz radę!</p>
-					</>
-				) : (
-					<>
-						<span class="target-label">Cel:</span>
-						<span class="target-value">{targetReps}</span>
-					</>
-				)}
+			<div class="rep-input-compact">
+				<input
+					type="number"
+					min="0"
+					value={inputValue}
+					onInput={(e) => setInputValue((e.target as HTMLInputElement).value)}
+					placeholder={isMax ? "?" : String(targetReps)}
+				/>
+				<span class="target-indicator">/ {isMax ? "max" : targetReps}</span>
 				{previousReps !== undefined && (
-					<p class="previous-reps">Poprzednio: {previousReps}</p>
+					<span class="previous-reps">(poprz. {previousReps})</span>
 				)}
-			</div>
-			<div class="rep-input">
-				<label>
-					Wykonane powtórzenia:
-					<input
-						type="number"
-						min="0"
-						value={inputValue}
-						onInput={(e) => setInputValue((e.target as HTMLInputElement).value)}
-						placeholder={isMax ? "ile zrobiłeś?" : String(targetReps)}
-					/>
-				</label>
 			</div>
 			<div class="workout-actions">
 				<button

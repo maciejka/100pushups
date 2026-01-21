@@ -265,19 +265,16 @@ describe("TEST-LANG-001: All UI text is in Polish", () => {
 				/>,
 			);
 
-			// Check key Polish text
+			// Check key Polish text - uses compact T: D: S: format
 			expect(screen.getByText("Trening")).toBeTruthy();
-			expect(screen.getByText(/Tydzień/)).toBeTruthy();
-			expect(screen.getByText(/Seria/)).toBeTruthy();
-			expect(screen.getByText(/Cel:/)).toBeTruthy();
-			expect(screen.getByText(/Wykonane powtórzenia/)).toBeTruthy();
+			expect(screen.getByText(/T: \d+\/6, D: \d+\/3, S: \d+\/\d+/)).toBeTruthy();
 			expect(screen.getByText("Anuluj trening")).toBeTruthy();
+			expect(screen.getByText("Następna seria")).toBeTruthy();
 
 			assertNoEnglishText(container);
 		});
 
-		it("shows Polish labels for max set", () => {
-			// Week 2 Day 1 Level 3 should have 5 sets, last one is max
+		it("shows compact format on workout screen", () => {
 			const dataAtLastSet: UserData = {
 				...mockUserData,
 				currentWeek: 1,
@@ -293,9 +290,8 @@ describe("TEST-LANG-001: All UI text is in Polish", () => {
 				/>,
 			);
 
-			// The max set message should be in Polish
-			// (Though initially we see set 1, the max label test would need state manipulation)
-			expect(screen.getByText(/Cel:/)).toBeTruthy();
+			// Check compact input with target indicator
+			expect(screen.getByText(/\/ \d+/)).toBeTruthy();
 
 			assertNoEnglishText(container);
 		});
