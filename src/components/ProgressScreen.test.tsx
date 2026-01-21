@@ -51,14 +51,14 @@ describe("TEST-PROGRESS-001: ProgressScreen displays weeks and days", () => {
 		expect(weeks.length).toBe(6);
 	});
 
-	it("shows checkmark for completed days", () => {
+	it("shows total reps for completed days (DESIGN-008)", () => {
 		const data = createMockUserData({
 			currentWeek: 2,
 			currentDay: 1,
 			workouts: [
-				createMockWorkout(1, 1),
-				createMockWorkout(1, 2),
-				createMockWorkout(1, 3),
+				createMockWorkout(1, 1, [10, 10, 10, 10, 15]), // total: 55
+				createMockWorkout(1, 2, [8, 8, 8, 8, 12]), // total: 44
+				createMockWorkout(1, 3, [12, 12, 12, 12, 20]), // total: 68
 			],
 		});
 		const onRepeatWeek = mock(() => {});
@@ -72,14 +72,15 @@ describe("TEST-PROGRESS-001: ProgressScreen displays weeks and days", () => {
 			/>,
 		);
 
-		// Week 1 should have 3 completed days with checkmarks
+		// Week 1 should have 3 completed days with totals
 		const completedDays = container.querySelectorAll(".day.completed");
 		expect(completedDays.length).toBe(3);
 
-		// Each completed day should show checkmark
-		for (const day of completedDays) {
-			expect(day.textContent).toBe("✓");
-		}
+		// Each completed day should show total reps instead of checkmark
+		const texts = Array.from(completedDays).map((d) => d.textContent);
+		expect(texts).toContain("55"); // Day 1 total
+		expect(texts).toContain("44"); // Day 2 total
+		expect(texts).toContain("68"); // Day 3 total
 	});
 
 	it("highlights current day", () => {
@@ -364,6 +365,118 @@ describe("DESIGN-007: Progress screen fits phone screen without scrolling", () =
 		expect(header).toBeTruthy();
 		expect(header?.querySelector("h1")).toBeTruthy();
 		expect(header?.querySelector(".completion")).toBeTruthy();
+	});
+});
+
+describe("DESIGN-008: Session totals in week boxes instead of chart", () => {
+	it("displays session totals inside day indicators", () => {
+		const data = createMockUserData({
+			currentWeek: 2,
+			currentDay: 1,
+			workouts: [
+				createMockWorkout(1, 1, [5, 5, 5, 5, 10]), // total: 30
+				createMockWorkout(1, 2, [6, 6, 6, 6, 11]), // total: 35
+			],
+		});
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		const { container } = render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		// Completed days should show totals
+		const completedDays = container.querySelectorAll(".day.completed");
+		const totals = Array.from(completedDays).map((d) => d.textContent);
+		expect(totals).toContain("30");
+		expect(totals).toContain("35");
+	});
+
+	it("removes totals from chart bar labels", () => {
+		const data = createMockUserData({
+			currentWeek: 2,
+			currentDay: 1,
+			workouts: [createMockWorkout(1, 1, [5, 5, 5, 5, 10])],
+		});
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		const { container } = render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		// Chart should not have bar labels showing totals
+		const barLabels = container.querySelectorAll(".chart-bar-label");
+		expect(barLabels.length).toBe(0);
+	});
+
+	it("shows day number for incomplete days", () => {
+		const data = createMockUserData({
+			currentWeek: 1,
+			currentDay: 2,
+			workouts: [createMockWorkout(1, 1, [5, 5, 5, 5, 10])],
+		});
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		const { container } = render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		// Week 1 should have one completed day (with total) and two incomplete (with numbers)
+		const weeks = container.querySelectorAll(".week");
+		const week1Days = weeks[0]?.querySelectorAll(".day") ?? [];
+		expect(weeks[0]).toBeTruthy();
+		expect(week1Days.length).toBe(3);
+		expect(week1Days[0]?.textContent).toBe("30"); // Day 1 completed
+		expect(week1Days[1]?.textContent).toBe("2"); // Day 2 not completed
+		expect(week1Days[2]?.textContent).toBe("3"); // Day 3 not completed
+	});
+
+	it("shows both completion status and rep totals", () => {
+		const data = createMockUserData({
+			currentWeek: 2,
+			currentDay: 1,
+			workouts: [
+				createMockWorkout(1, 1, [10, 10, 10, 10, 15]), // 55
+				createMockWorkout(1, 2, [12, 12, 12, 12, 17]), // 65
+				createMockWorkout(1, 3, [14, 14, 14, 14, 19]), // 75
+			],
+		});
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		const { container } = render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		// Week 1 days should be completed AND show totals
+		const weeks = container.querySelectorAll(".week");
+		const week1Days = weeks[0]?.querySelectorAll(".day") ?? [];
+		expect(weeks[0]).toBeTruthy();
+		expect(week1Days.length).toBe(3);
+		expect(week1Days[0]?.classList.contains("completed")).toBe(true);
+		expect(week1Days[0]?.textContent).toBe("55");
+		expect(week1Days[1]?.classList.contains("completed")).toBe(true);
+		expect(week1Days[1]?.textContent).toBe("65");
+		expect(week1Days[2]?.classList.contains("completed")).toBe(true);
+		expect(week1Days[2]?.textContent).toBe("75");
 	});
 });
 

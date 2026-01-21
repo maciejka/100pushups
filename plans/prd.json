@@ -791,7 +791,7 @@
 				"Verify totals are removed from the chart area above",
 				"Verify week boxes show both completion status and rep totals for each day"
 			],
-			"passes": false
+			"passes": true
 		}
 	]
 }

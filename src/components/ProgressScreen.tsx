@@ -1,9 +1,20 @@
-import type { UserData } from "../stores/db.ts";
+import type { UserData, WorkoutRecord } from "../stores/db.ts";
 
 interface ProgressScreenProps {
 	data: UserData;
 	onRepeatWeek: () => void;
 	onNavigateHome: () => void;
+}
+
+// Get the total reps for a specific week/day from workouts
+function getWorkoutTotal(
+	workouts: WorkoutRecord[],
+	week: number,
+	day: number,
+): number | null {
+	const workout = workouts.find((w) => w.week === week && w.day === day);
+	if (!workout) return null;
+	return workout.sets.reduce((sum, r) => sum + r, 0);
 }
 
 export function ProgressScreen({
@@ -39,7 +50,6 @@ export function ProgressScreen({
 					<div class="chart-container">
 						{workoutTotals.map((w, i) => (
 							<div key={i} class="chart-bar-container">
-								<div class="chart-bar-label">{w.reps}</div>
 								<div
 									class="chart-bar"
 									style={{
@@ -55,7 +65,6 @@ export function ProgressScreen({
 
 			<div class="weeks weeks-grid">
 				{[1, 2, 3, 4, 5, 6].map((week) => {
-					const weekWorkouts = data.workouts.filter((w) => w.week === week);
 					const isCurrent = week === data.currentWeek;
 					const attempt = data.weekAttempts[week] ?? 1;
 					return (
@@ -82,14 +91,15 @@ export function ProgressScreen({
 							</div>
 							<div class="days days-compact">
 								{[1, 2, 3].map((day) => {
-									const completed = weekWorkouts.some((w) => w.day === day);
+									const total = getWorkoutTotal(data.workouts, week, day);
+									const completed = total !== null;
 									const isCurrentDay = isCurrent && day === data.currentDay;
 									return (
 										<span
 											key={day}
 											class={`day day-compact ${completed ? "completed" : ""} ${isCurrentDay ? "current-day" : ""}`}
 										>
-											{completed ? "✓" : day}
+											{completed ? total : day}
 										</span>
 									);
 								})}
