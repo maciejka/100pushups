@@ -31,10 +31,14 @@ async function build() {
 		await cp(join("./public", file), join(DIST_DIR, file));
 	}
 
-	// Update index.html to reference built JS
+	// Copy CSS
+	await cp("./src/styles.css", join(DIST_DIR, "main.css"));
+
+	// Update index.html to reference built JS and CSS
 	const indexPath = join(DIST_DIR, "index.html");
 	let html = await Bun.file(indexPath).text();
-	html = html.replace("/src/main.tsx", "/main.js");
+	html = html.replace("./src/main.tsx", "./main.js");
+	html = html.replace("./src/styles.css", "./main.css");
 	await Bun.write(indexPath, html);
 
 	console.log("Build complete! Output in ./dist");
