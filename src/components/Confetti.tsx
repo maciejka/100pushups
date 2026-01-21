@@ -1,36 +1,23 @@
 import { useEffect, useState } from "preact/hooks";
 
-interface ConfettiPiece {
-	id: number;
-	left: number;
-	color: string;
-	delay: number;
-	size: number;
-}
-
-const COLORS = ["#00d4ff", "#7c3aed", "#22c55e", "#f59e0b", "#ef4444"] as const;
+const COLORS = ["#00d4ff", "#7c3aed", "#22c55e", "#f59e0b", "#ef4444"];
+const rand = (max: number) => Math.random() * max;
+const pick = <T,>(arr: T[]) => arr[Math.floor(rand(arr.length))] as T;
 
 export function Confetti() {
-	const [pieces, setPieces] = useState<ConfettiPiece[]>([]);
+	const [pieces, setPieces] = useState(() =>
+		Array.from({ length: 50 }, (_, i) => ({
+			id: i,
+			left: rand(100),
+			color: pick(COLORS),
+			delay: rand(0.5),
+			size: rand(8) + 6,
+			round: Math.random() > 0.5,
+		})),
+	);
 
 	useEffect(() => {
-		const newPieces: ConfettiPiece[] = [];
-		for (let i = 0; i < 50; i++) {
-			newPieces.push({
-				id: i,
-				left: Math.random() * 100,
-				color: COLORS[Math.floor(Math.random() * COLORS.length)] ?? "#00d4ff",
-				delay: Math.random() * 0.5,
-				size: Math.random() * 8 + 6,
-			});
-		}
-		setPieces(newPieces);
-
-		// Clean up after animation
-		const timeout = setTimeout(() => {
-			setPieces([]);
-		}, 3500);
-
+		const timeout = setTimeout(() => setPieces([]), 3500);
 		return () => clearTimeout(timeout);
 	}, []);
 
@@ -38,17 +25,17 @@ export function Confetti() {
 
 	return (
 		<div class="confetti-container">
-			{pieces.map((piece) => (
+			{pieces.map((p) => (
 				<div
-					key={piece.id}
+					key={p.id}
 					class="confetti"
 					style={{
-						left: `${piece.left}%`,
-						backgroundColor: piece.color,
-						width: `${piece.size}px`,
-						height: `${piece.size}px`,
-						animationDelay: `${piece.delay}s`,
-						borderRadius: Math.random() > 0.5 ? "50%" : "0",
+						left: `${p.left}%`,
+						backgroundColor: p.color,
+						width: `${p.size}px`,
+						height: `${p.size}px`,
+						animationDelay: `${p.delay}s`,
+						borderRadius: p.round ? "50%" : "0",
 					}}
 				/>
 			))}

@@ -6,16 +6,12 @@ interface HomeScreenProps {
 	onStartWorkout: () => void;
 }
 
-function isSameDay(date1: Date, date2: Date): boolean {
-	return (
-		date1.getFullYear() === date2.getFullYear() &&
-		date1.getMonth() === date2.getMonth() &&
-		date1.getDate() === date2.getDate()
-	);
-}
+const isSameDay = (d1: Date, d2: Date) =>
+	d1.getFullYear() === d2.getFullYear() &&
+	d1.getMonth() === d2.getMonth() &&
+	d1.getDate() === d2.getDate();
 
-// Motivational messages for Stefan
-const MOTIVATIONAL_MESSAGES = [
+const MESSAGES = [
 	"Każda pompka to krok do celu!",
 	"Dzisiaj budujesz siłę na jutro!",
 	"Nie poddawaj się, Stefan!",
@@ -26,10 +22,8 @@ const MOTIVATIONAL_MESSAGES = [
 	"Ruszamy po rekord!",
 ];
 
-function getMotivationalMessage(): string {
-	const index = Math.floor(Math.random() * MOTIVATIONAL_MESSAGES.length);
-	return MOTIVATIONAL_MESSAGES[index] ?? MOTIVATIONAL_MESSAGES[0] ?? "";
-}
+const randomMessage = () =>
+	MESSAGES[Math.floor(Math.random() * MESSAGES.length)] ?? MESSAGES[0];
 
 export function HomeScreen({ data, onStartWorkout }: HomeScreenProps) {
 	const level = data.level as 1 | 2 | 3 | 4 | 5;
@@ -89,7 +83,7 @@ export function HomeScreen({ data, onStartWorkout }: HomeScreenProps) {
 				workout && (
 					<>
 						<div class="motivational-message">
-							<p class="message-text">{getMotivationalMessage()}</p>
+							<p class="message-text">{randomMessage()}</p>
 						</div>
 						<div class="workout-preview">
 							<p>Następny trening:</p>

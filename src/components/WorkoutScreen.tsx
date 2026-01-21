@@ -4,19 +4,42 @@ import type { UserData, WorkoutRecord } from "../stores/db.ts";
 import { Confetti } from "./Confetti.tsx";
 
 function playBeep(): void {
-	const audioContext = new AudioContext();
-	const oscillator = audioContext.createOscillator();
-	const gainNode = audioContext.createGain();
+	const ctx = new AudioContext();
+	const osc = ctx.createOscillator();
+	const gain = ctx.createGain();
+	osc.connect(gain).connect(ctx.destination);
+	osc.frequency.value = 800;
+	gain.gain.value = 0.3;
+	osc.start();
+	osc.stop(ctx.currentTime + 0.3);
+}
 
-	oscillator.connect(gainNode);
-	gainNode.connect(audioContext.destination);
+function formatTime(seconds: number): string {
+	const mins = Math.floor(seconds / 60);
+	const secs = seconds % 60;
+	return `${mins}:${secs.toString().padStart(2, "0")}`;
+}
 
-	oscillator.frequency.value = 800;
-	oscillator.type = "sine";
-	gainNode.gain.value = 0.3;
-
-	oscillator.start();
-	oscillator.stop(audioContext.currentTime + 0.3);
+function SetsList({
+	reps,
+	label = "Ukończone serie:",
+}: {
+	reps: number[];
+	label?: string;
+}) {
+	if (reps.length === 0) return null;
+	return (
+		<div class="completed-sets">
+			<p>{label}</p>
+			<ul>
+				{reps.map((r, i) => (
+					<li key={i}>
+						Seria {i + 1}: {r} powtórzeń
+					</li>
+				))}
+			</ul>
+		</div>
+	);
 }
 
 interface WorkoutScreenProps {
@@ -133,13 +156,6 @@ export function WorkoutScreen({
 		}
 	};
 
-	// Format seconds as mm:ss
-	const formatTime = (seconds: number): string => {
-		const mins = Math.floor(seconds / 60);
-		const secs = seconds % 60;
-		return `${mins}:${secs.toString().padStart(2, "0")}`;
-	};
-
 	const handleSkipRest = () => {
 		skippedRef.current = true;
 		setIsResting(false);
@@ -178,16 +194,7 @@ export function WorkoutScreen({
 					<p class="total-reps">
 						Łącznie: <strong>{totalReps}</strong> powtórzeń
 					</p>
-					<div class="completed-sets">
-						<p>Twoje serie:</p>
-						<ul>
-							{finalRecord.sets.map((reps, i) => (
-								<li key={i}>
-									Seria {i + 1}: {reps} powtórzeń
-								</li>
-							))}
-						</ul>
-					</div>
+					<SetsList reps={finalRecord.sets} label="Twoje serie:" />
 				</div>
 				{shouldSuggestRepeat && (
 					<div class="repeat-suggestion">
@@ -254,18 +261,7 @@ export function WorkoutScreen({
 						Pomiń
 					</button>
 				</div>
-				{completedReps.length > 0 && (
-					<div class="completed-sets">
-						<p>Ukończone serie:</p>
-						<ul>
-							{completedReps.map((reps, i) => (
-								<li key={i}>
-									Seria {i + 1}: {reps} powtórzeń
-								</li>
-							))}
-						</ul>
-					</div>
-				)}
+				<SetsList reps={completedReps} />
 				<button type="button" class="btn-cancel" onClick={onCancel}>
 					Anuluj trening
 				</button>
@@ -321,18 +317,7 @@ export function WorkoutScreen({
 					{currentSet + 1 >= totalSets ? "Zakończ trening" : "Następna seria"}
 				</button>
 			</div>
-			{completedReps.length > 0 && (
-				<div class="completed-sets">
-					<p>Ukończone serie:</p>
-					<ul>
-						{completedReps.map((reps, i) => (
-							<li key={i}>
-								Seria {i + 1}: {reps} powtórzeń
-							</li>
-						))}
-					</ul>
-				</div>
-			)}
+			<SetsList reps={completedReps} />
 			<button type="button" class="btn-cancel" onClick={onCancel}>
 				Anuluj trening
 			</button>

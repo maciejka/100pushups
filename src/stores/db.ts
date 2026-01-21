@@ -54,40 +54,27 @@ function openDB(): Promise<IDBDatabase> {
 	});
 }
 
-export async function getData(): Promise<UserData> {
+async function withStore<T>(
+	mode: IDBTransactionMode,
+	fn: (store: IDBObjectStore) => IDBRequest<T>,
+): Promise<T> {
 	const db = await openDB();
 	return new Promise((resolve, reject) => {
-		const transaction = db.transaction(STORE_NAME, "readonly");
-		const store = transaction.objectStore(STORE_NAME);
-		const request = store.get("user");
-
+		const request = fn(
+			db.transaction(STORE_NAME, mode).objectStore(STORE_NAME),
+		);
 		request.onerror = () => reject(request.error);
-		request.onsuccess = () => {
-			resolve(request.result ?? defaultUserData);
-		};
+		request.onsuccess = () => resolve(request.result);
 	});
 }
 
-export async function saveData(data: UserData): Promise<void> {
-	const db = await openDB();
-	return new Promise((resolve, reject) => {
-		const transaction = db.transaction(STORE_NAME, "readwrite");
-		const store = transaction.objectStore(STORE_NAME);
-		const request = store.put(data, "user");
+export const getData = (): Promise<UserData> =>
+	withStore("readonly", (store) => store.get("user")).then(
+		(r) => r ?? defaultUserData,
+	);
 
-		request.onerror = () => reject(request.error);
-		request.onsuccess = () => resolve();
-	});
-}
+export const saveData = (data: UserData): Promise<void> =>
+	withStore("readwrite", (store) => store.put(data, "user")).then(() => {});
 
-export async function clearData(): Promise<void> {
-	const db = await openDB();
-	return new Promise((resolve, reject) => {
-		const transaction = db.transaction(STORE_NAME, "readwrite");
-		const store = transaction.objectStore(STORE_NAME);
-		const request = store.delete("user");
-
-		request.onerror = () => reject(request.error);
-		request.onsuccess = () => resolve();
-	});
-}
+export const clearData = (): Promise<void> =>
+	withStore("readwrite", (store) => store.delete("user")).then(() => {});

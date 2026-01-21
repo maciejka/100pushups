@@ -54,6 +54,18 @@ export function App() {
 		navigate("workout");
 	};
 
+	const incrementWeekAttempt = () => {
+		if (!data) return {};
+		const currentAttempt = data.weekAttempts[data.currentWeek] ?? 1;
+		return {
+			currentDay: 1,
+			weekAttempts: {
+				...data.weekAttempts,
+				[data.currentWeek]: currentAttempt + 1,
+			},
+		};
+	};
+
 	const handleWorkoutComplete = async (
 		record: WorkoutRecord,
 		repeatWeek: boolean,
@@ -62,39 +74,23 @@ export function App() {
 		const newWorkouts = [...data.workouts, record];
 
 		if (repeatWeek) {
-			// Repeat the current week from day 1
-			const currentAttempt = data.weekAttempts[data.currentWeek] ?? 1;
-			await update({
-				workouts: newWorkouts,
-				currentDay: 1,
-				weekAttempts: {
-					...data.weekAttempts,
-					[data.currentWeek]: currentAttempt + 1,
-				},
-			});
+			await update({ workouts: newWorkouts, ...incrementWeekAttempt() });
 		} else {
-			// Move to next day/week
-			let nextWeek = data.currentWeek;
-			let nextDay = data.currentDay + 1;
-			if (nextDay > 3) {
-				nextDay = 1;
-				nextWeek = data.currentWeek + 1;
-			}
+			const nextDay = data.currentDay + 1;
+			const advancesWeek = nextDay > 3;
 			await update({
 				workouts: newWorkouts,
-				currentWeek: nextWeek,
-				currentDay: nextDay,
+				currentWeek: advancesWeek ? data.currentWeek + 1 : data.currentWeek,
+				currentDay: advancesWeek ? 1 : nextDay,
 			});
 		}
 		navigate("home");
 	};
 
-	const handleWorkoutCancel = () => {
-		navigate("home");
-	};
+	const handleWorkoutCancel = () => navigate("home");
 
-	const handleRetakeTest = async () => {
-		await update({
+	const handleRetakeTest = () =>
+		update({
 			level: null,
 			testResult: null,
 			currentWeek: 1,
@@ -102,20 +98,14 @@ export function App() {
 			workouts: [],
 			weekAttempts: {},
 		});
-	};
 
 	const handleRepeatWeek = async () => {
 		if (!data) return;
-		const currentAttempt = data.weekAttempts[data.currentWeek] ?? 1;
-		const newAttempt = currentAttempt + 1;
-		await update({
-			currentDay: 1,
-			weekAttempts: {
-				...data.weekAttempts,
-				[data.currentWeek]: newAttempt,
-			},
-		});
-		setToastMessage(`Tydzień ${data.currentWeek} - Próba ${newAttempt}`);
+		const updates = incrementWeekAttempt();
+		await update(updates);
+		setToastMessage(
+			`Tydzień ${data.currentWeek} - Próba ${updates.weekAttempts?.[data.currentWeek]}`,
+		);
 	};
 
 	const renderScreen = () => {
