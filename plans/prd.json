@@ -744,6 +744,42 @@
 				"Verify theme-color meta tag matches design"
 			],
 			"passes": true
+		},
+		{
+			"id": "DESIGN-005",
+			"category": "Design",
+			"description": "Compact done series display: '1: 28' instead of 'Seria 1: 28'",
+			"steps_to_verify": [
+				"Start a workout and complete a set",
+				"Verify completed series shows '1: 28' format",
+				"Verify 'Seria' prefix is removed from series list"
+			],
+			"passes": false
+		},
+		{
+			"id": "DESIGN-006",
+			"category": "Design",
+			"description": "Reps input and target indicator displayed inline on same line",
+			"steps_to_verify": [
+				"Start a workout",
+				"Verify input field and '/ {target}' are on the same line",
+				"Verify layout is horizontal: [input] / 35",
+				"Verify no line break between input and target indicator"
+			],
+			"passes": false
+		},
+		{
+			"id": "DESIGN-007",
+			"category": "Design",
+			"description": "Progress screen fits phone screen without scrolling",
+			"steps_to_verify": [
+				"Open progress screen on mobile device",
+				"Verify all 6 weeks are visible without scrolling",
+				"Verify chart takes less vertical space",
+				"Verify week cards are compact (horizontal layout for days)",
+				"Verify chart X-axis labels are readable (not cramped)"
+			],
+			"passes": false
 		}
 	]
 }
