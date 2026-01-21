@@ -792,6 +792,30 @@
 				"Verify week boxes show both completion status and rep totals for each day"
 			],
 			"passes": true
+		},
+		{
+			"id": "DESIGN-009",
+			"category": "Design",
+			"description": "Initial test screen fits phone screen without scrolling",
+			"steps_to_verify": [
+				"Open app for first time or retake test from settings",
+				"Verify initial test screen fits within phone viewport",
+				"Verify all elements (instructions, input, button) visible without scrolling",
+				"Verify layout is compact with reduced padding/margins"
+			],
+			"passes": false
+		},
+		{
+			"id": "DESIGN-010",
+			"category": "Design",
+			"description": "Remove progress bar chart from progress screen",
+			"steps_to_verify": [
+				"Open progress screen",
+				"Verify the horizontal progress bar with T1D1 labels is removed",
+				"Verify week boxes remain as the main progress visualization",
+				"Verify screen has more vertical space for week cards"
+			],
+			"passes": false
 		}
 	]
 }
