@@ -94,7 +94,7 @@
 				"Verify previous workout history is cleared or archived",
 				"Verify home screen shows fresh start with new level"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "PROGRAM-001",
