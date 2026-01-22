@@ -70,11 +70,7 @@ export function HomeScreen({ data, onStartWorkout }: HomeScreenProps) {
 						Świetna robota, Stefan! Odpoczywaj do następnego treningu.
 					</p>
 					{workout && (
-						<button
-							type="button"
-							class="btn-secondary"
-							onClick={onStartWorkout}
-						>
+						<button type="button" class="btn-primary" onClick={onStartWorkout}>
 							Następny trening
 						</button>
 					)}

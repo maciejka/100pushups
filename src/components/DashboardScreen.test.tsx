@@ -163,6 +163,37 @@ describe("DESIGN-011: Merged home and progress screens", () => {
 		expect(screen.getByText("Następny trening")).toBeTruthy();
 	});
 
+	it("DESIGN-013: 'Następny trening' button has blue background (btn-primary)", () => {
+		const today = new Date().toISOString();
+		const data = createMockUserData({
+			currentWeek: 1,
+			currentDay: 2,
+			workouts: [
+				{
+					week: 1,
+					day: 1,
+					attempt: 1,
+					date: today,
+					sets: [2, 3, 2, 2, 10],
+				},
+			],
+		});
+		const onStartWorkout = mock(() => {});
+		const onRepeatWeek = mock(() => {});
+
+		render(
+			<DashboardScreen
+				data={data}
+				onStartWorkout={onStartWorkout}
+				onRepeatWeek={onRepeatWeek}
+			/>,
+		);
+
+		const nextWorkoutButton = screen.getByText("Następny trening");
+		// Should have btn-primary class like 'Następna seria' button
+		expect(nextWorkoutButton.classList.contains("btn-primary")).toBe(true);
+	});
+
 	it("shows program complete state when week > 6", () => {
 		const data = createMockUserData({
 			currentWeek: 7,

@@ -226,6 +226,30 @@ describe("WORKOUT-006: Skip waiting period and start next workout", () => {
 		expect(screen.queryByText("Następny trening")).toBeNull();
 	});
 
+	it("DESIGN-013: 'Następny trening' button has blue background (btn-primary)", () => {
+		const today = new Date().toISOString();
+		const data = createMockUserData({
+			currentWeek: 1,
+			currentDay: 2,
+			workouts: [
+				{
+					week: 1,
+					day: 1,
+					attempt: 1,
+					date: today,
+					sets: [2, 3, 2, 2, 10],
+				},
+			],
+		});
+		const onStartWorkout = mock(() => {});
+
+		render(<HomeScreen data={data} onStartWorkout={onStartWorkout} />);
+
+		const nextWorkoutButton = screen.getByText("Następny trening");
+		// Should have btn-primary class like 'Następna seria' button
+		expect(nextWorkoutButton.classList.contains("btn-primary")).toBe(true);
+	});
+
 	it("shows normal workout preview when no workout completed today", () => {
 		const yesterday = new Date();
 		yesterday.setDate(yesterday.getDate() - 1);
