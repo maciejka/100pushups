@@ -186,7 +186,8 @@ export function WorkoutScreen({
 		return (
 			<div class="screen workout-screen complete-screen">
 				{!shouldSuggestRepeat && <Confetti />}
-				<h1>Świetna robota, Stefan! 🔥</h1>
+				<h1>100p</h1>
+				<p class="complete-message">Świetna robota! 🔥</p>
 				<p class="workout-info">
 					T: {finalRecord.week}/6, D: {finalRecord.day}/3
 				</p>
