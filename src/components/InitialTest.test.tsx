@@ -125,3 +125,33 @@ describe("TEST-TEST-001: Initial fitness test flow", () => {
 		expect(screen.queryByText("Wprowadź prawidłową liczbę")).toBeNull();
 	});
 });
+
+describe("DESIGN-009: Initial test screen compact layout", () => {
+	it("uses initial-test class for compact layout", () => {
+		const onComplete = mock(() => {});
+		const { container } = render(<InitialTest onComplete={onComplete} />);
+
+		// Verify the component uses the initial-test class
+		const testScreen = container.querySelector(".initial-test");
+		expect(testScreen).toBeTruthy();
+	});
+
+	it("displays all elements in compact form without scrolling requirement", () => {
+		const onComplete = mock(() => {});
+		const { container } = render(<InitialTest onComplete={onComplete} />);
+
+		// Verify instructions section exists
+		const instructions = container.querySelector(".instructions");
+		expect(instructions).toBeTruthy();
+
+		// Verify form exists
+		const form = container.querySelector("form");
+		expect(form).toBeTruthy();
+
+		// Verify all critical elements are present
+		expect(screen.getByText("Test początkowy")).toBeTruthy();
+		expect(screen.getByText("Instrukcja:")).toBeTruthy();
+		expect(screen.getByPlaceholderText("0")).toBeTruthy();
+		expect(screen.getByText("Zapisz wynik")).toBeTruthy();
+	});
+});

@@ -304,47 +304,6 @@ describe("DESIGN-007: Progress screen fits phone screen without scrolling", () =
 		expect(weeksGrid).toBeTruthy();
 	});
 
-	it("uses compact chart when workouts exist", () => {
-		const data = createMockUserData({
-			workouts: [createMockWorkout(1, 1)],
-		});
-		const onRepeatWeek = mock(() => {});
-		const onNavigateHome = mock(() => {});
-
-		const { container } = render(
-			<ProgressScreen
-				data={data}
-				onRepeatWeek={onRepeatWeek}
-				onNavigateHome={onNavigateHome}
-			/>,
-		);
-
-		expect(container.querySelector(".reps-chart-compact")).toBeTruthy();
-	});
-
-	it("displays inline X-axis labels in chart", () => {
-		const data = createMockUserData({
-			workouts: [createMockWorkout(1, 1)],
-		});
-		const onRepeatWeek = mock(() => {});
-		const onNavigateHome = mock(() => {});
-
-		const { container } = render(
-			<ProgressScreen
-				data={data}
-				onRepeatWeek={onRepeatWeek}
-				onNavigateHome={onNavigateHome}
-			/>,
-		);
-
-		// X-axis labels are now inline with bars (chart-x-label class)
-		const xLabels = container.querySelectorAll(".chart-x-label");
-		expect(xLabels.length).toBe(1); // One label per workout
-		const firstLabel = xLabels[0];
-		expect(firstLabel).toBeTruthy();
-		expect(firstLabel?.textContent).toBe("T1D1");
-	});
-
 	it("uses compact header with inline completion info", () => {
 		const data = createMockUserData({
 			workouts: [createMockWorkout(1, 1)],
@@ -394,28 +353,6 @@ describe("DESIGN-008: Session totals in week boxes instead of chart", () => {
 		const totals = Array.from(completedDays).map((d) => d.textContent);
 		expect(totals).toContain("30");
 		expect(totals).toContain("35");
-	});
-
-	it("removes totals from chart bar labels", () => {
-		const data = createMockUserData({
-			currentWeek: 2,
-			currentDay: 1,
-			workouts: [createMockWorkout(1, 1, [5, 5, 5, 5, 10])],
-		});
-		const onRepeatWeek = mock(() => {});
-		const onNavigateHome = mock(() => {});
-
-		const { container } = render(
-			<ProgressScreen
-				data={data}
-				onRepeatWeek={onRepeatWeek}
-				onNavigateHome={onNavigateHome}
-			/>,
-		);
-
-		// Chart should not have bar labels showing totals
-		const barLabels = container.querySelectorAll(".chart-bar-label");
-		expect(barLabels.length).toBe(0);
 	});
 
 	it("shows day number for incomplete days", () => {
@@ -477,6 +414,49 @@ describe("DESIGN-008: Session totals in week boxes instead of chart", () => {
 		expect(week1Days[1]?.textContent).toBe("65");
 		expect(week1Days[2]?.classList.contains("completed")).toBe(true);
 		expect(week1Days[2]?.textContent).toBe("75");
+	});
+});
+
+describe("DESIGN-010: Remove progress bar chart from progress screen", () => {
+	it("does not render the reps chart", () => {
+		const data = createMockUserData({
+			workouts: [createMockWorkout(1, 1)],
+		});
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		const { container } = render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		// Chart should not exist
+		expect(container.querySelector(".reps-chart")).toBeNull();
+		expect(container.querySelector(".chart-container")).toBeNull();
+		expect(container.querySelector(".chart-bar")).toBeNull();
+	});
+
+	it("keeps week boxes as main progress visualization", () => {
+		const data = createMockUserData({
+			workouts: [createMockWorkout(1, 1)],
+		});
+		const onRepeatWeek = mock(() => {});
+		const onNavigateHome = mock(() => {});
+
+		const { container } = render(
+			<ProgressScreen
+				data={data}
+				onRepeatWeek={onRepeatWeek}
+				onNavigateHome={onNavigateHome}
+			/>,
+		);
+
+		// Week boxes should still exist
+		expect(container.querySelector(".weeks-grid")).toBeTruthy();
+		expect(container.querySelectorAll(".week").length).toBe(6);
 	});
 });
 

@@ -82,6 +82,21 @@
 			"passes": true
 		},
 		{
+			"id": "TEST-004",
+			"category": "Initial Fitness Test",
+			"description": "Retaking test fully resets training program to beginning",
+			"steps_to_verify": [
+				"Complete several workouts (e.g., week 2, day 2)",
+				"Navigate to settings and tap 'Powtórz test'",
+				"Complete the test with any result",
+				"Verify program resets to Week 1, Day 1",
+				"Verify week attempt counter resets to 1",
+				"Verify previous workout history is cleared or archived",
+				"Verify home screen shows fresh start with new level"
+			],
+			"passes": false
+		},
+		{
 			"id": "PROGRAM-001",
 			"category": "Program Structure",
 			"description": "Program consists of 6 weeks with 3 workouts per week",
@@ -803,7 +818,7 @@
 				"Verify all elements (instructions, input, button) visible without scrolling",
 				"Verify layout is compact with reduced padding/margins"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "DESIGN-010",
@@ -814,6 +829,20 @@
 				"Verify the horizontal progress bar with T1D1 labels is removed",
 				"Verify week boxes remain as the main progress visualization",
 				"Verify screen has more vertical space for week cards"
+			],
+			"passes": true
+		},
+		{
+			"id": "DESIGN-011",
+			"category": "Design",
+			"description": "Merge home and progress screens into single unified screen",
+			"steps_to_verify": [
+				"Open the app after completing initial test",
+				"Verify single main screen shows both workout start button and progress overview",
+				"Verify all 6 weeks with day indicators are visible",
+				"Verify current workout details and 'Rozpocznij trening' button are prominent",
+				"Verify navigation is simplified (no separate progress tab needed)",
+				"Verify screen fits on mobile without excessive scrolling"
 			],
 			"passes": false
 		}

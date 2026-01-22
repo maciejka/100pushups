@@ -845,78 +845,6 @@ label {
 	font-weight: 500;
 }
 
-.progress-screen .reps-chart {
-	background: var(--glass-bg);
-	backdrop-filter: blur(20px);
-	-webkit-backdrop-filter: blur(20px);
-	border: 1px solid var(--glass-border);
-	border-radius: var(--radius-xl);
-	padding: var(--space-6);
-	margin-bottom: var(--space-6);
-	box-shadow: var(--shadow-lg);
-}
-
-.progress-screen .reps-chart h2 {
-	font-size: 0.875rem;
-	font-weight: 600;
-	color: var(--text-muted);
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-	margin-bottom: var(--space-4);
-}
-
-.progress-screen .chart-container {
-	display: flex;
-	align-items: flex-end;
-	gap: 3px;
-	height: 140px;
-	border-bottom: 1px solid var(--glass-border);
-	padding-bottom: var(--space-1);
-}
-
-.progress-screen .chart-bar-container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	flex: 1;
-	min-width: 28px;
-}
-
-.progress-screen .chart-bar {
-	width: 100%;
-	background: var(--gradient-primary);
-	border-radius: 4px 4px 0 0;
-	min-height: 4px;
-	box-shadow: 0 0 12px var(--accent-primary-glow);
-	transition: all var(--transition-base);
-}
-
-.progress-screen .chart-bar:hover {
-	box-shadow: 0 0 20px var(--accent-primary-glow);
-}
-
-.progress-screen .chart-bar-label {
-	font-size: 0.6875rem;
-	font-weight: 600;
-	margin-bottom: 3px;
-	color: var(--text-muted);
-}
-
-.progress-screen .chart-x-labels {
-	display: flex;
-	gap: 3px;
-	margin-top: var(--space-2);
-}
-
-.progress-screen .chart-x-labels > div {
-	flex: 1;
-	text-align: center;
-	font-size: 0.625rem;
-	font-weight: 500;
-	min-width: 28px;
-	color: var(--text-faint);
-}
-
 .progress-screen .weeks {
 	display: flex;
 	flex-direction: column;
@@ -1032,36 +960,6 @@ label {
 	margin: 0;
 }
 
-.progress-screen-compact .reps-chart-compact {
-	padding: var(--space-3);
-	margin-bottom: var(--space-3);
-}
-
-.progress-screen-compact .reps-chart-compact h2 {
-	display: none;
-}
-
-.progress-screen-compact .reps-chart-compact .chart-container {
-	height: 80px;
-	gap: 2px;
-}
-
-.progress-screen-compact .reps-chart-compact .chart-bar-container {
-	min-width: 20px;
-}
-
-.progress-screen-compact .reps-chart-compact .chart-bar-label {
-	font-size: 0.5625rem;
-	margin-bottom: 2px;
-}
-
-.progress-screen-compact .reps-chart-compact .chart-x-label {
-	font-size: 0.5rem;
-	color: var(--text-faint);
-	margin-top: 2px;
-	white-space: nowrap;
-}
-
 .progress-screen-compact .weeks-grid {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
@@ -1157,16 +1055,21 @@ label {
 	width: 100%;
 }
 
-/* Initial Test */
+/* Initial Test - Compact Layout (DESIGN-009) */
 .initial-test {
-	padding: var(--space-6);
+	padding: var(--space-4);
 	max-width: 480px;
 	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	min-height: calc(100vh - 80px);
+	justify-content: center;
 }
 
 .initial-test h1 {
 	text-align: center;
-	margin-bottom: var(--space-6);
+	margin-bottom: var(--space-3);
+	font-size: 1.5rem;
 }
 
 .initial-test .instructions {
@@ -1174,32 +1077,37 @@ label {
 	backdrop-filter: blur(20px);
 	-webkit-backdrop-filter: blur(20px);
 	border: 1px solid var(--glass-border);
-	border-radius: var(--radius-xl);
-	padding: var(--space-6);
-	margin-bottom: var(--space-6);
-	box-shadow: var(--shadow-lg);
+	border-radius: var(--radius-lg);
+	padding: var(--space-4);
+	margin-bottom: var(--space-3);
+	box-shadow: var(--shadow-md);
 }
 
 .initial-test .instructions p {
-	margin-bottom: var(--space-4);
+	margin-bottom: var(--space-2);
 	font-weight: 500;
+	font-size: 0.875rem;
+	line-height: 1.4;
 }
 
 .initial-test .instructions h2 {
-	font-size: 0.9375rem;
+	font-size: 0.8125rem;
 	color: var(--accent-primary);
-	margin-bottom: var(--space-3);
+	margin-bottom: var(--space-2);
 	font-weight: 700;
 }
 
 .initial-test .instructions ol {
-	padding-left: var(--space-6);
+	padding-left: var(--space-5);
 	color: var(--text-secondary);
+	margin: 0;
 }
 
 .initial-test .instructions li {
-	margin-bottom: var(--space-2);
+	margin-bottom: var(--space-1);
 	font-weight: 500;
+	font-size: 0.8125rem;
+	line-height: 1.4;
 }
 
 .initial-test form {
@@ -1207,18 +1115,19 @@ label {
 	backdrop-filter: blur(20px);
 	-webkit-backdrop-filter: blur(20px);
 	border: 1px solid var(--glass-border);
-	border-radius: var(--radius-xl);
-	padding: var(--space-6);
-	box-shadow: var(--shadow-lg);
+	border-radius: var(--radius-lg);
+	padding: var(--space-4);
+	box-shadow: var(--shadow-md);
 }
 
 .initial-test form label {
 	text-align: center;
 	font-weight: 500;
+	font-size: 0.8125rem;
 }
 
 .initial-test form input {
-	margin: var(--space-5) 0;
+	margin: var(--space-3) 0;
 }
 
 .initial-test form button {
@@ -1228,9 +1137,9 @@ label {
 .initial-test .error {
 	color: var(--accent-danger);
 	text-align: center;
-	font-size: 0.875rem;
+	font-size: 0.8125rem;
 	font-weight: 500;
-	margin-bottom: var(--space-3);
+	margin-bottom: var(--space-2);
 }
 
 /* Confetti Animation */

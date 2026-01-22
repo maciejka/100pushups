@@ -28,14 +28,6 @@ export function ProgressScreen({
 		(completedWorkouts / totalWorkouts) * 100,
 	);
 
-	// Calculate total reps for each workout for the chart
-	const workoutTotals = data.workouts.map((w) => ({
-		label: `T${w.week}D${w.day}`,
-		reps: w.sets.reduce((sum, r) => sum + r, 0),
-		date: w.date,
-	}));
-	const maxReps = Math.max(...workoutTotals.map((w) => w.reps), 1);
-
 	return (
 		<div class="screen progress-screen progress-screen-compact">
 			<div class="progress-header">
@@ -44,24 +36,6 @@ export function ProgressScreen({
 					{completedWorkouts}/{totalWorkouts} ({completionPercent}%)
 				</span>
 			</div>
-
-			{workoutTotals.length > 0 && (
-				<div class="reps-chart reps-chart-compact">
-					<div class="chart-container">
-						{workoutTotals.map((w, i) => (
-							<div key={i} class="chart-bar-container">
-								<div
-									class="chart-bar"
-									style={{
-										height: `${(w.reps / maxReps) * 100}%`,
-									}}
-								/>
-								<div class="chart-x-label">{w.label}</div>
-							</div>
-						))}
-					</div>
-				</div>
-			)}
 
 			<div class="weeks weeks-grid">
 				{[1, 2, 3, 4, 5, 6].map((week) => {
