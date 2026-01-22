@@ -844,7 +844,7 @@
 				"Verify navigation is simplified (no separate progress tab needed)",
 				"Verify screen fits on mobile without excessive scrolling"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "DESIGN-012",
@@ -877,7 +877,7 @@
 				"Verify successful builds deploy to GitHub Pages",
 				"Verify deployed site is accessible at GitHub Pages URL"
 			],
-			"passes": false
+			"passes": true
 		}
 	]
 }
