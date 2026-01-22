@@ -1,8 +1,7 @@
 import { useState } from "preact/hooks";
 import { BottomNav } from "./components/BottomNav.tsx";
-import { HomeScreen } from "./components/HomeScreen.tsx";
+import { DashboardScreen } from "./components/DashboardScreen.tsx";
 import { InitialTest } from "./components/InitialTest.tsx";
-import { ProgressScreen } from "./components/ProgressScreen.tsx";
 import { SettingsScreen } from "./components/SettingsScreen.tsx";
 import { Toast } from "./components/Toast.tsx";
 import { WorkoutScreen } from "./components/WorkoutScreen.tsx";
@@ -112,13 +111,11 @@ export function App() {
 		if (!data) return null;
 		switch (route) {
 			case "home":
-				return <HomeScreen data={data} onStartWorkout={handleStartWorkout} />;
-			case "progress":
 				return (
-					<ProgressScreen
+					<DashboardScreen
 						data={data}
+						onStartWorkout={handleStartWorkout}
 						onRepeatWeek={handleRepeatWeek}
-						onNavigateHome={() => navigate("home")}
 					/>
 				);
 			case "settings":

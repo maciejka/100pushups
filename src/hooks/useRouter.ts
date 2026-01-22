@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "preact/hooks";
 
-export type Route = "home" | "progress" | "settings" | "workout";
+export type Route = "home" | "settings" | "workout";
 
 export function useRouter(): {
 	route: Route;
@@ -8,7 +8,7 @@ export function useRouter(): {
 } {
 	const getRouteFromHash = (): Route => {
 		const hash = window.location.hash.slice(1);
-		if (hash === "progress" || hash === "settings" || hash === "workout") {
+		if (hash === "settings" || hash === "workout") {
 			return hash;
 		}
 		return "home";

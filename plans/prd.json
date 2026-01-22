@@ -844,7 +844,7 @@
 				"Verify navigation is simplified (no separate progress tab needed)",
 				"Verify screen fits on mobile without excessive scrolling"
 			],
-			"passes": false
+			"passes": true
 		}
 	]
 }

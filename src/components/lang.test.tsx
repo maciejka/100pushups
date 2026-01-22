@@ -159,8 +159,8 @@ describe("TEST-LANG-001: All UI text is in Polish", () => {
 			);
 
 			// "Start" is acceptable as it's used in Polish too
+			// DESIGN-011: Navigation simplified to Start + Ustawienia (progress merged into dashboard)
 			expect(screen.getByText("Start")).toBeTruthy();
-			expect(screen.getByText("Postępy")).toBeTruthy();
 			expect(screen.getByText("Ustawienia")).toBeTruthy();
 
 			// No other forbidden words

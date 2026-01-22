@@ -7,34 +7,22 @@ afterEach(() => {
 });
 
 describe("BottomNav component", () => {
-	it("renders 3 navigation buttons", () => {
+	it("renders 2 navigation buttons (Start, Ustawienia)", () => {
 		const onNavigate = mock(() => {});
 		render(<BottomNav route="home" onNavigate={onNavigate} />);
 
 		const buttons = screen.getAllByRole("button");
-		expect(buttons).toHaveLength(3);
+		expect(buttons).toHaveLength(2);
 	});
 
 	it("clicking home button calls onNavigate with 'home'", () => {
 		const onNavigate = mock(() => {});
-		render(<BottomNav route="progress" onNavigate={onNavigate} />);
+		render(<BottomNav route="settings" onNavigate={onNavigate} />);
 
 		const homeButton = screen.getByText("Start").closest("button") as Element;
 		fireEvent.click(homeButton);
 
 		expect(onNavigate).toHaveBeenCalledWith("home");
-	});
-
-	it("clicking progress button calls onNavigate with 'progress'", () => {
-		const onNavigate = mock(() => {});
-		render(<BottomNav route="home" onNavigate={onNavigate} />);
-
-		const progressButton = screen
-			.getByText("Postępy")
-			.closest("button") as Element;
-		fireEvent.click(progressButton);
-
-		expect(onNavigate).toHaveBeenCalledWith("progress");
 	});
 
 	it("clicking settings button calls onNavigate with 'settings'", () => {
@@ -54,24 +42,9 @@ describe("BottomNav component", () => {
 		render(<BottomNav route="home" onNavigate={onNavigate} />);
 
 		const homeButton = screen.getByText("Start").closest("button");
-		const progressButton = screen.getByText("Postępy").closest("button");
 		const settingsButton = screen.getByText("Ustawienia").closest("button");
 
 		expect(homeButton?.className).toContain("active");
-		expect(progressButton?.className).not.toContain("active");
-		expect(settingsButton?.className).not.toContain("active");
-	});
-
-	it("applies active class to progress button when route is progress", () => {
-		const onNavigate = mock(() => {});
-		render(<BottomNav route="progress" onNavigate={onNavigate} />);
-
-		const homeButton = screen.getByText("Start").closest("button");
-		const progressButton = screen.getByText("Postępy").closest("button");
-		const settingsButton = screen.getByText("Ustawienia").closest("button");
-
-		expect(homeButton?.className).not.toContain("active");
-		expect(progressButton?.className).toContain("active");
 		expect(settingsButton?.className).not.toContain("active");
 	});
 
@@ -80,11 +53,9 @@ describe("BottomNav component", () => {
 		render(<BottomNav route="settings" onNavigate={onNavigate} />);
 
 		const homeButton = screen.getByText("Start").closest("button");
-		const progressButton = screen.getByText("Postępy").closest("button");
 		const settingsButton = screen.getByText("Ustawienia").closest("button");
 
 		expect(homeButton?.className).not.toContain("active");
-		expect(progressButton?.className).not.toContain("active");
 		expect(settingsButton?.className).toContain("active");
 	});
 });
