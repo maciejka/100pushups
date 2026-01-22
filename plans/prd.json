@@ -849,18 +849,31 @@
 		{
 			"id": "DESIGN-012",
 			"category": "Design",
-			"description": "Display Stefan's name in screen headers except welcome/initial test screen",
+			"description": "Consistent headers across all screens with '100p' title",
 			"steps_to_verify": [
-				"Open home/main screen",
-				"Verify header includes Stefan's name (e.g., 'Stefan' or 'Cześć Stefan')",
-				"Open workout screen",
-				"Verify header includes Stefan's name",
-				"Open settings screen",
-				"Verify header includes Stefan's name",
-				"Open initial test screen (first launch or retake)",
-				"Verify initial test screen does NOT show Stefan's name in header"
+				"Open each screen (home, workout, settings, progress)",
+				"Verify all headers display '100p' as the app title",
+				"Verify Stefan's name is NOT used in headers",
+				"Verify header font size is consistent across all screens",
+				"Verify header font is slightly larger than start/home page body text",
+				"Verify header font is smaller than current settings page header",
+				"Verify headers have consistent styling (padding, alignment, colors)"
 			],
-			"passes": true
+			"passes": false
+		},
+		{
+			"id": "DESIGN-013",
+			"category": "Design",
+			"description": "Consistent button styling: 'Następny trening' button has blue background like 'Następna seria'",
+			"steps_to_verify": [
+				"Complete a workout and return to home screen",
+				"Verify 'Następny trening' button has blue background",
+				"Start a workout and complete a set",
+				"Verify 'Następna seria' button has blue background",
+				"Compare both buttons - verify same blue color/gradient is used",
+				"Verify both buttons have consistent styling (padding, border-radius, text color)"
+			],
+			"passes": false
 		},
 		{
 			"id": "CI-001",
