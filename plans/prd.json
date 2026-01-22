@@ -849,17 +849,17 @@
 		{
 			"id": "DESIGN-012",
 			"category": "Design",
-			"description": "Consistent headers across all screens with '100p' title",
+			"description": "Unified headers across all screens matching home page style",
 			"steps_to_verify": [
-				"Open each screen (home, workout, settings, progress)",
-				"Verify all headers display '100p' as the app title",
+				"Open home screen and note header appearance",
+				"Open workout screen - verify header matches home page style",
+				"Open settings screen - verify header matches home page style",
+				"Open progress screen - verify header matches home page style",
+				"Verify all headers use same font size, padding, and layout as home page",
 				"Verify Stefan's name is NOT used in headers",
-				"Verify header font size is consistent across all screens",
-				"Verify header font is slightly larger than start/home page body text",
-				"Verify header font is smaller than current settings page header",
-				"Verify headers have consistent styling (padding, alignment, colors)"
+				"Verify '100p' title styling is consistent across all screens"
 			],
-			"passes": true
+			"passes": false
 		},
 		{
 			"id": "DESIGN-013",
@@ -874,6 +874,19 @@
 				"Verify both buttons have consistent styling (padding, border-radius, text color)"
 			],
 			"passes": true
+		},
+		{
+			"id": "DESIGN-014",
+			"category": "Design",
+			"description": "Rest timer on workout screen should not take more space than the reps input form",
+			"steps_to_verify": [
+				"Start a workout and complete a set to trigger rest timer",
+				"Measure vertical space taken by rest timer display",
+				"Compare to the reps input form height from previous screen",
+				"Verify timer display is compact and does not exceed form height",
+				"Verify timer remains readable despite compact size"
+			],
+			"passes": false
 		},
 		{
 			"id": "CI-001",
