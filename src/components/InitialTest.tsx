@@ -34,7 +34,7 @@ export function InitialTest({ onComplete }: InitialTestProps) {
 
 			<div class="instructions">
 				<p>
-					Zanim rozpoczniesz program, musisz wykonać test początkowy, który
+					Cześć Stefan! Zanim rozpoczniesz program, musisz wykonać test początkowy, który
 					określi Twój poziom startowy.
 				</p>
 				<h2>Instrukcja:</h2>

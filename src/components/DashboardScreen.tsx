@@ -100,7 +100,7 @@ export function DashboardScreen({
 								{currentAttempt > 1 && ` P${currentAttempt}`}
 							</span>
 							<span class="workout-target">
-								{workout.sets.length} serii · {targetReps}+ reps
+								{workout.sets.length} serii · {targetReps}+ powtórzeń
 							</span>
 						</div>
 						<button type="button" class="btn-primary" onClick={onStartWorkout}>
