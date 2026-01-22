@@ -234,7 +234,7 @@ export function WorkoutScreen({
 		);
 	}
 
-	// Rest timer screen
+	// Rest timer screen - compact (DESIGN-014)
 	if (isResting) {
 		return (
 			<div class="screen workout-screen rest-screen">
@@ -243,10 +243,10 @@ export function WorkoutScreen({
 					T: {data.currentWeek}/6, D: {data.currentDay}/3, S: {currentSet + 1}/
 					{totalSets}
 				</p>
-				<div class="rest-timer">
+				<div class="rest-timer-compact">
 					<span class="timer-value">{formatTime(restTimeLeft)}</span>
+					<span class="rest-hint-inline">Odpoczynek</span>
 				</div>
-				<p class="rest-hint">Przygotuj się do następnej serii</p>
 				<div class="rest-actions">
 					<button
 						type="button"

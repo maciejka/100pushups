@@ -213,6 +213,53 @@ describe("TEST-WORKOUT-002: Test rep logging in WorkoutScreen", () => {
 	});
 });
 
+describe("DESIGN-014: Rest timer compact layout", () => {
+	it("uses compact rest timer container matching rep input form", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		// Complete first set to enter rest
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+		fireEvent.input(input, { target: { value: "10" } });
+		fireEvent.click(screen.getByText("Następna seria"));
+
+		// Verify compact timer container exists
+		const timerCompact = container.querySelector(".rest-timer-compact");
+		expect(timerCompact).toBeTruthy();
+
+		// Verify timer value and hint are inline in same container
+		const timerValue = timerCompact?.querySelector(".timer-value");
+		const restHint = timerCompact?.querySelector(".rest-hint-inline");
+		expect(timerValue).toBeTruthy();
+		expect(restHint).toBeTruthy();
+	});
+
+	it("displays inline rest hint instead of separate line", () => {
+		const data = createMockUserData();
+		const onComplete = mock(() => {});
+		const onCancel = mock(() => {});
+		const { container } = render(
+			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
+		);
+
+		// Complete first set to enter rest
+		const input = container.querySelector(
+			'input[type="number"]',
+		) as HTMLInputElement;
+		fireEvent.input(input, { target: { value: "10" } });
+		fireEvent.click(screen.getByText("Następna seria"));
+
+		// Verify "Odpoczynek" hint is inline
+		expect(screen.getByText("Odpoczynek")).toBeTruthy();
+	});
+});
+
 describe("TEST-TIMER-001: Test rest timer appears between sets", () => {
 	it("shows rest timer screen with '100p' header (DESIGN-012)", () => {
 		const data = createMockUserData();
