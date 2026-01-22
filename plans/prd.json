@@ -860,7 +860,7 @@
 				"Open initial test screen (first launch or retake)",
 				"Verify initial test screen does NOT show Stefan's name in header"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "CI-001",

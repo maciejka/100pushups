@@ -242,8 +242,8 @@ describe("TEST-LANG-001: All UI text is in Polish", () => {
 				<SettingsScreen data={mockUserData} onRetakeTest={onRetakeTest} />,
 			);
 
-			// Check key Polish text
-			expect(screen.getByText("Ustawienia")).toBeTruthy();
+			// Check key Polish text (DESIGN-012: header includes Stefan's name)
+			expect(screen.getByText("Stefan · Ustawienia")).toBeTruthy();
 			expect(screen.getByText(/Aktualny poziom/)).toBeTruthy();
 			expect(screen.getByText(/Wynik testu/)).toBeTruthy();
 			expect(screen.getByText(/pompek/)).toBeTruthy();
@@ -265,8 +265,8 @@ describe("TEST-LANG-001: All UI text is in Polish", () => {
 				/>,
 			);
 
-			// Check key Polish text - uses compact T: D: S: format
-			expect(screen.getByText("Trening")).toBeTruthy();
+			// Check key Polish text - uses compact T: D: S: format (DESIGN-012: header includes Stefan's name)
+			expect(screen.getByText("Stefan · Trening")).toBeTruthy();
 			expect(
 				screen.getByText(/T: \d+\/6, D: \d+\/3, S: \d+\/\d+/),
 			).toBeTruthy();

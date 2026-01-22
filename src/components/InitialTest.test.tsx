@@ -126,6 +126,17 @@ describe("TEST-TEST-001: Initial fitness test flow", () => {
 	});
 });
 
+describe("DESIGN-012: Stefan's name NOT in initial test header", () => {
+	it("does NOT display Stefan's name in header", () => {
+		const onComplete = mock(() => {});
+		render(<InitialTest onComplete={onComplete} />);
+
+		// InitialTest should show "Test początkowy" NOT "Stefan · Test początkowy"
+		expect(screen.getByText("Test początkowy")).toBeTruthy();
+		expect(screen.queryByText(/Stefan/)).toBeNull();
+	});
+});
+
 describe("DESIGN-009: Initial test screen compact layout", () => {
 	it("uses initial-test class for compact layout", () => {
 		const onComplete = mock(() => {});

@@ -157,13 +157,13 @@ describe("SettingsScreen UI", () => {
 		expect(container.querySelector(".settings-screen")).toBeTruthy();
 	});
 
-	it("displays Ustawienia heading", () => {
+	it("displays header with Stefan's name (DESIGN-012)", () => {
 		const data = createMockUserData();
 		const onRetakeTest = mock(() => {});
 
 		render(<SettingsScreen data={data} onRetakeTest={onRetakeTest} />);
 
-		expect(screen.getByText("Ustawienia")).toBeTruthy();
+		expect(screen.getByText("Stefan · Ustawienia")).toBeTruthy();
 	});
 
 	it("retake button uses btn-secondary class", () => {

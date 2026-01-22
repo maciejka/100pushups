@@ -238,7 +238,7 @@ export function WorkoutScreen({
 	if (isResting) {
 		return (
 			<div class="screen workout-screen rest-screen">
-				<h1>Odpoczynek</h1>
+				<h1>Stefan · Odpoczynek</h1>
 				<p class="workout-info">
 					T: {data.currentWeek}/6, D: {data.currentDay}/3, S: {currentSet + 1}/
 					{totalSets}
@@ -269,7 +269,7 @@ export function WorkoutScreen({
 
 	return (
 		<div class="screen workout-screen">
-			<h1>Trening</h1>
+			<h1>Stefan · Trening</h1>
 			<p class="workout-info">
 				T: {data.currentWeek}/6, D: {data.currentDay}/3, S: {currentSet + 1}/
 				{totalSets}
