@@ -844,7 +844,40 @@
 				"Verify navigation is simplified (no separate progress tab needed)",
 				"Verify screen fits on mobile without excessive scrolling"
 			],
-			"passes": true
+			"passes": false
+		},
+		{
+			"id": "DESIGN-012",
+			"category": "Design",
+			"description": "Display Stefan's name in screen headers except welcome/initial test screen",
+			"steps_to_verify": [
+				"Open home/main screen",
+				"Verify header includes Stefan's name (e.g., 'Stefan' or 'Cześć Stefan')",
+				"Open workout screen",
+				"Verify header includes Stefan's name",
+				"Open settings screen",
+				"Verify header includes Stefan's name",
+				"Open initial test screen (first launch or retake)",
+				"Verify initial test screen does NOT show Stefan's name in header"
+			],
+			"passes": false
+		},
+		{
+			"id": "CI-001",
+			"category": "CI/CD",
+			"description": "GitHub Actions workflow for lint, test, PWA audit, and deploy to GitHub Pages",
+			"steps_to_verify": [
+				"Verify .github/workflows directory exists with CI workflow file",
+				"Push a commit to main/dev branch",
+				"Verify GitHub Actions runs lint step",
+				"Verify GitHub Actions runs test step",
+				"Verify GitHub Actions runs Lighthouse PWA audit",
+				"Verify PWA audit checks performance, accessibility, and PWA score",
+				"Verify workflow fails if lint, tests, or PWA audit fail",
+				"Verify successful builds deploy to GitHub Pages",
+				"Verify deployed site is accessible at GitHub Pages URL"
+			],
+			"passes": false
 		}
 	]
 }
