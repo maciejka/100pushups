@@ -859,7 +859,7 @@
 				"Verify header font is smaller than current settings page header",
 				"Verify headers have consistent styling (padding, alignment, colors)"
 			],
-			"passes": false
+			"passes": true
 		},
 		{
 			"id": "DESIGN-013",

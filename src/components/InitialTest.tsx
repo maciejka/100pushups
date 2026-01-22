@@ -30,7 +30,7 @@ export function InitialTest({ onComplete }: InitialTestProps) {
 
 	return (
 		<div class="initial-test">
-			<h1>Test początkowy</h1>
+			<h1>100p</h1>
 
 			<div class="instructions">
 				<p>

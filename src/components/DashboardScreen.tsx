@@ -62,7 +62,7 @@ export function DashboardScreen({
 		<div class="screen dashboard-screen">
 			<div class="dashboard-header">
 				<div class="header-left">
-					<span class="greeting-name">Stefan</span>
+					<span class="app-title">100p</span>
 					<span class="header-divider">·</span>
 					<span class="level-badge">P{data.level}</span>
 				</div>

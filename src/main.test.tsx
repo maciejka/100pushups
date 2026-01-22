@@ -11,10 +11,9 @@ describe("100 Pushups App", () => {
 
 		// Wait for app to finish loading and show content
 		await waitFor(() => {
-			// After loading, it should show either the test or the main app
-			const hasTest = screen.queryByText("Test początkowy");
-			const hasMain = screen.queryByText("100 Pompek");
-			expect(hasTest || hasMain).toBeTruthy();
+			// After loading, it should show '100p' header (DESIGN-012)
+			// This appears on both InitialTest and Dashboard screens
+			expect(screen.getByText("100p")).toBeTruthy();
 		});
 	});
 });

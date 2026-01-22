@@ -11,8 +11,8 @@ describe("TEST-TEST-001: Initial fitness test flow", () => {
 		const onComplete = mock(() => {});
 		render(<InitialTest onComplete={onComplete} />);
 
-		// Verify title is displayed
-		expect(screen.getByText("Test początkowy")).toBeTruthy();
+		// Verify title is displayed (DESIGN-012: '100p' header)
+		expect(screen.getByText("100p")).toBeTruthy();
 
 		// Verify instructions section
 		expect(screen.getByText("Instrukcja:")).toBeTruthy();
@@ -126,13 +126,13 @@ describe("TEST-TEST-001: Initial fitness test flow", () => {
 	});
 });
 
-describe("DESIGN-012: Stefan's name NOT in initial test header", () => {
-	it("does NOT display Stefan's name in header", () => {
+describe("DESIGN-012: Consistent '100p' header", () => {
+	it("displays '100p' header, NOT Stefan's name", () => {
 		const onComplete = mock(() => {});
 		render(<InitialTest onComplete={onComplete} />);
 
-		// InitialTest should show "Test początkowy" NOT "Stefan · Test początkowy"
-		expect(screen.getByText("Test początkowy")).toBeTruthy();
+		// InitialTest should show "100p" as header
+		expect(screen.getByText("100p")).toBeTruthy();
 		expect(screen.queryByText(/Stefan/)).toBeNull();
 	});
 });
@@ -160,7 +160,7 @@ describe("DESIGN-009: Initial test screen compact layout", () => {
 		expect(form).toBeTruthy();
 
 		// Verify all critical elements are present
-		expect(screen.getByText("Test początkowy")).toBeTruthy();
+		expect(screen.getByText("100p")).toBeTruthy();
 		expect(screen.getByText("Instrukcja:")).toBeTruthy();
 		expect(screen.getByPlaceholderText("0")).toBeTruthy();
 		expect(screen.getByText("Zapisz wynik")).toBeTruthy();

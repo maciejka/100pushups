@@ -99,7 +99,7 @@ describe("DESIGN-011: Merged home and progress screens", () => {
 		expect(startButton.classList.contains("btn-primary")).toBe(true);
 	});
 
-	it("displays header with name, level and completion percentage", () => {
+	it("displays header with '100p' title, level and completion percentage (DESIGN-012)", () => {
 		const data = createMockUserData({
 			level: 3,
 			workouts: [
@@ -119,8 +119,8 @@ describe("DESIGN-011: Merged home and progress screens", () => {
 			/>,
 		);
 
-		// Should show Stefan's name
-		expect(screen.getByText("Stefan")).toBeTruthy();
+		// Should show '100p' title (DESIGN-012)
+		expect(screen.getByText("100p")).toBeTruthy();
 
 		// Should show level badge
 		expect(screen.getByText("P3")).toBeTruthy();

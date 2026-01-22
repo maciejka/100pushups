@@ -20,7 +20,7 @@ function createMockUserData(overrides: Partial<UserData> = {}): UserData {
 }
 
 describe("TEST-WORKOUT-001: WorkoutScreen renders correctly", () => {
-	it("displays header with Stefan's name (DESIGN-012)", () => {
+	it("displays '100p' header (DESIGN-012)", () => {
 		const data = createMockUserData();
 		const onComplete = mock(() => {});
 		const onCancel = mock(() => {});
@@ -28,7 +28,7 @@ describe("TEST-WORKOUT-001: WorkoutScreen renders correctly", () => {
 			<WorkoutScreen data={data} onComplete={onComplete} onCancel={onCancel} />,
 		);
 
-		expect(screen.getByText("Stefan · Trening")).toBeTruthy();
+		expect(screen.getByText("100p")).toBeTruthy();
 	});
 
 	it("displays compact session info with T: D: S: format", () => {
@@ -214,7 +214,7 @@ describe("TEST-WORKOUT-002: Test rep logging in WorkoutScreen", () => {
 });
 
 describe("TEST-TIMER-001: Test rest timer appears between sets", () => {
-	it("shows rest timer screen with Stefan's name in header (DESIGN-012)", () => {
+	it("shows rest timer screen with '100p' header (DESIGN-012)", () => {
 		const data = createMockUserData();
 		const onComplete = mock(() => {});
 		const onCancel = mock(() => {});
@@ -229,8 +229,8 @@ describe("TEST-TIMER-001: Test rest timer appears between sets", () => {
 		fireEvent.input(input, { target: { value: "10" } });
 		fireEvent.click(screen.getByText("Następna seria"));
 
-		// Rest timer screen should appear with Stefan's name
-		expect(screen.getByText("Stefan · Odpoczynek")).toBeTruthy();
+		// Rest timer screen should appear with '100p' header
+		expect(screen.getByText("100p")).toBeTruthy();
 	});
 
 	it("displays countdown timer value", () => {
@@ -308,15 +308,15 @@ describe("TEST-TIMER-003: Test skip and pause timer functionality", () => {
 		fireEvent.input(input, { target: { value: "10" } });
 		fireEvent.click(screen.getByText("Następna seria"));
 
-		// Verify we're in rest mode
-		expect(screen.getByText("Stefan · Odpoczynek")).toBeTruthy();
+		// Verify we're in rest mode (header shows 100p, timer shows 1:00)
+		expect(screen.getByText("1:00")).toBeTruthy();
 		expect(screen.getByText("Pomiń")).toBeTruthy();
 
 		// Click skip
 		fireEvent.click(screen.getByText("Pomiń"));
 
-		// Should no longer be in rest mode - back to workout input
-		expect(screen.queryByText("Stefan · Odpoczynek")).toBeNull();
+		// Should no longer be in rest mode - back to workout input (timer gone)
+		expect(screen.queryByText("1:00")).toBeNull();
 		expect(screen.getByText(/S: 2\/5/)).toBeTruthy();
 	});
 
@@ -336,7 +336,7 @@ describe("TEST-TIMER-003: Test skip and pause timer functionality", () => {
 		fireEvent.click(screen.getByText("Następna seria"));
 
 		// Verify we're in rest mode with pause button
-		expect(screen.getByText("Stefan · Odpoczynek")).toBeTruthy();
+		expect(screen.getByText("1:00")).toBeTruthy();
 		expect(screen.getByText("Pauza")).toBeTruthy();
 
 		// Click pause

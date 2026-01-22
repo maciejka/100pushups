@@ -8,7 +8,7 @@ interface SettingsScreenProps {
 export function SettingsScreen({ data, onRetakeTest }: SettingsScreenProps) {
 	return (
 		<div class="screen settings-screen">
-			<h1>Stefan · Ustawienia</h1>
+			<h1>100p</h1>
 			<div class="setting-item">
 				<span>Aktualny poziom:</span>
 				<span>{data.level}</span>
