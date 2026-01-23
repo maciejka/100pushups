@@ -12,20 +12,6 @@ const isSameDay = (d1: Date, d2: Date) =>
 	d1.getMonth() === d2.getMonth() &&
 	d1.getDate() === d2.getDate();
 
-const MESSAGES = [
-	"Każda pompka to krok do celu!",
-	"Dzisiaj budujesz siłę na jutro!",
-	"Nie poddawaj się, Stefan!",
-	"Jesteś silniejszy niż myślisz!",
-	"100 pompek? Dasz radę!",
-	"Cel jest w zasięgu ręki!",
-	"Twoja determinacja jest inspirująca!",
-	"Ruszamy po rekord!",
-];
-
-const randomMessage = () =>
-	MESSAGES[Math.floor(Math.random() * MESSAGES.length)] ?? MESSAGES[0];
-
 export function HomeScreen({ data, onStartWorkout }: HomeScreenProps) {
 	const level = data.level as 1 | 2 | 3 | 4 | 5;
 	const workout = getWorkout(level, data.currentWeek, data.currentDay);
@@ -65,11 +51,7 @@ export function HomeScreen({ data, onStartWorkout }: HomeScreenProps) {
 				</div>
 			) : (
 				workout && (
-					<>
-						<div class="motivational-message">
-							<p class="message-text">{randomMessage()}</p>
-						</div>
-						<div class="workout-preview">
+					<div class="workout-preview">
 							<p>Następny trening:</p>
 							<p>
 								{workout.sets.length} serii, cel: {targetReps}+ powtórzeń
@@ -81,8 +63,7 @@ export function HomeScreen({ data, onStartWorkout }: HomeScreenProps) {
 							>
 								Rozpocznij trening
 							</button>
-						</div>
-					</>
+					</div>
 				)
 			)}
 		</div>

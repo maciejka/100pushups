@@ -23,20 +23,6 @@ function getWorkoutTotal(
 	return workout.sets.reduce((sum, r) => sum + r, 0);
 }
 
-const MESSAGES = [
-	"Każda pompka to krok do celu!",
-	"Dzisiaj budujesz siłę na jutro!",
-	"Nie poddawaj się, Stefan!",
-	"Jesteś silniejszy niż myślisz!",
-	"100 pompek? Dasz radę!",
-	"Cel jest w zasięgu ręki!",
-	"Twoja determinacja jest inspirująca!",
-	"Ruszamy po rekord!",
-];
-
-const randomMessage = () =>
-	MESSAGES[Math.floor(Math.random() * MESSAGES.length)] ?? MESSAGES[0];
-
 export function DashboardScreen({
 	data,
 	onStartWorkout,
@@ -81,7 +67,6 @@ export function DashboardScreen({
 			) : (
 				workout && (
 					<div class="workout-card">
-						<p class="motivational-text">{randomMessage()}</p>
 						<div class="workout-info">
 							<span class="workout-label">
 								T{data.currentWeek}/D{data.currentDay}

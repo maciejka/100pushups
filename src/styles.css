@@ -499,39 +499,6 @@ label {
 	margin-bottom: var(--space-3);
 }
 
-/* Motivational Message */
-.motivational-message {
-	animation: slide-up 0.5s var(--transition-slow);
-	background: var(--glass-bg);
-	backdrop-filter: blur(16px);
-	-webkit-backdrop-filter: blur(16px);
-	border-radius: var(--radius-lg);
-	padding: var(--space-5);
-	text-align: center;
-	margin-bottom: var(--space-6);
-	border: 1px solid var(--glass-border);
-	box-shadow: var(--shadow-md);
-	position: relative;
-	overflow: hidden;
-}
-
-.motivational-message::before {
-	content: "";
-	position: absolute;
-	left: 0;
-	top: 0;
-	bottom: 0;
-	width: 3px;
-	background: var(--gradient-primary);
-}
-
-.motivational-message .message-text {
-	color: var(--text-primary);
-	font-weight: 600;
-	font-size: 1rem;
-	letter-spacing: -0.01em;
-}
-
 /* Dashboard Screen (DESIGN-011) - Unified Home + Progress */
 .dashboard-screen {
 	display: flex;
@@ -554,14 +521,6 @@ label {
 	padding: var(--space-5);
 	text-align: center;
 	box-shadow: var(--shadow-md);
-}
-
-.dashboard-screen .workout-card .motivational-text {
-	color: var(--text-secondary);
-	font-size: 0.875rem;
-	font-weight: 500;
-	margin-bottom: var(--space-3);
-	font-style: italic;
 }
 
 .dashboard-screen .workout-card .workout-info {
