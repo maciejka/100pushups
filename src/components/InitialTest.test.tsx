@@ -127,13 +127,14 @@ describe("TEST-TEST-001: Initial fitness test flow", () => {
 });
 
 describe("DESIGN-012: Consistent '100p' header", () => {
-	it("displays '100p' header, NOT Stefan's name", () => {
+	it("displays '100p' header with personalized greeting", () => {
 		const onComplete = mock(() => {});
 		render(<InitialTest onComplete={onComplete} />);
 
 		// InitialTest should show "100p" as header
 		expect(screen.getByText("100p")).toBeTruthy();
-		expect(screen.queryByText(/Stefan/)).toBeNull();
+		// Personalized greeting should be present
+		expect(screen.getByText(/Cześć Stefan/)).toBeTruthy();
 	});
 });
 
