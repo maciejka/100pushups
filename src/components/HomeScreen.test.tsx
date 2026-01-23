@@ -20,7 +20,7 @@ function createMockUserData(overrides: Partial<UserData> = {}): UserData {
 }
 
 describe("DESIGN-004: Compact home screen header", () => {
-	it("displays compact header with Stefan name, level badge, and progress", () => {
+	it("displays AppHeader with 100p title, level badge, and progress", () => {
 		const data = createMockUserData({
 			level: 3,
 			currentWeek: 2,
@@ -30,8 +30,8 @@ describe("DESIGN-004: Compact home screen header", () => {
 
 		render(<HomeScreen data={data} onStartWorkout={onStartWorkout} />);
 
-		// Should show Stefan's name
-		expect(screen.getByText("Stefan")).toBeTruthy();
+		// Should show 100p title
+		expect(screen.getByText("100p")).toBeTruthy();
 
 		// Should show level badge in compact format P{level}
 		expect(screen.getByText("P3")).toBeTruthy();
@@ -41,24 +41,27 @@ describe("DESIGN-004: Compact home screen header", () => {
 		expect(screen.getByText(/D: 2\/3/)).toBeTruthy();
 	});
 
-	it("displays attempt number in compact format when attempt > 1", () => {
+	it("displays progress info without set counter on home screen", () => {
 		const data = createMockUserData({
 			level: 2,
 			currentWeek: 3,
 			currentDay: 1,
-			weekAttempts: { 3: 2 },
 		});
 		const onStartWorkout = mock(() => {});
 
-		render(<HomeScreen data={data} onStartWorkout={onStartWorkout} />);
+		const { container } = render(
+			<HomeScreen data={data} onStartWorkout={onStartWorkout} />,
+		);
 
-		// Should show week, day, and attempt in compact format
-		expect(screen.getByText(/T: 3\/6/)).toBeTruthy();
-		expect(screen.getByText(/D: 1\/3/)).toBeTruthy();
-		expect(screen.getByText(/P: 2/)).toBeTruthy();
+		// Should show week and day in progress info
+		const progressInfo = container.querySelector(".progress-info");
+		expect(progressInfo?.textContent).toContain("T: 3/6");
+		expect(progressInfo?.textContent).toContain("D: 1/3");
+		// Should NOT show set counter (S:) on home screen
+		expect(progressInfo?.textContent).not.toContain("S:");
 	});
 
-	it("does not display attempt number when attempt is 1", () => {
+	it("shows progress info when program not complete", () => {
 		const data = createMockUserData({
 			level: 1,
 			currentWeek: 1,
@@ -70,13 +73,11 @@ describe("DESIGN-004: Compact home screen header", () => {
 			<HomeScreen data={data} onStartWorkout={onStartWorkout} />,
 		);
 
-		// Should NOT show P: 1
-		const headerText =
-			container.querySelector(".progress-compact")?.textContent;
-		expect(headerText).not.toContain("P:");
+		// Should show progress-info span
+		expect(container.querySelector(".progress-info")).toBeTruthy();
 	});
 
-	it("does not display progress compact when program complete", () => {
+	it("shows progress info even when program complete", () => {
 		const data = createMockUserData({
 			currentWeek: 7, // Program complete
 		});
@@ -86,19 +87,19 @@ describe("DESIGN-004: Compact home screen header", () => {
 			<HomeScreen data={data} onStartWorkout={onStartWorkout} />,
 		);
 
-		// Should NOT show progress-compact span
-		expect(container.querySelector(".progress-compact")).toBeNull();
+		// AppHeader always shows progress info when week/day provided
+		expect(container.querySelector(".progress-info")).toBeTruthy();
 	});
 });
 
 describe("TEST-HOME-001: HomeScreen displays workout preview", () => {
-	it("shows Stefan's name in greeting", () => {
+	it("shows 100p title in AppHeader", () => {
 		const data = createMockUserData({ level: 1 });
 		const onStartWorkout = mock(() => {});
 
 		render(<HomeScreen data={data} onStartWorkout={onStartWorkout} />);
 
-		expect(screen.getByText("Stefan")).toBeTruthy();
+		expect(screen.getByText("100p")).toBeTruthy();
 	});
 
 	it("displays current week and day", () => {

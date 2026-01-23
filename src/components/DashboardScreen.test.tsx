@@ -99,9 +99,11 @@ describe("DESIGN-011: Merged home and progress screens", () => {
 		expect(startButton.classList.contains("btn-primary")).toBe(true);
 	});
 
-	it("displays header with '100p' title, level and completion percentage (DESIGN-012)", () => {
+	it("displays AppHeader with '100p' title, level and progress (DESIGN-012)", () => {
 		const data = createMockUserData({
 			level: 3,
+			currentWeek: 2,
+			currentDay: 1,
 			workouts: [
 				createMockWorkout(1, 1),
 				createMockWorkout(1, 2),
@@ -111,7 +113,7 @@ describe("DESIGN-011: Merged home and progress screens", () => {
 		const onStartWorkout = mock(() => {});
 		const onRepeatWeek = mock(() => {});
 
-		render(
+		const { container } = render(
 			<DashboardScreen
 				data={data}
 				onStartWorkout={onStartWorkout}
@@ -125,9 +127,10 @@ describe("DESIGN-011: Merged home and progress screens", () => {
 		// Should show level badge
 		expect(screen.getByText("P3")).toBeTruthy();
 
-		// Should show completion (3/18 = 17%)
-		expect(screen.getByText(/3\/18/)).toBeTruthy();
-		expect(screen.getByText(/17%/)).toBeTruthy();
+		// Should show progress in AppHeader (T: x/6, D: x/3 format)
+		const progressInfo = container.querySelector(".progress-info");
+		expect(progressInfo?.textContent).toContain("T: 2/6");
+		expect(progressInfo?.textContent).toContain("D: 1/3");
 	});
 
 	it("shows completed workout state with next workout button", () => {

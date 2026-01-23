@@ -206,8 +206,8 @@ describe("REPEAT-005: Visual feedback for week repeat", () => {
 	});
 });
 
-describe("TEST-PROGRESS-002: Completion percentage calculation", () => {
-	it("shows ~17% with 3 completed workouts (3/18)", () => {
+describe("TEST-PROGRESS-002: Progress screen shows current position", () => {
+	it("shows AppHeader with current week and day", () => {
 		const data = createMockUserData({
 			currentWeek: 2,
 			currentDay: 1,
@@ -220,7 +220,7 @@ describe("TEST-PROGRESS-002: Completion percentage calculation", () => {
 		const onRepeatWeek = mock(() => {});
 		const onNavigateHome = mock(() => {});
 
-		render(
+		const { container } = render(
 			<ProgressScreen
 				data={data}
 				onRepeatWeek={onRepeatWeek}
@@ -228,25 +228,17 @@ describe("TEST-PROGRESS-002: Completion percentage calculation", () => {
 			/>,
 		);
 
-		// 3/18 = 16.67% rounds to 17% - compact format: 3/18 (17%)
-		const completion = screen.getByText(/3\/18/);
-		expect(completion).toBeTruthy();
-		expect(completion.textContent).toContain("17%");
+		// AppHeader shows T: x/6, D: x/3 format
+		const progressInfo = container.querySelector(".progress-info");
+		expect(progressInfo?.textContent).toContain("T: 2/6");
+		expect(progressInfo?.textContent).toContain("D: 1/3");
 	});
 
-	it("shows 50% with 9 completed workouts (9/18)", () => {
-		const workouts = [];
-		// Create 9 workouts: 3 weeks × 3 days
-		for (let week = 1; week <= 3; week++) {
-			for (let day = 1; day <= 3; day++) {
-				workouts.push(createMockWorkout(week, day));
-			}
-		}
-
+	it("shows level badge in AppHeader", () => {
 		const data = createMockUserData({
+			level: 3,
 			currentWeek: 4,
 			currentDay: 1,
-			workouts,
 		});
 		const onRepeatWeek = mock(() => {});
 		const onNavigateHome = mock(() => {});
@@ -259,10 +251,8 @@ describe("TEST-PROGRESS-002: Completion percentage calculation", () => {
 			/>,
 		);
 
-		// 9/18 = 50% - compact format: 9/18 (50%)
-		const completion = screen.getByText(/9\/18/);
-		expect(completion).toBeTruthy();
-		expect(completion.textContent).toContain("50%");
+		// Should show level badge
+		expect(screen.getByText("P3")).toBeTruthy();
 	});
 });
 
@@ -304,7 +294,7 @@ describe("DESIGN-007: Progress screen fits phone screen without scrolling", () =
 		expect(weeksGrid).toBeTruthy();
 	});
 
-	it("uses compact header with inline completion info", () => {
+	it("uses AppHeader with title and progress info", () => {
 		const data = createMockUserData({
 			workouts: [createMockWorkout(1, 1)],
 		});
@@ -319,11 +309,11 @@ describe("DESIGN-007: Progress screen fits phone screen without scrolling", () =
 			/>,
 		);
 
-		// Header should contain h1 and completion in a flex row
-		const header = container.querySelector(".progress-header");
+		// AppHeader should contain h1 and progress info
+		const header = container.querySelector(".app-header");
 		expect(header).toBeTruthy();
 		expect(header?.querySelector("h1")).toBeTruthy();
-		expect(header?.querySelector(".completion")).toBeTruthy();
+		expect(header?.querySelector(".progress-info")).toBeTruthy();
 	});
 });
 

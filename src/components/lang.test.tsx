@@ -99,8 +99,8 @@ describe("TEST-LANG-001: All UI text is in Polish", () => {
 				<HomeScreen data={mockUserData} onStartWorkout={onStartWorkout} />,
 			);
 
-			// Check key Polish text is present - compact header format
-			expect(screen.getByText("Stefan")).toBeTruthy(); // Greeting name
+			// Check key Polish text is present - AppHeader format
+			expect(screen.getByText("100p")).toBeTruthy(); // App title
 			expect(screen.getByText(/P\d/)).toBeTruthy(); // Level badge (P1, P2, etc.)
 			expect(screen.getByText(/T: \d\/6/)).toBeTruthy(); // Week progress
 			expect(screen.getByText(/D: \d\/3/)).toBeTruthy(); // Day progress
@@ -184,10 +184,11 @@ describe("TEST-LANG-001: All UI text is in Polish", () => {
 				/>,
 			);
 
-			// Check key Polish text
-			expect(screen.getByText("Postępy")).toBeTruthy();
-			// Very compact format: X/18 (Y%)
-			expect(screen.getByText(/\d+\/18/)).toBeTruthy();
+			// Check key Polish text - AppHeader format
+			expect(screen.getByText("100p")).toBeTruthy();
+			// Progress info in AppHeader
+			expect(screen.getByText(/T: \d\/6/)).toBeTruthy();
+			expect(screen.getByText(/D: \d\/3/)).toBeTruthy();
 			// Compact week labels: T1, T2, etc.
 			expect(screen.getByText("T1")).toBeTruthy();
 			expect(screen.getByText(/T2/)).toBeTruthy();
