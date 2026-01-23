@@ -1,5 +1,6 @@
 import { getTargetReps, getWorkout } from "../data/program.ts";
 import type { UserData } from "../stores/db.ts";
+import { AppHeader } from "./AppHeader.tsx";
 
 interface HomeScreenProps {
 	data: UserData;
@@ -38,26 +39,13 @@ export function HomeScreen({ data, onStartWorkout }: HomeScreenProps) {
 	// Check if program is complete (after week 6, day 3)
 	const programComplete = data.currentWeek > 6;
 
-	// Get current week attempt number
-	const currentAttempt = data.weekAttempts[data.currentWeek] ?? 1;
-
 	return (
 		<div class="screen home-screen">
-			<div class="compact-header">
-				<div class="header-left">
-					<span class="greeting-name">Stefan</span>
-					<span class="header-divider">·</span>
-					<span class="level-badge">P{data.level}</span>
-				</div>
-				<div class="header-right">
-					{!programComplete && (
-						<span class="progress-compact">
-							T: {data.currentWeek}/6, D: {data.currentDay}/3
-							{currentAttempt > 1 && `, P: ${currentAttempt}`}
-						</span>
-					)}
-				</div>
-			</div>
+			<AppHeader
+				level={data.level}
+				week={data.currentWeek}
+				day={data.currentDay}
+			/>
 			{programComplete ? (
 				<div class="program-complete">
 					<p class="week-info">Program ukończony!</p>

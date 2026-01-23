@@ -1,5 +1,6 @@
 import { getTargetReps, getWorkout } from "../data/program.ts";
 import type { UserData, WorkoutRecord } from "../stores/db.ts";
+import { AppHeader } from "./AppHeader.tsx";
 
 interface DashboardScreenProps {
 	data: UserData;
@@ -52,26 +53,13 @@ export function DashboardScreen({
 	const programComplete = data.currentWeek > 6;
 	const currentAttempt = data.weekAttempts[data.currentWeek] ?? 1;
 
-	const completedWorkouts = data.workouts.length;
-	const totalWorkouts = 18;
-	const completionPercent = Math.round(
-		(completedWorkouts / totalWorkouts) * 100,
-	);
-
 	return (
 		<div class="screen dashboard-screen">
-			<div class="dashboard-header">
-				<div class="header-left">
-					<span class="app-title">100p</span>
-					<span class="header-divider">·</span>
-					<span class="level-badge">P{data.level}</span>
-				</div>
-				<div class="header-right">
-					<span class="completion-badge">
-						{completedWorkouts}/{totalWorkouts} ({completionPercent}%)
-					</span>
-				</div>
-			</div>
+			<AppHeader
+				level={data.level}
+				week={data.currentWeek}
+				day={data.currentDay}
+			/>
 
 			{programComplete ? (
 				<div class="workout-card program-complete-card">

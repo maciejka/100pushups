@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { getWorkout, isMaxSet } from "../data/program.ts";
 import type { UserData, WorkoutRecord } from "../stores/db.ts";
+import { AppHeader } from "./AppHeader.tsx";
 import { Confetti } from "./Confetti.tsx";
 
 function playBeep(): void {
@@ -186,11 +187,12 @@ export function WorkoutScreen({
 		return (
 			<div class="screen workout-screen complete-screen">
 				{!shouldSuggestRepeat && <Confetti />}
-				<h1>100p</h1>
+				<AppHeader
+					level={level}
+					week={finalRecord.week}
+					day={finalRecord.day}
+				/>
 				<p class="complete-message">Świetna robota! 🔥</p>
-				<p class="workout-info">
-					T: {finalRecord.week}/6, D: {finalRecord.day}/3
-				</p>
 				<div class="completion-summary">
 					<p class="total-reps">
 						Łącznie: <strong>{totalReps}</strong> powtórzeń
@@ -239,11 +241,13 @@ export function WorkoutScreen({
 	if (isResting) {
 		return (
 			<div class="screen workout-screen rest-screen">
-				<h1>100p</h1>
-				<p class="workout-info">
-					T: {data.currentWeek}/6, D: {data.currentDay}/3, S: {currentSet + 1}/
-					{totalSets}
-				</p>
+				<AppHeader
+					level={level}
+					week={data.currentWeek}
+					day={data.currentDay}
+					currentSet={currentSet}
+					totalSets={totalSets}
+				/>
 				<div class="rest-timer-compact">
 					<span class="timer-value">{formatTime(restTimeLeft)}</span>
 					<span class="rest-hint-inline">Odpoczynek</span>
@@ -270,11 +274,13 @@ export function WorkoutScreen({
 
 	return (
 		<div class="screen workout-screen">
-			<h1>100p</h1>
-			<p class="workout-info">
-				T: {data.currentWeek}/6, D: {data.currentDay}/3, S: {currentSet + 1}/
-				{totalSets}
-			</p>
+			<AppHeader
+				level={level}
+				week={data.currentWeek}
+				day={data.currentDay}
+				currentSet={currentSet}
+				totalSets={totalSets}
+			/>
 			<div class="rep-input-compact">
 				<input
 					type="number"

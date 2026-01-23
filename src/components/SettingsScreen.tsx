@@ -1,4 +1,5 @@
 import type { UserData } from "../stores/db.ts";
+import { AppHeader } from "./AppHeader.tsx";
 
 interface SettingsScreenProps {
 	data: UserData;
@@ -8,7 +9,11 @@ interface SettingsScreenProps {
 export function SettingsScreen({ data, onRetakeTest }: SettingsScreenProps) {
 	return (
 		<div class="screen settings-screen">
-			<h1>100p</h1>
+			<AppHeader
+				level={data.level}
+				week={data.currentWeek}
+				day={data.currentDay}
+			/>
 			<div class="setting-item">
 				<span>Aktualny poziom:</span>
 				<span>{data.level}</span>

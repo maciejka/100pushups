@@ -1,5 +1,6 @@
 import { useState } from "preact/hooks";
 import { getLevelFromTest } from "../data/program.ts";
+import { AppHeader } from "./AppHeader.tsx";
 
 interface InitialTestProps {
 	onComplete: (pushups: number, level: number) => void;
@@ -30,7 +31,7 @@ export function InitialTest({ onComplete }: InitialTestProps) {
 
 	return (
 		<div class="initial-test">
-			<h1>100p</h1>
+			<AppHeader />
 
 			<div class="instructions">
 				<p>

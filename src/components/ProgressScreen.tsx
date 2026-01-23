@@ -1,4 +1,5 @@
 import type { UserData, WorkoutRecord } from "../stores/db.ts";
+import { AppHeader } from "./AppHeader.tsx";
 
 interface ProgressScreenProps {
 	data: UserData;
@@ -22,20 +23,13 @@ export function ProgressScreen({
 	onRepeatWeek,
 	onNavigateHome,
 }: ProgressScreenProps) {
-	const completedWorkouts = data.workouts.length;
-	const totalWorkouts = 18;
-	const completionPercent = Math.round(
-		(completedWorkouts / totalWorkouts) * 100,
-	);
-
 	return (
 		<div class="screen progress-screen progress-screen-compact">
-			<div class="progress-header">
-				<h1>Postępy</h1>
-				<span class="completion">
-					{completedWorkouts}/{totalWorkouts} ({completionPercent}%)
-				</span>
-			</div>
+			<AppHeader
+				level={data.level}
+				week={data.currentWeek}
+				day={data.currentDay}
+			/>
 
 			<div class="weeks weeks-grid">
 				{[1, 2, 3, 4, 5, 6].map((week) => {
