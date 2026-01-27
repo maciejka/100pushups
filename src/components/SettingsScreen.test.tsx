@@ -145,6 +145,24 @@ describe("TEST-004: Retaking test fully resets training program", () => {
 	});
 });
 
+describe("Deployment date display", () => {
+	it("displays deployment date when __DEPLOY_DATE__ is defined", () => {
+		// @ts-expect-error — injected by build
+		globalThis.__DEPLOY_DATE__ = "2026-01-27T12:00:00.000Z";
+
+		const data = createMockUserData();
+		const onRetakeTest = mock(() => {});
+
+		render(<SettingsScreen data={data} onRetakeTest={onRetakeTest} />);
+
+		expect(screen.getByText("Wersja:")).toBeTruthy();
+		expect(screen.getByText("27.01.2026 12:00")).toBeTruthy();
+
+		// @ts-expect-error — cleanup
+		delete globalThis.__DEPLOY_DATE__;
+	});
+});
+
 describe("SettingsScreen UI", () => {
 	it("has settings-screen class", () => {
 		const data = createMockUserData();
