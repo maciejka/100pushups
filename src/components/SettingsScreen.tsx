@@ -11,7 +11,9 @@ function formatDeployDate(isoString: string): string {
 	const day = String(date.getDate()).padStart(2, "0");
 	const month = String(date.getMonth() + 1).padStart(2, "0");
 	const year = date.getFullYear();
-	return `${day}.${month}.${year}`;
+	const hours = String(date.getHours()).padStart(2, "0");
+	const minutes = String(date.getMinutes()).padStart(2, "0");
+	return `${day}.${month}.${year} ${hours}:${minutes}`;
 }
 
 export function SettingsScreen({ data, onRetakeTest }: SettingsScreenProps) {
@@ -35,7 +37,7 @@ export function SettingsScreen({ data, onRetakeTest }: SettingsScreenProps) {
 			</div>
 			{deployDate && (
 				<div class="setting-item">
-					<span>Data wdrożenia:</span>
+					<span>Wersja:</span>
 					<span>{formatDeployDate(deployDate)}</span>
 				</div>
 			)}

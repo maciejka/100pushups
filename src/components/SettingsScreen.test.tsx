@@ -155,8 +155,8 @@ describe("Deployment date display", () => {
 
 		render(<SettingsScreen data={data} onRetakeTest={onRetakeTest} />);
 
-		expect(screen.getByText("Data wdrożenia:")).toBeTruthy();
-		expect(screen.getByText("27.01.2026")).toBeTruthy();
+		expect(screen.getByText("Wersja:")).toBeTruthy();
+		expect(screen.getByText("27.01.2026 12:00")).toBeTruthy();
 
 		// @ts-expect-error — cleanup
 		delete globalThis.__DEPLOY_DATE__;
