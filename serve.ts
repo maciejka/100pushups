@@ -25,6 +25,9 @@ const server = Bun.serve({
 				const result = await Bun.build({
 					entrypoints: [`.${path}`],
 					target: "browser",
+					define: {
+						__DEPLOY_DATE__: JSON.stringify(new Date().toISOString()),
+					},
 				});
 				if (result.outputs[0]) {
 					return new Response(result.outputs[0], {

@@ -15,6 +15,9 @@ async function build() {
 		outdir: DIST_DIR,
 		target: "browser",
 		minify: true,
+		define: {
+			__DEPLOY_DATE__: JSON.stringify(new Date().toISOString()),
+		},
 	});
 
 	if (!result.success) {

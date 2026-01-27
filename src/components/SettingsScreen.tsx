@@ -6,7 +6,18 @@ interface SettingsScreenProps {
 	onRetakeTest: () => void;
 }
 
+function formatDeployDate(isoString: string): string {
+	const date = new Date(isoString);
+	const day = String(date.getDate()).padStart(2, "0");
+	const month = String(date.getMonth() + 1).padStart(2, "0");
+	const year = date.getFullYear();
+	return `${day}.${month}.${year}`;
+}
+
 export function SettingsScreen({ data, onRetakeTest }: SettingsScreenProps) {
+	const deployDate =
+		typeof __DEPLOY_DATE__ !== "undefined" ? __DEPLOY_DATE__ : null;
+
 	return (
 		<div class="screen settings-screen">
 			<AppHeader
@@ -22,6 +33,12 @@ export function SettingsScreen({ data, onRetakeTest }: SettingsScreenProps) {
 				<span>Wynik testu:</span>
 				<span>{data.testResult} pompek</span>
 			</div>
+			{deployDate && (
+				<div class="setting-item">
+					<span>Data wdrożenia:</span>
+					<span>{formatDeployDate(deployDate)}</span>
+				</div>
+			)}
 			<div class="setting-actions">
 				<button type="button" class="btn-secondary" onClick={onRetakeTest}>
 					Powtórz test
